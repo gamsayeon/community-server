@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserDTO {
-    private int number;
+    private int userNumber;
     @NotEmpty
     private String id;
     @NotEmpty
@@ -18,19 +18,19 @@ public class UserDTO {
     @NotEmpty
     private String name;
     private int admin;
-    private Date createDate;
+    private Date createTime;
     private int userSecession;
 
     public UserDTO(){
     }
 
-    public UserDTO(int number, String id, String password, String name, int admin, Date createDate, int userSecession){
-        this.number = number;
+    public UserDTO(int userNumber, String id, String password, String name, int admin, Date createTime, int userSecession){
+        this.userNumber = userNumber;
         this.id = id;
         this.password = password;
         this.name = name;
         this.admin = admin;
-        this.createDate = createDate;
+        this.createTime = createTime;
         this.userSecession = userSecession;
     }
 

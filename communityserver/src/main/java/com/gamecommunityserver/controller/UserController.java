@@ -1,6 +1,5 @@
 package com.gamecommunityserver.controller;
 
-import com.gamecommunityserver.aop.LoginCheck;
 import com.gamecommunityserver.dto.UserDTO;
 import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
@@ -68,18 +67,18 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public void selectUser(@PathVariable("id") int idnumber, HttpSession session){
-        if(userService.idNumberCheck(idnumber) == 0)
+    public void selectUser(@PathVariable("id") int usernumber, HttpSession session){
+        if(userService.userNumberCheck(usernumber) == 0)
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
-//        System.out.println(userService.selectUser(idnumber).toString());
+        //select 추가
         System.out.println("success");
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") int idnumber){
-        if(userService.idNumberCheck(idnumber) == 0)
+    public void deleteUser(@PathVariable("id") int usernumber){
+        if(userService.userNumberCheck(usernumber) == 0)
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
-        userService.deleteUser(idnumber);
+        userService.deleteUser(usernumber);
         System.out.println("success");
     }
 

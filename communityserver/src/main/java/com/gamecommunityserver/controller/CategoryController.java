@@ -28,12 +28,13 @@ public class CategoryController {
         categoryService.addCategoryName(categoryDTO);
         System.out.println("success");
     }
-    @DeleteMapping("/{categoryId}")
-    public void categoryDelete(@PathVariable("categoryId") int categoryId) {
-        if (categoryService.categoryIdCheck(categoryId))
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @DeleteMapping("/{categoryNumber}")
+    public void categoryDelete(@PathVariable("categoryNumber") int categoryNumber) {
+        if (categoryService.categoryNumberCheck(categoryNumber))
             throw new MatchingCategoryId("정확한 카테고리를 입력해주세요");
 
-        categoryService.deleteCategoryId(categoryId);
+        categoryService.deleteCategoryNumber(categoryNumber);
         System.out.println("success");
     }
 }

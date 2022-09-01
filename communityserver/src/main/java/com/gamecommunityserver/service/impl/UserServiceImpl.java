@@ -2,7 +2,6 @@ package com.gamecommunityserver.service.impl;
 
 import com.gamecommunityserver.dto.UserDTO;
 import com.gamecommunityserver.exception.DuplicateIdException;
-import com.gamecommunityserver.exception.MatchingLoginFailException;
 import com.gamecommunityserver.mapper.UserInfoMapper;
 import com.gamecommunityserver.service.UserService;
 import com.gamecommunityserver.utils.sha256Encrypt;
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateIdException("중복된 ID 입니다.");
 
         userDTO.setPassword(sha256Encrypt.encrypt(userDTO.getPassword()));
-        userDTO.setCreateDate(new Date());
+        userDTO.setCreateTime(new Date());
         userDTO.setAdmin(0);
         userDTO.setUserSecession(0);
         userinfomapper.register(userDTO);
@@ -43,17 +42,12 @@ public class UserServiceImpl implements UserService {
         return userinfo;
     }
     @Override
-    public int idNumberCheck(int idnumber){
-        return userinfomapper.idNumberCheck(idnumber);
+    public int userNumberCheck(int usernumber){
+        return userinfomapper.userNumberCheck(usernumber);
     }
     @Override
-    public void deleteUser(int idnumber){
-        userinfomapper.deleteUser(idnumber);
+    public void deleteUser(int usernumber){
+        userinfomapper.deleteUser(usernumber);
     }
 
-    @Override
-    public int idToidnumber(String id){return userinfomapper.idToidnumber(id);}
-
-    @Override
-    public String[] selectUser(int idnumber){return userinfomapper.selectUser(idnumber);}
 }

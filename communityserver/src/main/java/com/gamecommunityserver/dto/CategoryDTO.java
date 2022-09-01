@@ -9,15 +9,15 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class CategoryDTO {
-    private int categoryId;
+    private int categoryNumber;
     @NotNull
     @NotEmpty
     private String categoryName;
 
     public void CategoryDTO(){}
 
-    public void CategoryDTO(int categoryId, String categoryName){
-        this.categoryId = categoryId;
+    public void CategoryDTO(int categoryNumber, String categoryName){
+        this.categoryNumber = categoryNumber;
         this.categoryName = categoryName;
     }
 

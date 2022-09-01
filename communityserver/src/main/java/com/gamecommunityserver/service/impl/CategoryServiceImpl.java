@@ -23,12 +23,12 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.categoryDuplicateCheck(categoryName);
     }
     @Override
-    public boolean categoryIdCheck(int categoryId){
-        return categoryMapper.categoryIdCheck(categoryId) == 0;
+    public boolean categoryNumberCheck(int categoryNumber){
+        return categoryMapper.categoryNumberCheck(categoryNumber) == 0;
     }
 
     @Override
-    public void deleteCategoryId(int categoryId){
-        categoryMapper.categoryDelete(categoryId);
+    public void deleteCategoryNumber(int categoryNumber){
+        categoryMapper.categoryDelete(categoryNumber);
     }
 }

@@ -5,6 +5,6 @@ import com.gamecommunityserver.dto.CategoryDTO;
 public interface CategoryService {
     void addCategoryName(CategoryDTO categoryDTO);
     int categoryDuplicateCheck(String categoryName);
-    boolean categoryIdCheck(int categoryId);
-    void deleteCategoryId(int categoryId);
+    boolean categoryNumberCheck(int categoryNumber);
+    void deleteCategoryNumber(int categoryNumber);
 }

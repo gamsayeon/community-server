@@ -6,21 +6,21 @@
 <mapper namespace="com.gamecommunityserver.mapper.CategoryMapper">
 
     <insert id="register" parameterType="com.gamecommunityserver.dto.CategoryDTO">
-        INSERT INTO category (categoryId, categoryName)
-        VALUES (#{categoryId}, #{categoryName})
+        INSERT INTO category (categoryNumber, categoryName)
+        VALUES (#{categoryNumber}, #{categoryName})
     </insert>
     <select id = "categoryDuplicateCheck" resultType = "int">
         SELECT COUNT(*)
         FROM category
         WHERE categoryName = #{categoryName}
     </select>
-    <select id="categoryIdCheck" resultType="int">
+    <select id="categoryNumberCheck" resultType="int">
         SELECT COUNT(*)
         FROM category
-        WHERE categoryId = #{categoryId}
+        WHERE categoryNumber = #{categoryNumber}
     </select>
     <select id = "categoryDelete" resultType="int">
         DELETE FROM category
-        WHERE categoryId = #{categoryId}
+        WHERE categoryNumber = #{categoryNumber}
     </select>
 </mapper>
