@@ -3,7 +3,7 @@ package com.gamecommunityserver.controller;
 import com.gamecommunityserver.aop.LoginCheck;
 import com.gamecommunityserver.dto.CategoryDTO;
 import com.gamecommunityserver.exception.DuplicateCategoryException;
-import com.gamecommunityserver.exception.MatchingCategoryId;
+import com.gamecommunityserver.exception.NotMatchCategoryIdException;
 import com.gamecommunityserver.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class CategoryController {
     @DeleteMapping("/{categoryNumber}")
     public void categoryDelete(@PathVariable("categoryNumber") int categoryNumber) {
         if (categoryService.categoryNumberCheck(categoryNumber))
-            throw new MatchingCategoryId("정확한 카테고리를 입력해주세요");
+            throw new NotMatchCategoryIdException("정확한 카테고리를 입력해주세요");
 
         categoryService.deleteCategoryNumber(categoryNumber);
         System.out.println("success");

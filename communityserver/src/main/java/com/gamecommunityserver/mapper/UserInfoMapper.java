@@ -2,6 +2,7 @@ package com.gamecommunityserver.mapper;
 
 import com.gamecommunityserver.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ public interface UserInfoMapper {
     int idCheck(String id);
     int register(UserDTO userDTO);
     UserDTO passwordCheck(String id, String password);
-    int userNumberCheck(int usernumber);
+    int checkUserNumber(int usernumber);
     void deleteUser(int usernumber);
+    int idToUserNumber(String id);
 }

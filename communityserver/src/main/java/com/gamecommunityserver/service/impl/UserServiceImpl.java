@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateIdException("중복된 ID 입니다.");
 
         userDTO.setPassword(sha256Encrypt.encrypt(userDTO.getPassword()));
-        userDTO.setCreateTime(new Date());
         userDTO.setAdmin(0);
         userDTO.setUserSecession(0);
         userinfomapper.register(userDTO);
@@ -42,8 +41,8 @@ public class UserServiceImpl implements UserService {
         return userinfo;
     }
     @Override
-    public int userNumberCheck(int usernumber){
-        return userinfomapper.userNumberCheck(usernumber);
+    public int checkUserNumber(int usernumber){
+        return userinfomapper.checkUserNumber(usernumber);
     }
     @Override
     public void deleteUser(int usernumber){

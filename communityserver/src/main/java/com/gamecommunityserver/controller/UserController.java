@@ -66,9 +66,9 @@ public class UserController {
         System.out.println("success");
     }
 
-    @GetMapping("/{id}")
-    public void selectUser(@PathVariable("id") int usernumber, HttpSession session){
-        if(userService.userNumberCheck(usernumber) == 0)
+    @GetMapping("/{usernumber}")
+    public void selectUser(@PathVariable("usernumber") int usernumber, HttpSession session){
+        if(userService.checkUserNumber(usernumber) == 0)
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
         //select 추가
         System.out.println("success");
@@ -76,7 +76,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") int usernumber){
-        if(userService.userNumberCheck(usernumber) == 0)
+        if(userService.checkUserNumber(usernumber) == 0)
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
         userService.deleteUser(usernumber);
         System.out.println("success");
