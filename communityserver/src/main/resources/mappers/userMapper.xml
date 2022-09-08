@@ -34,6 +34,7 @@
         WHERE userNumber = #{usernumber}
     </select>
 
+
     <select id = "idToUserNumber" resultType = "int">
         SELECT userNumber
         FROM user
