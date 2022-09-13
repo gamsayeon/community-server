@@ -14,29 +14,30 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private final PostMapper postMapper;
 
-    @Autowired
-    private final UserInfoMapper userInfoMapper;
 
-    public PostServiceImpl(PostMapper postMapper, UserInfoMapper userInfoMapper){
+//    @Autowired
+//    private final FileMapper fileMapper;
+
+    public PostServiceImpl(PostMapper postMapper){
         this.postMapper = postMapper;
-        this.userInfoMapper = userInfoMapper;
     }
+//    @Override
+////    public void addPost(POSTFILEDto postfileDTO, String id){
+//////        String id = SessionUtils.getLoginID(session);
+//////        if(id == null )
+//////            id = SessionUtils.getAdminLoginID(session);
+////        postDTO.setUserNumber(userInfoMapper.idToUserNumber(id));
+////        // DB Transaction @Transactional
+////        postMapper.addPost( postfileDTO.getPostDTO());
+////        FILEMapper.addFile(POSTFILEdto.GETfILETDTO());
+////    }
     @Override
-    public void addPost(PostDTO postDTO, HttpSession session){
-        String id = SessionUtils.getLoginID(session);
-        if(id == null )
-            id = SessionUtils.getAdminLoginID(session);
-        postDTO.setUserNumber(userInfoMapper.idToUserNumber(id));
+    public void addPost(PostDTO postDTO, int usernumber){
+        postDTO.setUserNumber(usernumber);
         postMapper.addPost(postDTO);
     }
     @Override
-    public int checkedAccessPost(int postnumber, HttpSession session){
-        String id = SessionUtils.getLoginID(session);
-        if(id == null )
-            id = SessionUtils.getAdminLoginID(session);
-
-        int usernumber = userInfoMapper.idToUserNumber(id);
-
+    public int checkedAccessPost(int postnumber, int usernumber){
         return postMapper.checkedAccessPost(usernumber, postnumber);
     }
 
@@ -53,12 +54,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(int postnumber, HttpSession session){
-        String id = SessionUtils.getLoginID(session);
-        if(id == null )
-            id = SessionUtils.getAdminLoginID(session);
-
-        int usernumber = userInfoMapper.idToUserNumber(id);
+    public void deletePost(int postnumber, int usernumber){
         postMapper.deletePost(postnumber, usernumber);
     }
 }

@@ -41,10 +41,6 @@ public class UserServiceImpl implements UserService {
         return userinfo;
     }
     @Override
-    public int checkUserNumber(int usernumber){
-        return userinfomapper.checkUserNumber(usernumber);
-    }
-    @Override
     public void deleteUser(int usernumber){
         userinfomapper.deleteUser(usernumber);
     }

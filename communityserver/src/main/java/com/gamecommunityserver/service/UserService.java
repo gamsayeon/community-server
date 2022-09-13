@@ -7,6 +7,5 @@ public interface UserService {
     void register(UserDTO userDTO);
     boolean idOverlapCheck(String id);
     UserDTO LoginCheckPassword(String id, String password);
-    int checkUserNumber(int usernumber);
     void deleteUser(int usernumber);
 }

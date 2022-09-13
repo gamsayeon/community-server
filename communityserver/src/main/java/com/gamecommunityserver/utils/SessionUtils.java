@@ -9,18 +9,18 @@ public class SessionUtils {
 
     private SessionUtils(){}
 
-    public static void setLoginID(HttpSession session, String id){
-        session.setAttribute(LOGIN_MEMBER_ID, id);
+    public static void setLoginUserNumber(HttpSession session, int usernumber){
+        session.setAttribute(LOGIN_MEMBER_ID, usernumber);
     }
-    public static void setAdminLoginID(HttpSession session, String id){
-        session.setAttribute(LOGIN_ADMIN_ID, id);
+    public static void setAdminLoginUserNumber(HttpSession session, int usernumber){
+        session.setAttribute(LOGIN_ADMIN_ID, usernumber);
     }
-    public static String getLoginID(HttpSession session){
-        return (String)session.getAttribute(LOGIN_MEMBER_ID);
+    public static int getLoginUserNumber(HttpSession session){
+        return (int)session.getAttribute(LOGIN_MEMBER_ID);
     }
-    public static String getAdminLoginID(HttpSession session)
+    public static int getAdminLoginUserNumber(HttpSession session)
     {
-        return (String)session.getAttribute(LOGIN_ADMIN_ID);
+        return (int)session.getAttribute(LOGIN_ADMIN_ID);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.gamecommunityserver.controller;
 
+import com.gamecommunityserver.aop.LoginCheck;
 import com.gamecommunityserver.dto.UserDTO;
 import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.websocket.Session;
 
 /**
  * TODO: RestController 역할
@@ -60,25 +62,29 @@ public class UserController {
         if(userinfo == null)
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
         if(userinfo.getAdmin() == 0)
-            SessionUtils.setLoginID(session, userinfo.getId());
+            SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
         else
-            SessionUtils.setAdminLoginID(session, userinfo.getId());
+            SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
         System.out.println("success");
     }
 
+    @LoginCheck(type = LoginCheck.UserType.DEFAULT)
     @GetMapping("/{usernumber}")
     public void selectUser(@PathVariable("usernumber") int usernumber, HttpSession session){
-        if(userService.checkUserNumber(usernumber) == 0)
+        if(usernumber == SessionUtils.getLoginUserNumber(session) || usernumber == SessionUtils.getAdminLoginUserNumber(session))
+            //select 추가
+            System.out.println("success");
+        else
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
-        //select 추가
-        System.out.println("success");
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") int usernumber){
-        if(userService.checkUserNumber(usernumber) == 0)
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
-        userService.deleteUser(usernumber);
+    @LoginCheck(type = LoginCheck.UserType.DEFAULT)
+    @DeleteMapping("/{usernumber}")
+    public void deleteUser(@PathVariable("usernumber") int usernumber , HttpSession session){
+        if(usernumber == SessionUtils.getLoginUserNumber(session) || usernumber == SessionUtils.getAdminLoginUserNumber(session))
+            userService.deleteUser(usernumber);
+        else
+            throw new MatchingLoginFailException("id를 다시 확인해주세요!");
         System.out.println("success");
     }
 

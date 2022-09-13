@@ -1,6 +1,7 @@
 package com.gamecommunityserver.aop;
 
 import com.gamecommunityserver.utils.SessionUtils;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,26 +21,31 @@ import javax.servlet.http.HttpSession;
 @Component
 public class LoginCheckAspect {
     @Before("@annotation(com.gamecommunityserver.aop.LoginCheck) && @annotation(loginCheck)")
-    public void LoginSessionCheck(LoginCheck loginCheck){
+    public void LoginSessionCheck( LoginCheck loginCheck) throws Throwable {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-
-        String id = null;
+        int usernumber = 0;
         String userType = loginCheck.type().toString();
+        int index = 0;
+
         switch(userType)
         {
-            case "USER":
-                id = SessionUtils.getLoginID(session);
-                break;
             case "ADMIN":
-                id = SessionUtils.getAdminLoginID(session);
+                usernumber = SessionUtils.getAdminLoginUserNumber(session);
                 break;
             case "DEFAULT":
-                id = SessionUtils.getLoginID(session);
-                if(id == null)
-                    SessionUtils.getAdminLoginID(session);
+                usernumber = SessionUtils.getLoginUserNumber(session);
+                if(usernumber == 0)
+                    SessionUtils.getAdminLoginUserNumber(session);
                 break;
         }
-        if(id == null)
+
+        if(usernumber == 0)
             throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인한 id값을 확인해주세요"){};
+
+//        Object[] modifiedArgs = proceedingJoinPoint.getArgs();
+//        if(proceedingJoinPoint.getArgs() != null)
+//            modifiedArgs[index] = usernumber;
+//
+//        return proceedingJoinPoint.proceed(modifiedArgs);
     }
 }

@@ -22,22 +22,10 @@
         WHERE id = #{id} and password = #{password} and userSecession = 0
     </select>
 
-    <select id="checkUserNumber" resultType="int">
-        SELECT COUNT(*)
-        FROM user
-        WHERE userNumber = #{usernumber} and userSecession = 0
-    </select>
-
     <select id="deleteUser">
         UPDATE user
         SET userSecession = 1
         WHERE userNumber = #{usernumber}
-    </select>
-
-    <select id = "idToUserNumber" resultType = "int">
-        SELECT userNumber
-        FROM user
-        WHERE id = #{id}
     </select>
 
 </mapper>

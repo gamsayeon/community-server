@@ -23,30 +23,35 @@ public class PostController {
 
     @PostMapping("/add")
     @LoginCheck(type = LoginCheck.UserType.DEFAULT)
-    public void addPost(@RequestBody PostDTO postDTO, HttpSession session){
-        if(postDTO.getAdminPost() == 1 && SessionUtils.getAdminLoginID(session) != null)
-            throw new PostAccessDeniedException("권한 부족");
-        else {
-            postService.addPost(postDTO, session);
-        }
+    public void addPost(@RequestBody PostDTO postDTO, HttpSession session) {
+        int usernumber = SessionUtils.getLoginUserNumber(session);
+        if (usernumber == 0)
+            usernumber = SessionUtils.getAdminLoginUserNumber(session);
+        postService.addPost(postDTO, usernumber);
     }
     @PostMapping("/{postnumber}")
     @LoginCheck(type = LoginCheck.UserType.DEFAULT)
     public void updatePost(@PathVariable int postnumber, @RequestBody PostDTO postDTO, HttpSession session){
-        if(postService.checkedAccessPost(postnumber, session) != 1){
+        int usernumber = SessionUtils.getLoginUserNumber(session);
+        if(usernumber == 0)
+            usernumber = SessionUtils.getAdminLoginUserNumber(session);
+        if(postService.checkedAccessPost(postnumber, usernumber) != 1)
             throw new PostAccessDeniedException("권한 부족");
-        }
-        else {
+        else
             postService.updatePost(postDTO, postnumber);
-        }
     }
     @GetMapping("/{postnumber}")
     public void selectPost(@PathVariable int postnumber){
         PostDTO postMetaData = postService.selectPost(postnumber);
+        //select post 추가
     }
 
+    @LoginCheck( type = LoginCheck.UserType.DEFAULT)
     @DeleteMapping("/{postnumber}")
     public void deletePost(@PathVariable int postnumber, HttpSession session){
-        postService.deletePost(postnumber, session);
+        int usernumber = SessionUtils.getLoginUserNumber(session);
+        if(usernumber == 0)
+            usernumber = SessionUtils.getAdminLoginUserNumber(session);
+        postService.deletePost(postnumber, usernumber);
     }
 }

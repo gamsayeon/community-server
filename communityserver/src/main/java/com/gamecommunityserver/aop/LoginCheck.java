@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface LoginCheck {
     public static enum UserType {
-        USER, ADMIN, DEFAULT
+        ADMIN, DEFAULT
     }
     UserType type();
 }
