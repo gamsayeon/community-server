@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gamecommunityserver.mapper.PostSearchMapper">
+
+    <select id="getSearchPost" resultType="com.gamecommunityserver.dto.PostDTO">
+        SELECT postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views
+        FROM post
+        WHERE categoryNumber = #{categoryNumber} or
+        postName = #{postName} or
+        contents = #{contents} or
+        createTime = #{createTime} or
+        suggestionCount >= #{suggestionCount}
+    </select>
+</mapper>
