@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -19,10 +20,12 @@ public class PostDTO {
     private int suggestionCount;
     private int views;
 
+    private List<FileDTO> fileDTOList;
+
     public PostDTO(){}
 
     public PostDTO(int postNumber, int categoryNumber, int userNumber, int fileNumber, String postName,
-                   int adminPost, String contents, Date createTime, int suggestionCount, int views){
+                   int adminPost, String contents, Date createTime, int suggestionCount, int views, List<FileDTO> fileDTOList){
         this.postNumber = postNumber;
         this.categoryNumber = categoryNumber;
         this.userNumber = userNumber;
@@ -33,6 +36,7 @@ public class PostDTO {
         this.createTime = createTime;
         this.suggestionCount = suggestionCount;
         this.views = views;
+        this.fileDTOList = fileDTOList;
     }
 
 }

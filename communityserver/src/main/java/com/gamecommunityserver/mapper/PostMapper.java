@@ -1,5 +1,6 @@
 package com.gamecommunityserver.mapper;
 
+import com.gamecommunityserver.dto.CommentsDTO;
 import com.gamecommunityserver.dto.PostDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,8 +9,10 @@ import javax.servlet.http.HttpSession;
 @Mapper
 public interface PostMapper {
     void addPost(PostDTO postDTO);
-    int checkedAccessPost(int usernumber, int postnumber);
-    void updatePost(String postname, String contents, int postnumber);
-    PostDTO selectPost(int postnumber);
-    void deletePost(int postnumber, int usernumber);
+    int checkHasPermission(int userNumber, int postNumber);
+    void updatePost(String postName, String contents, int postNumber);
+    PostDTO selectPost(int postNumber);
+    void addViews(int postNumber);
+    PostDTO addComments(CommentsDTO commentsDTO);
+    void deletePost(int postNumber, int userNumber);
 }

@@ -5,34 +5,45 @@
 
 <mapper namespace="com.gamecommunityserver.mapper.PostMapper">
 
-    <insert id="addPost" parameterType="com.gamecommunityserver.dto.PostDTO">
+    <insert id="addPost" parameterType="com.gamecommunityserver.dto.PostDTO" useGeneratedKeys="true" keyProperty="postNumber">
         INSERT INTO post (postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views)
-        VALUES (#{postNumber}, #{categoryNumber}, #{userNumber}, #{postName}, #{adminPost}, #{contents}, #{createTime}, #{suggestionCount}, #{views})
+        VALUES (#{postNumber}, #{categoryNumber}, #{userNumber}, #{postName}, #{adminPost}, #{contents}, now(), #{suggestionCount}, #{views})
     </insert>
 
-    <select id="checkedAccessPost" resultType = "int">
+    <select id="checkHasPermission" resultType = "int">
         SELECT COUNT(*)
         FROM post
-        WHERE post.userNumber = #{usernumber}
-        and postNumber = #{postnumber}
+        WHERE post.userNumber = #{userNumber}
+        and postNumber = #{postNumber}
     </select>
 
     <select id="updatePost">
         UPDATE post
-        SET postName = #{postname},
+        SET postName = #{postName},
         contents = #{contents}
-        WHERE postNumber = #{postnumber}
+        WHERE postNumber = #{postNumber}
     </select>
 
-    <select id = "selectPost" resultType = "com.gamecommunityserver.dto.PostDTO">
+    <update id = "addViews" >
         UPDATE post
         SET views = views + 1
-        WHERE postNumber = #{postnumber}
+        WHERE postNumber = #{postNumber}
+    </update>
+
+    <select id="selectPost" resultType = "com.gamecommunityserver.dto.PostDTO">
+        SELECT *
+        FROM post
+        WHERE postNumber = #{postNumber}
+    </select>
+
+    <select id = "addComments" resultType = "com.gamecommunityserver.dto.PostDTO">
+        INSERT comments
+        VALUES (#{postNumber}, #{contents}, #{userId}, #{createTime})
     </select>
 
     <delete id = "deletePost">
         DELETE FROM POST
-        WHERE postNumber = #{postnumber}
-        and userNumber = #{usernumber}
+        WHERE postNumber = #{postNumber}
+        and userNumber = #{userNumber}
     </delete>
 </mapper>

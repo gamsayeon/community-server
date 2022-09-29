@@ -1,60 +1,69 @@
 package com.gamecommunityserver.service.impl;
 
+import com.gamecommunityserver.dto.CommentsDTO;
+import com.gamecommunityserver.dto.FileDTO;
 import com.gamecommunityserver.dto.PostDTO;
+import com.gamecommunityserver.mapper.FileMapper;
 import com.gamecommunityserver.mapper.PostMapper;
-import com.gamecommunityserver.mapper.UserInfoMapper;
 import com.gamecommunityserver.service.PostService;
-import com.gamecommunityserver.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
     @Autowired
     private final PostMapper postMapper;
 
+    @Autowired
+    private final FileMapper fileMapper;
 
-//    @Autowired
-//    private final FileMapper fileMapper;
-
-    public PostServiceImpl(PostMapper postMapper){
+    public PostServiceImpl(PostMapper postMapper, FileMapper fileMapper){
         this.postMapper = postMapper;
+        this.fileMapper = fileMapper;
     }
-//    @Override
-////    public void addPost(POSTFILEDto postfileDTO, String id){
-//////        String id = SessionUtils.getLoginID(session);
-//////        if(id == null )
-//////            id = SessionUtils.getAdminLoginID(session);
-////        postDTO.setUserNumber(userInfoMapper.idToUserNumber(id));
-////        // DB Transaction @Transactional
-////        postMapper.addPost( postfileDTO.getPostDTO());
-////        FILEMapper.addFile(POSTFILEdto.GETfILETDTO());
-////    }
     @Override
-    public void addPost(PostDTO postDTO, int usernumber){
-        postDTO.setUserNumber(usernumber);
+    public PostDTO addPost(PostDTO postDTO, int userNumber){
+        postDTO.setUserNumber(userNumber);
         postMapper.addPost(postDTO);
+        int postNumber = postDTO.getPostNumber();
+        List<FileDTO> fileDTOList = postDTO.getFileDTOList();
+        for(int i=0;i<fileDTOList.size(); i++) {
+            FileDTO fileDTO = fileDTOList.get(i);
+            fileDTO.setPostNumber(postNumber);
+            fileMapper.addFile(fileDTO);
+        }
+        return postDTO;
     }
     @Override
-    public int checkedAccessPost(int postnumber, int usernumber){
-        return postMapper.checkedAccessPost(usernumber, postnumber);
+    public int checkHasPermission(int postNumber, int userNumber){
+        return postMapper.checkHasPermission(userNumber, postNumber);
     }
 
     @Override
-    public void updatePost(PostDTO postDTO, int postnumber){
-        String postname = postDTO.getPostName();
+    public void updatePost(PostDTO postDTO, int postNumber){
+        String postName = postDTO.getPostName();
         String contents = postDTO.getContents();
-        postMapper.updatePost(postname, contents, postnumber);
+        postMapper.updatePost(postName, contents, postNumber);
     }
     @Override
-    public PostDTO selectPost(int postnumber){
-        PostDTO postMetaData = postMapper.selectPost(postnumber);
+    public PostDTO selectPost(int postNumber){
+        PostDTO postMetaData = postMapper.selectPost(postNumber);
         return postMetaData;
     }
 
+    public void addViews(int postNumber){
+        postMapper.addViews(postNumber);
+    }
     @Override
-    public void deletePost(int postnumber, int usernumber){
-        postMapper.deletePost(postnumber, usernumber);
+    public PostDTO addComments(int postNumber, CommentsDTO commentsDTO){
+        commentsDTO.setPostNumber(postNumber);
+        return postMapper.addComments(commentsDTO);
+    }
+
+    @Override
+    public void deletePost(int postNumber, int userNumber){
+        postMapper.deletePost(postNumber, userNumber);
     }
 }
