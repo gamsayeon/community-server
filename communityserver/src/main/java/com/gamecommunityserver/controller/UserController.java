@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.websocket.Session;
 
 /**
  * TODO: RestController 역할
@@ -31,7 +30,7 @@ public class UserController {
      *
      * @param userService
      */
-    @Autowired
+
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
@@ -68,21 +67,19 @@ public class UserController {
         System.out.println("success");
     }
 
-    @LoginCheck(type = LoginCheck.UserType.DEFAULT)
-    @GetMapping("/{usernumber}")
-    public void selectUser(@PathVariable("usernumber") int usernumber, HttpSession session){
-        if(usernumber == SessionUtils.getLoginUserNumber(session) || usernumber == SessionUtils.getAdminLoginUserNumber(session))
+    @GetMapping("/{userNumber}")
+    public void selectUser(@PathVariable("userNumber") int userNumber, HttpSession session){
+        if(userNumber == SessionUtils.getLoginUserNumber(session) || userNumber == SessionUtils.getAdminLoginUserNumber(session))
             //select 추가
             System.out.println("success");
         else
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
     }
 
-    @LoginCheck(type = LoginCheck.UserType.DEFAULT)
-    @DeleteMapping("/{usernumber}")
-    public void deleteUser(@PathVariable("usernumber") int usernumber , HttpSession session){
-        if(usernumber == SessionUtils.getLoginUserNumber(session) || usernumber == SessionUtils.getAdminLoginUserNumber(session))
-            userService.deleteUser(usernumber);
+    @DeleteMapping("/{userNumber}")
+    public void deleteUser(@PathVariable("userNumber") int userNumber , HttpSession session){
+        if(userNumber == SessionUtils.getLoginUserNumber(session) || userNumber == SessionUtils.getAdminLoginUserNumber(session))
+            userService.deleteUser(userNumber);
         else
             throw new MatchingLoginFailException("id를 다시 확인해주세요!");
         System.out.println("success");

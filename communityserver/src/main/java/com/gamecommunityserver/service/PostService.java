@@ -1,13 +1,14 @@
 package com.gamecommunityserver.service;
 
+import com.gamecommunityserver.dto.CommentsDTO;
 import com.gamecommunityserver.dto.PostDTO;
 
-import javax.servlet.http.HttpSession;
 
 public interface PostService {
-    void addPost(PostDTO postDTO, int usernumber);
-    int checkedAccessPost(int postnumber, int usernumber);
-    void updatePost(PostDTO postDTO, int postnumber);
-    PostDTO selectPost(int postnumber);
-    void deletePost(int postnumber, int usernumber);
+    PostDTO addPost(PostDTO postDTO, int userNumber);
+    int checkHasPermission(int postNumber, int userNumber);
+    void updatePost(PostDTO postDTO, int postNumber);
+    PostDTO selectPost(int postNumber);
+    PostDTO addComments(int postNumber, CommentsDTO commentsDTO);
+    void deletePost(int postNumber, int userNumber);
 }

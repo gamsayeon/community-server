@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gamecommunityserver.mapper.PostSearchMapper">
+
+    <select id="getSearchPost" resultType="com.gamecommunityserver.dto.PostDTO">
+        SELECT postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views
+        FROM post
+        WHERE categoryNumber = #{categoryNumber}
+        <if test = 'postName != null'>
+            and postName = #{postName}
+        </if>
+        <if test = 'contents != null'>
+            and contents = #{contents}
+        </if>
+        <if test = 'createTime != null'>
+            and createTime = #{createTime}
+        </if>
+        <if test = 'suggestionCount != 0'>
+            and suggestionCount = #{suggestionCount}
+        </if>
+    </select>
+</mapper>
