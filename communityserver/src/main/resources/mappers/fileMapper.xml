@@ -5,7 +5,7 @@
 
 <mapper namespace="com.gamecommunityserver.mapper.FileMapper">
 
-    <insert id="addPostFile" parameterType="com.gamecommunityserver.dto.FileDTO">
+    <insert id="addFile" parameterType="com.gamecommunityserver.dto.FileDTO">
         INSERT INTO file (fileNumber, postNumber, path, fileName, extension)
         VALUES (#{fileNumber}, #{postNumber}, #{path}, #{fileName}, #{extension})
     </insert>

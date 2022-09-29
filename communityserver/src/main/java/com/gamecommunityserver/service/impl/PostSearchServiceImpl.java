@@ -1,6 +1,5 @@
 package com.gamecommunityserver.service.impl;
 
-import com.gamecommunityserver.dto.CategoryDTO;
 import com.gamecommunityserver.dto.PostDTO;
 import com.gamecommunityserver.mapper.PostSearchMapper;
 import com.gamecommunityserver.service.PostSearchService;
@@ -19,8 +18,7 @@ public class PostSearchServiceImpl implements PostSearchService {
         this.postSearchMapper = postSearchMapper;
     }
     @Override
-    public List<PostDTO> getSearchPost(PostDTO postDTO, CategoryDTO categoryDTO){
-        postDTO.setCategoryNumber(categoryDTO.getCategoryNumber());
+    public List<PostDTO> getSearchPost(PostDTO postDTO){
         List<PostDTO> postDTOList = postSearchMapper.getSearchPost(postDTO);
         return postDTOList;
     }

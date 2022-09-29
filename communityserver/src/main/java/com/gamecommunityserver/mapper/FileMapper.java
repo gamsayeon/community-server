@@ -5,5 +5,5 @@ import com.gamecommunityserver.dto.PostDTO;
 
 public interface FileMapper {
 
-    void addPostFile(FileDTO fileDTO);
+    void addFile(FileDTO fileDTO);
 }

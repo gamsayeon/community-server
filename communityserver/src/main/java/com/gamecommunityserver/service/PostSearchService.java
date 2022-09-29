@@ -6,5 +6,5 @@ import com.gamecommunityserver.dto.PostDTO;
 import java.util.List;
 
 public interface PostSearchService {
-    List<PostDTO> getSearchPost(PostDTO postDTO, CategoryDTO categoryDTO);
+    List<PostDTO> getSearchPost(PostDTO postDTO);
 }
