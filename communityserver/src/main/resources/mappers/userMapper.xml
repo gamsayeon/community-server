@@ -28,6 +28,7 @@
         WHERE userNumber = #{usernumber} and userSecession = 0
     </select>
 
+
     <select id="deleteUser">
         UPDATE user
         SET userSecession = 1
