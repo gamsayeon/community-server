@@ -1,3 +1,5 @@
 /.gradle/
+/.idea/
 /communityserver/.idea/
 /communityserver/build/
+/communityserver/.gradle/

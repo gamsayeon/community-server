@@ -2,6 +2,7 @@ package com.gamecommunityserver.controller;
 
 import com.gamecommunityserver.dto.PostDTO;
 import com.gamecommunityserver.service.impl.PostSearchServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -6,7 +6,6 @@ import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
 import com.gamecommunityserver.service.impl.UserServiceImpl;
 import com.gamecommunityserver.utils.SessionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -65,17 +64,21 @@ public class UserController {
         else
             SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
         System.out.println("success");
+        System.out.println(userinfo.getUserNumber());
     }
-
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
     @GetMapping("/{userNumber}")
-    public void selectUser(@PathVariable("userNumber") int userNumber, HttpSession session){
-        if(userNumber == SessionUtils.getLoginUserNumber(session) || userNumber == SessionUtils.getAdminLoginUserNumber(session))
-            //select 추가
+    public UserDTO selectUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
+        if(userNumber == loginUserNumber) {
+            UserDTO userDTO = userService.selectUser(userNumber);
             System.out.println("success");
+            return userDTO;
+        }
         else
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
     }
 
+    @LoginCheck(type = LoginCheck.UserType.USER)
     @DeleteMapping("/{userNumber}")
     public void deleteUser(@PathVariable("userNumber") int userNumber , HttpSession session){
         if(userNumber == SessionUtils.getLoginUserNumber(session) || userNumber == SessionUtils.getAdminLoginUserNumber(session))

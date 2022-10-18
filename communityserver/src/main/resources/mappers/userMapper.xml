@@ -22,6 +22,12 @@
         WHERE id = #{id} and password = #{password} and userSecession = 0
     </select>
 
+    <select id = "selectUser" resultType = "com.gamecommunityserver.dto.UserDTO">
+        SELECT *
+        FROM user
+        WHERE userNumber = #{userNumber}
+    </select>
+
     <select id="deleteUser">
         UPDATE user
         SET userSecession = 1

@@ -7,6 +7,8 @@ import com.gamecommunityserver.mapper.FileMapper;
 import com.gamecommunityserver.mapper.PostMapper;
 import com.gamecommunityserver.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class PostServiceImpl implements PostService {
         this.postMapper = postMapper;
         this.fileMapper = fileMapper;
     }
+    @CacheEvict(value = "post", allEntries = true)
     @Override
     public PostDTO addPost(PostDTO postDTO, int userNumber){
         postDTO.setUserNumber(userNumber);
@@ -41,12 +44,14 @@ public class PostServiceImpl implements PostService {
         return postMapper.checkHasPermission(userNumber, postNumber);
     }
 
+    @CacheEvict(value = "post", key = "#postNumber")
     @Override
     public void updatePost(PostDTO postDTO, int postNumber){
         String postName = postDTO.getPostName();
         String contents = postDTO.getContents();
         postMapper.updatePost(postName, contents, postNumber);
     }
+    @Cacheable(value = "post", key = "#postNumber")
     @Override
     public PostDTO selectPost(int postNumber){
         PostDTO postMetaData = postMapper.selectPost(postNumber);
@@ -61,7 +66,7 @@ public class PostServiceImpl implements PostService {
         commentsDTO.setPostNumber(postNumber);
         return postMapper.addComments(commentsDTO);
     }
-
+    @CacheEvict(value = "post", key = "#postNumber")
     @Override
     public void deletePost(int postNumber, int userNumber){
         postMapper.deletePost(postNumber, userNumber);

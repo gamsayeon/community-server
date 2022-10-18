@@ -11,5 +11,6 @@ public interface UserInfoMapper {
     int idCheck(String id);
     int register(UserDTO userDTO);
     UserDTO passwordCheck(String id, String password);
+    UserDTO selectUser(int userNumber);
     void deleteUser(int userNumber);
 }
