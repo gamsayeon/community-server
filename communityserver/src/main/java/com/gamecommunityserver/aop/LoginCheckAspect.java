@@ -1,10 +1,9 @@
 package com.gamecommunityserver.aop;
 
 import com.gamecommunityserver.utils.SessionUtils;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -19,27 +18,30 @@ import javax.servlet.http.HttpSession;
 @Aspect
 @Component
 public class LoginCheckAspect {
-    @Before("@annotation(com.gamecommunityserver.aop.LoginCheck) && @annotation(loginCheck)")
-    public void LoginSessionCheck(LoginCheck loginCheck){
+    @Around("@annotation(com.gamecommunityserver.aop.LoginCheck) && @annotation(loginCheck)")
+    public Object LoginSessionCheck(ProceedingJoinPoint proceedingJoinPoint, LoginCheck loginCheck) throws Throwable{
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-
-        String id = null;
+        int userNumber = 0;
         String userType = loginCheck.type().toString();
+        int index = 0;
+
         switch(userType)
         {
             case "USER":
-                id = SessionUtils.getLoginID(session);
+                userNumber = SessionUtils.getLoginUserNumber(session);
                 break;
             case "ADMIN":
-                id = SessionUtils.getAdminLoginID(session);
-                break;
-            case "DEFAULT":
-                id = SessionUtils.getLoginID(session);
-                if(id == null)
-                    SessionUtils.getAdminLoginID(session);
+                userNumber = SessionUtils.getAdminLoginUserNumber(session);
+                if(userNumber == 0)
+                    userNumber = SessionUtils.getLoginUserNumber(session);
                 break;
         }
-        if(id == null)
+
+        if(userNumber == 0)
             throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인한 id값을 확인해주세요"){};
+        Object[] modifiedArgs = proceedingJoinPoint.getArgs();
+        if(proceedingJoinPoint.getArgs()!=null)
+            modifiedArgs[index] = userNumber;
+        return proceedingJoinPoint.proceed(modifiedArgs);
     }
 }

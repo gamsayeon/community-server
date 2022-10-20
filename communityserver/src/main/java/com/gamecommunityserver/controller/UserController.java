@@ -1,11 +1,11 @@
 package com.gamecommunityserver.controller;
 
+import com.gamecommunityserver.aop.LoginCheck;
 import com.gamecommunityserver.dto.UserDTO;
 import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
 import com.gamecommunityserver.service.impl.UserServiceImpl;
 import com.gamecommunityserver.utils.SessionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,7 +29,7 @@ public class UserController {
      *
      * @param userService
      */
-    @Autowired
+
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
@@ -60,25 +60,31 @@ public class UserController {
         if(userinfo == null)
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
         if(userinfo.getAdmin() == 0)
-            SessionUtils.setLoginID(session, userinfo.getId());
+            SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
         else
-            SessionUtils.setAdminLoginID(session, userinfo.getId());
+            SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
         System.out.println("success");
+        System.out.println(userinfo.getUserNumber());
+    }
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @GetMapping("/{userNumber}")
+    public UserDTO selectUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
+        if(userNumber == loginUserNumber) {
+            UserDTO userDTO = userService.selectUser(userNumber);
+            System.out.println("success");
+            return userDTO;
+        }
+        else
+            throw new MatchingLoginFailException("회원 정보가 없습니다.");
     }
 
-    @GetMapping("/{usernumber}")
-    public void selectUser(@PathVariable("usernumber") int usernumber, HttpSession session){
-        if(userService.checkUserNumber(usernumber) == 0)
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
-        //select 추가
-        System.out.println("success");
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") int usernumber){
-        if(userService.checkUserNumber(usernumber) == 0)
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
-        userService.deleteUser(usernumber);
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    @DeleteMapping("/{userNumber}")
+    public void deleteUser(@PathVariable("userNumber") int userNumber , HttpSession session){
+        if(userNumber == SessionUtils.getLoginUserNumber(session) || userNumber == SessionUtils.getAdminLoginUserNumber(session))
+            userService.deleteUser(userNumber);
+        else
+            throw new MatchingLoginFailException("id를 다시 확인해주세요!");
         System.out.println("success");
     }
 
