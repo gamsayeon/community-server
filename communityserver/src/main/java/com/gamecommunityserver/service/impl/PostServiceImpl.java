@@ -3,8 +3,10 @@ package com.gamecommunityserver.service.impl;
 import com.gamecommunityserver.dto.CommentsDTO;
 import com.gamecommunityserver.dto.FileDTO;
 import com.gamecommunityserver.dto.PostDTO;
+import com.gamecommunityserver.exception.PermissionDeniedException;
 import com.gamecommunityserver.mapper.FileMapper;
 import com.gamecommunityserver.mapper.PostMapper;
+import com.gamecommunityserver.mapper.UserInfoMapper;
 import com.gamecommunityserver.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -15,19 +17,22 @@ import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
-    @Autowired
-    private final PostMapper postMapper;
 
-    @Autowired
+    private final PostMapper postMapper;
+    private final UserInfoMapper userMapper;
     private final FileMapper fileMapper;
 
-    public PostServiceImpl(PostMapper postMapper, FileMapper fileMapper){
+    public PostServiceImpl(PostMapper postMapper, FileMapper fileMapper, UserInfoMapper userMapper){
         this.postMapper = postMapper;
         this.fileMapper = fileMapper;
+        this.userMapper = userMapper;
     }
     @CacheEvict(value = "post", allEntries = true)
     @Override
     public PostDTO addPost(PostDTO postDTO, int userNumber){
+        if(postDTO.getAdminPost() == 1 && userMapper.adminUserCheck(userNumber) == 0){
+            throw new PermissionDeniedException("권한 부족");
+        }
         postDTO.setUserNumber(userNumber);
         postMapper.addPost(postDTO);
         int postNumber = postDTO.getPostNumber();

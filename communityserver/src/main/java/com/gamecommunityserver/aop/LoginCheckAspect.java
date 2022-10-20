@@ -31,9 +31,12 @@ public class LoginCheckAspect {
                 userNumber = SessionUtils.getLoginUserNumber(session);
                 break;
             case "ADMIN":
-                userNumber = SessionUtils.getAdminLoginUserNumber(session);
-                if(userNumber == 0)
+                try{
+                    userNumber = SessionUtils.getAdminLoginUserNumber(session);
+                }
+                catch(NullPointerException e){
                     userNumber = SessionUtils.getLoginUserNumber(session);
+                }
                 break;
         }
 

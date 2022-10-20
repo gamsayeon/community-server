@@ -9,4 +9,6 @@ public interface UserService {
     UserDTO LoginCheckPassword(String id, String password);
     UserDTO selectUser(int userNumber);
     void deleteUser(int userNumber);
+    int adminUserCheck(int userNumber);
+    void upgradeUser(String id);
 }

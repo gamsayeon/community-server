@@ -4,6 +4,7 @@ import com.gamecommunityserver.aop.LoginCheck;
 import com.gamecommunityserver.dto.UserDTO;
 import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
+import com.gamecommunityserver.exception.PermissionDeniedException;
 import com.gamecommunityserver.service.impl.UserServiceImpl;
 import com.gamecommunityserver.utils.SessionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -88,6 +89,15 @@ public class UserController {
         System.out.println("success");
     }
 
-
+    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @PutMapping("")
+    public void addAdminUser(Integer loginUserNumber, @RequestBody UserDTO userDTO){
+        if(userService.adminUserCheck(loginUserNumber) != 0){
+            userService.upgradeUser(userDTO.getId());
+            System.out.println("1");
+        }
+        else
+            throw new PermissionDeniedException("권한 부족");
+    }
 
 }

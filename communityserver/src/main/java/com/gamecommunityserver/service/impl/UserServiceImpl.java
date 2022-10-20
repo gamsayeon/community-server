@@ -51,4 +51,13 @@ public class UserServiceImpl implements UserService {
         userMapper.deleteUser(userNumber);
     }
 
+    @Override
+    public int adminUserCheck(int userNumber){
+        return userMapper.adminUserCheck(userNumber);
+    }
+
+    @Override
+    public void upgradeUser(String id){
+        userMapper.upgradeUser(id);
+    }
 }
