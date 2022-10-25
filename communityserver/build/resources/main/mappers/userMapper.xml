@@ -6,9 +6,9 @@
 <mapper namespace="com.gamecommunityserver.mapper.UserInfoMapper">
 
     <insert id="register" parameterType="com.gamecommunityserver.dto.UserDTO">
-    INSERT INTO user (userNumber, id, password, name, admin, createTime, userSecession)
-    VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
-</insert>
+        INSERT INTO user (userNumber, id, password, name, admin, createTime, userSecession)
+        VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
+    </insert>
 
     <select id="idCheck" resultType="int">
         SELECT COUNT(id)
@@ -17,13 +17,13 @@
     </select>
 
     <select id="passwordCheck" resultType="com.gamecommunityserver.dto.UserDTO">
-        SELECT *
+        SELECT userNumber, id
         FROM user
         WHERE id = #{id} and password = #{password} and userSecession = 0
     </select>
 
     <select id = "selectUser" resultType = "com.gamecommunityserver.dto.UserDTO">
-        SELECT *
+        SELECT userNumber, id, name, admin, createTime, userSecession
         FROM user
         WHERE userNumber = #{userNumber}
     </select>
@@ -32,6 +32,13 @@
         UPDATE user
         SET userSecession = 1
         WHERE userNumber = #{userNumber}
+    </select>
+
+    <select id="adminUserCheck" resultType = "int">
+        SELECT count(userNumber)
+        FROM user
+        WHERE userNumber = #{userNumber}
+        and admin = 1
     </select>
 
 </mapper>

@@ -31,6 +31,18 @@ public class RedisConfig {
     @Value("${expire.defaultTime}")
     private long defaultExpireSecond;
 
+
+    /**
+     * Jedis 와 Lettuce 의 차이
+     * Jedis 은 JAVA 의 표준 Redis 클라이언트
+     * Lettuce 은 Netty(비동기 이벤트 기반 고성능 네트워크 프레임워크) 기반의 Redis 클라이언트
+     *      비동기로 요청을 처리 하기 때문에 고성능을 자랑
+     *
+     * Lettuce 는 TPS/CPU/Connection 개수/응답속도 등 전 분야에서 우위
+     * 참고 : https://jojoldu.tistory.com/418
+     *
+     * Jedis 에 비해 몇배 이상의 성능과 하드웨터 자원 절약이 가능함
+     */
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
@@ -45,16 +57,11 @@ public class RedisConfig {
 
         redisTemplate.setValueSerializer(new StringRedisSerializer());
 
-        //모든 경우
-       // redisTemplate.setDefaultSerializer(new StringRedisSerializer());
-//        redisTemplate.setKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper()));
 
         return redisTemplate;
     }
 
 
-    // jackson LocalDateTime mapper
     @Bean public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
@@ -66,10 +73,10 @@ public class RedisConfig {
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
 
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
-                .disableCachingNullValues()
-                .entryTtl(Duration.ofSeconds(defaultExpireSecond))
-                .computePrefixWith(CacheKeyPrefix.simple())
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
+                .disableCachingNullValues()         //null 값 캐싱을 비활성화
+                .entryTtl(Duration.ofSeconds(defaultExpireSecond)) //캐시 항목에 적용하려면 ttl(Time to live)을 설정
+                .computePrefixWith(CacheKeyPrefix.simple()) //주어진 캐시이름이 함수입력으로 주어진 실제 Redis키의 접두사를 계산하려면 주어진것을 사용 ( :: )
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())); //캐시 키 역/직렬화에 사용되는것
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 

@@ -22,7 +22,7 @@ public class LoginCheckAspect {
     public Object LoginSessionCheck(ProceedingJoinPoint proceedingJoinPoint, LoginCheck loginCheck) throws Throwable{
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
         int userNumber = 0;
-        String userType = loginCheck.type().toString();
+        String userType = loginCheck.types().toString();
         int index = 0;
 
         switch(userType)
@@ -32,8 +32,6 @@ public class LoginCheckAspect {
                 break;
             case "ADMIN":
                 userNumber = SessionUtils.getAdminLoginUserNumber(session);
-                if(userNumber == 0)
-                    userNumber = SessionUtils.getLoginUserNumber(session);
                 break;
         }
 
