@@ -17,13 +17,13 @@
     </select>
 
     <select id="passwordCheck" resultType="com.gamecommunityserver.dto.UserDTO">
-        SELECT *
+        SELECT userNumber, id
         FROM user
         WHERE id = #{id} and password = #{password} and userSecession = 0
     </select>
 
     <select id = "selectUser" resultType = "com.gamecommunityserver.dto.UserDTO">
-        SELECT *
+        SELECT userNumber, id, name, admin, createTime, userSecession
         FROM user
         WHERE userNumber = #{userNumber}
     </select>
@@ -35,16 +35,10 @@
     </select>
 
     <select id="adminUserCheck" resultType = "int">
-        SELECT count(*)
+        SELECT count(userNumber)
         FROM user
         WHERE userNumber = #{userNumber}
         and admin = 1
     </select>
-
-    <update id="upgradeUser">
-        UPDATE user
-        SET admin = 1
-        WHERE id = #{id}
-    </update>
 
 </mapper>

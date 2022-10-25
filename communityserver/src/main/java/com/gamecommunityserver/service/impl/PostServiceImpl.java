@@ -18,6 +18,8 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
 
+    private final int AdminPost = 1;
+    private final int DeniedPermission = 0;
     private final PostMapper postMapper;
     private final UserInfoMapper userMapper;
     private final FileMapper fileMapper;
@@ -30,7 +32,7 @@ public class PostServiceImpl implements PostService {
     @CacheEvict(value = "post", allEntries = true)
     @Override
     public PostDTO addPost(PostDTO postDTO, int userNumber){
-        if(postDTO.getAdminPost() == 1 && userMapper.adminUserCheck(userNumber) == 0){
+        if(postDTO.getAdminPost() == AdminPost && userMapper.adminUserCheck(userNumber) == DeniedPermission){
             throw new PermissionDeniedException("권한 부족");
         }
         postDTO.setUserNumber(userNumber);

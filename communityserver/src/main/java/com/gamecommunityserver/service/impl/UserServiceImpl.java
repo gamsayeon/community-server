@@ -56,8 +56,4 @@ public class UserServiceImpl implements UserService {
         return userMapper.adminUserCheck(userNumber);
     }
 
-    @Override
-    public void upgradeUser(String id){
-        userMapper.upgradeUser(id);
-    }
 }

@@ -11,7 +11,7 @@
     </insert>
 
     <select id="checkHasPermission" resultType = "int">
-        SELECT COUNT(*)
+        SELECT COUNT(postNumber)
         FROM post
         WHERE post.userNumber = #{userNumber}
         and postNumber = #{postNumber}
@@ -31,7 +31,7 @@
     </update>
 
     <select id="selectPost" resultType = "com.gamecommunityserver.dto.PostDTO">
-        SELECT *
+        SELECT postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views
         FROM post
         WHERE postNumber = #{postNumber}
     </select>

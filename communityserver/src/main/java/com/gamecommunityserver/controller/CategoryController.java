@@ -18,7 +18,7 @@ public class CategoryController {
     public CategoryController(CategoryServiceImpl categoryService) {
         this.categoryService = categoryService;
     }
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = LoginCheck.UserType.ADMIN)
     @PutMapping("/add")
     public void categoryAdd(@Valid @RequestBody CategoryDTO categoryDTO){
         if(categoryService.categoryDuplicateCheck(categoryDTO.getCategoryName()) != 0)
@@ -26,7 +26,7 @@ public class CategoryController {
         categoryService.addCategoryName(categoryDTO);
         System.out.println("success");
     }
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = LoginCheck.UserType.ADMIN)
     @DeleteMapping("/{categoryNumber}")
     public void categoryDelete(@PathVariable("categoryNumber") int categoryNumber) {
         if (categoryService.categoryNumberCheck(categoryNumber))

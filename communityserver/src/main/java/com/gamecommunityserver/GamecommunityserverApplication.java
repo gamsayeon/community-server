@@ -6,10 +6,18 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
+ * @SpringBootApplication
  *
  */
 @SpringBootApplication
+/**
+ * @EnableAspectJAutoProxy
+ */
 @EnableAspectJAutoProxy
+/**
+ * @EnableCaching
+ *
+ */
 @EnableCaching
 public class GamecommunityserverApplication {
 

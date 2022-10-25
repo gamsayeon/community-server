@@ -4,13 +4,13 @@ import com.gamecommunityserver.aop.LoginCheck;
 import com.gamecommunityserver.dto.UserDTO;
 import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
-import com.gamecommunityserver.exception.PermissionDeniedException;
 import com.gamecommunityserver.service.impl.UserServiceImpl;
 import com.gamecommunityserver.utils.SessionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.function.LongBinaryOperator;
 
 /**
  * TODO: RestController 역할
@@ -67,7 +67,8 @@ public class UserController {
         System.out.println("success");
         System.out.println(userinfo.getUserNumber());
     }
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
     @GetMapping("/{userNumber}")
     public UserDTO selectUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
         if(userNumber == loginUserNumber) {
@@ -79,25 +80,16 @@ public class UserController {
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
     }
 
-    @LoginCheck(type = LoginCheck.UserType.USER)
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
     @DeleteMapping("/{userNumber}")
-    public void deleteUser(@PathVariable("userNumber") int userNumber , HttpSession session){
-        if(userNumber == SessionUtils.getLoginUserNumber(session) || userNumber == SessionUtils.getAdminLoginUserNumber(session))
+    public void deleteUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
+        if(loginUserNumber == userNumber)
             userService.deleteUser(userNumber);
         else
             throw new MatchingLoginFailException("id를 다시 확인해주세요!");
         System.out.println("success");
     }
 
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
-    @PutMapping("")
-    public void addAdminUser(Integer loginUserNumber, @RequestBody UserDTO userDTO){
-        if(userService.adminUserCheck(loginUserNumber) != 0){
-            userService.upgradeUser(userDTO.getId());
-            System.out.println("1");
-        }
-        else
-            throw new PermissionDeniedException("권한 부족");
-    }
 
 }

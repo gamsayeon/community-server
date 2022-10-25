@@ -10,12 +10,12 @@
         VALUES (#{categoryNumber}, #{categoryName})
     </insert>
     <select id = "categoryDuplicateCheck" resultType = "int">
-        SELECT COUNT(*)
+        SELECT COUNT(categoryNumber, categoryName)
         FROM category
         WHERE categoryName = #{categoryName}
     </select>
     <select id="categoryNumberCheck" resultType="int">
-        SELECT COUNT(*)
+        SELECT COUNT(categoryNumber, categoryName)
         FROM category
         WHERE categoryNumber = #{categoryNumber}
     </select>

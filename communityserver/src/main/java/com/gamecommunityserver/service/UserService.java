@@ -10,5 +10,4 @@ public interface UserService {
     UserDTO selectUser(int userNumber);
     void deleteUser(int userNumber);
     int adminUserCheck(int userNumber);
-    void upgradeUser(String id);
 }

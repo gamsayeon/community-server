@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/post")
 public class PostController {
 
+    private final int AccessPermission = 1;
     private final PostServiceImpl postService;
 
     public PostController(PostServiceImpl postService){
@@ -20,21 +21,23 @@ public class PostController {
     }
 
     @PostMapping("/add")
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
     public PostDTO addPost(Integer userNumber, @RequestBody PostDTO postDTO) {
         PostDTO postMetaData = postService.addPost(postDTO, userNumber);
         return postMetaData;
     }
     @PostMapping("/{postNumber}")
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
     public PostDTO updatePost(Integer userNumber, @PathVariable int postNumber, @RequestBody PostDTO postDTO){
-        if(postService.checkHasPermission(postNumber, userNumber) != 1)
+        if(postService.checkHasPermission(postNumber, userNumber) != AccessPermission)
             throw new PostAccessDeniedException("권한 부족");
-        else
+        else {
             postService.updatePost(postDTO, postNumber);
-
-        PostDTO postMetaData = postService.selectPost(postNumber);
-        return postMetaData;
+            PostDTO postMetaData = postService.selectPost(postNumber);
+            return postMetaData;
+        }
     }
     @GetMapping("/{postNumber}")
     public PostDTO selectPost(@PathVariable int postNumber){
@@ -42,7 +45,8 @@ public class PostController {
         postService.addViews(postNumber);
         return postMetaData;
     }
-    @LoginCheck(type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
     @PutMapping("/{postNumber}")
     public void addPostComments(@PathVariable int postNumber, @RequestBody CommentsDTO commentsDTO){
         postService.addComments(postNumber, commentsDTO);
@@ -53,7 +57,8 @@ public class PostController {
         System.out.println(postMetaData.getContents());
     }
 
-    @LoginCheck( type = LoginCheck.UserType.ADMIN)
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
     @DeleteMapping("/{postNumber}")
     public void deletePost(Integer userNumber, @PathVariable int postNumber){
         postService.deletePost(postNumber, userNumber);
