@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface UserInfoMapper {
     int idCheck(String id);
-    int register(UserDTO userDTO);
-    UserDTO passwordCheck(String id, String password);
+    UserDTO register(UserDTO userDTO);
+    UserDTO passwordCheck(@Param("id")String id, @Param("password")String password);
     UserDTO selectUser(int userNumber);
     void deleteUser(int userNumber);
     int adminUserCheck(int userNumber);

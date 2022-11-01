@@ -5,6 +5,7 @@ import com.gamecommunityserver.dto.CategoryDTO;
 import com.gamecommunityserver.exception.DuplicateCategoryException;
 import com.gamecommunityserver.exception.NotMatchCategoryIdException;
 import com.gamecommunityserver.service.impl.CategoryServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ public class CategoryController {
 
     private final CategoryServiceImpl categoryService;
 
+    @Autowired
     public CategoryController(CategoryServiceImpl categoryService) {
         this.categoryService = categoryService;
     }

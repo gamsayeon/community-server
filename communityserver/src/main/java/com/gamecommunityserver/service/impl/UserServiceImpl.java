@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(UserDTO userDTO){
+    public UserDTO register(UserDTO userDTO){
         if(idOverlapCheck(userDTO.getId()))
             throw new DuplicateIdException("중복된 ID 입니다.");
 
@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService {
         userDTO.setAdmin(0);
         userDTO.setUserSecession(0);
         userMapper.register(userDTO);
+
+        return userDTO;
     }
     @Override
     public boolean idOverlapCheck(String id){
@@ -38,8 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO LoginCheckPassword(String id, String password){
         password = sha256Encrypt.encrypt(password);
-        UserDTO userinfo = userMapper.passwordCheck(id, password);
-        return userinfo;
+        return userMapper.passwordCheck(id, password);
     }
     @Override
     public UserDTO selectUser(int userNumber){

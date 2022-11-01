@@ -22,18 +22,21 @@ public class LoginCheckAspect {
     public Object LoginSessionCheck(ProceedingJoinPoint proceedingJoinPoint, LoginCheck loginCheck) throws Throwable{
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
         int userNumber = 0;
-        String userType = loginCheck.types().toString();
         int index = 0;
 
-        switch(userType)
+        for(int i=0; i< loginCheck.types().length ; i++)
         {
-            case "USER":
-                userNumber = SessionUtils.getLoginUserNumber(session);
-                break;
-            case "ADMIN":
-                userNumber = SessionUtils.getAdminLoginUserNumber(session);
-                break;
+            switch( loginCheck.types()[i].toString())
+            {
+                case "USER":
+                    userNumber = SessionUtils.getLoginUserNumber(session);
+                    break;
+                case "ADMIN":
+                    userNumber = SessionUtils.getAdminLoginUserNumber(session);
+                    break;
+            }
         }
+
 
         if(userNumber == 0)
             throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인한 id값을 확인해주세요"){};

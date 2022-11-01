@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    @Autowired
+
     private final CategoryMapper categoryMapper;
 
     public CategoryServiceImpl(CategoryMapper categoryMapper) {
