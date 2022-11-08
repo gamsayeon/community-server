@@ -24,8 +24,7 @@ public class PostController {
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
     public PostDTO addPost(Integer userNumber, @RequestBody PostDTO postDTO) {
-        PostDTO postMetaData = postService.addPost(postDTO, userNumber);
-        return postMetaData;
+        return postService.addPost(postDTO, userNumber);
     }
     @PostMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
