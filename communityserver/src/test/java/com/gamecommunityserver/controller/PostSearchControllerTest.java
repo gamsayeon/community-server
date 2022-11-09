@@ -3,19 +3,14 @@ package com.gamecommunityserver.controller;
 import com.gamecommunityserver.dto.PostDTO;
 import com.gamecommunityserver.mapper.PostSearchMapper;
 import com.gamecommunityserver.service.impl.PostSearchServiceImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
 public class PostSearchControllerTest {
 
-    @InjectMocks
-    private PostSearchController postSearchController;
     @InjectMocks
     private PostSearchServiceImpl postSearchService;
     @Mock
@@ -34,7 +29,7 @@ public class PostSearchControllerTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("게시글 검색 테스트")
     public void searchPostTest(){
         PostDTO postDTO = generateTestPostSearch();
         postSearchService.getSearchPost(postDTO);

@@ -6,24 +6,17 @@ import com.gamecommunityserver.dto.PostDTO;
 import com.gamecommunityserver.mapper.FileMapper;
 import com.gamecommunityserver.mapper.PostMapper;
 import com.gamecommunityserver.service.impl.PostServiceImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
 public class PostControllerTest {
-    @InjectMocks
-    private PostController postController;
-
     @InjectMocks
     private PostServiceImpl postService;
 
@@ -76,7 +69,7 @@ public class PostControllerTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("게시글 수정 테스트")
     public void updatePostTest(){
         PostDTO postDTO = generateTestPost();
         postDTO.setPostName("updatePostNameTest");
@@ -85,7 +78,7 @@ public class PostControllerTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("게시글 정보 확인 테스트")
     public void selectPostTest(){
         PostDTO postDTO = generateTestPost();
         given(postMapper.selectPost(postDTO.getPostNumber())).willReturn(postDTO);
@@ -93,14 +86,14 @@ public class PostControllerTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("게시글 댓글 추가 테스트")
     public void addCommentsTest(){
         PostDTO postDTO = generateTestPost();
         CommentsDTO commentsDTO = generateTestComments();
         postService.addComments(postDTO.getPostNumber(), commentsDTO);
     }
     @Test
-    @DisplayName("")
+    @DisplayName("게시글 삭제 테스트")
     public void deletePostTest(){
         PostDTO postDTO = generateTestPost();
 //        given().willReturn();

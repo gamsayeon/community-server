@@ -3,7 +3,6 @@ package com.gamecommunityserver.service.impl;
 import com.gamecommunityserver.dto.CategoryDTO;
 import com.gamecommunityserver.mapper.CategoryMapper;
 import com.gamecommunityserver.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
