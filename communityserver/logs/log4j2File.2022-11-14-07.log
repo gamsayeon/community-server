@@ -1,0 +1,3 @@
+2022-11-14 19:38:58,982 [main] INFO  com.gamecommunityserver.GamecommunityserverApplicationTests(logStarting:55) - Starting GamecommunityserverApplicationTests using Java 11.0.12 on DESKTOP-I10KCBE with PID 23604 (started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver)
+2022-11-14 19:38:59,002 [main] INFO  com.gamecommunityserver.GamecommunityserverApplicationTests(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2022-11-14 19:39:04,696 [main] INFO  com.gamecommunityserver.GamecommunityserverApplicationTests(logStarted:61) - Started GamecommunityserverApplicationTests in 6.141 seconds (JVM running for 9.784)

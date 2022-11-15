@@ -6,6 +6,9 @@ import com.gamecommunityserver.exception.DuplicateIdException;
 import com.gamecommunityserver.exception.MatchingLoginFailException;
 import com.gamecommunityserver.service.impl.UserServiceImpl;
 import com.gamecommunityserver.utils.SessionUtils;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -20,10 +23,12 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/users")
+@Log4j2
 public class UserController {
 
     private final UserServiceImpl userService;
 
+    private final Logger logger = LogManager.getLogger(UserController.class);
     /**
      * TODO: 객체 생성자 패턴엔 3가지(생성자, 필드, 메서드) 택한이유
      *
@@ -43,8 +48,10 @@ public class UserController {
      */
     @PostMapping("/signup")
     public void signUp(@Valid @RequestBody UserDTO userDTO) {
-        if (UserDTO.hasNullValueUserInfo(userDTO))
+        if (UserDTO.hasNullValueUserInfo(userDTO)) {
+            log.warn("회원 정보를 확인해주세여");
             throw new DuplicateIdException("필수 회원정보를 모두 입력해야 합니다.");
+        }
         userService.register(userDTO);
     }
 
@@ -54,6 +61,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
+        logger.debug("test");
         if (UserDTO.hasNullLogin(userDTO))
             throw new NullPointerException("Login 정보를 입력해주세요");
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
@@ -63,8 +71,10 @@ public class UserController {
             SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
         else
             SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
-        System.out.println("success");
-        System.out.println(userinfo.getUserNumber());
+
+        log.debug("login success");
+        log.debug(userinfo.getUserNumber());
+        log.debug(userinfo.getId());
     }
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
@@ -87,7 +97,7 @@ public class UserController {
             userService.deleteUser(userNumber);
         else
             throw new MatchingLoginFailException("id를 다시 확인해주세요!");
-        System.out.println("success");
+        log.debug("login delete success");
     }
 
 

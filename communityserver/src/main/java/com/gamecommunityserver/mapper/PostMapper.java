@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 @Mapper
 public interface PostMapper {
-    void addPost(PostDTO postDTO);
+    int addPost(PostDTO postDTO);
     int checkHasPermission(int userNumber, int postNumber);
     void updatePost(String postName, String contents, int postNumber);
     PostDTO selectPost(int postNumber);

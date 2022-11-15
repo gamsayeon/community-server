@@ -36,6 +36,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO LoginCheckPassword(String id, String password){
         password = sha256Encrypt.encrypt(password);
+        UserDTO result = userMapper.passwordCheck(id, password);
+        if(result == null){
+            return UserDTO.builder().build();
+        }
         return userMapper.passwordCheck(id, password);
     }
     @Override

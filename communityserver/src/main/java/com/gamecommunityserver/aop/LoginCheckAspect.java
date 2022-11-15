@@ -24,16 +24,17 @@ public class LoginCheckAspect {
         int userNumber = 0;
         int index = 0;
 
-        for(int i=0; i< loginCheck.types().length && (userNumber == 0); i++)
+        for(int i=0; i< loginCheck.types().length; i++)
         {
-            switch( loginCheck.types()[i].toString())
-            {
-                case "USER":
-                    userNumber = SessionUtils.getLoginUserNumber(session);
-                    break;
-                case "ADMIN":
-                    userNumber = SessionUtils.getAdminLoginUserNumber(session);
-                    break;
+            if( userNumber == 0) {
+                switch (loginCheck.types()[i].toString()) {
+                    case "USER":
+                        userNumber = SessionUtils.getLoginUserNumber(session);
+                        break;
+                    case "ADMIN":
+                        userNumber = SessionUtils.getAdminLoginUserNumber(session);
+                        break;
+                }
             }
         }
 

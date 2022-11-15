@@ -35,13 +35,14 @@ public class PostServiceImpl implements PostService {
             throw new PermissionDeniedException("권한 부족");
         }
         postDTO.setUserNumber(userNumber);
-        postMapper.addPost(postDTO);
-        int postNumber = postDTO.getPostNumber();
-        List<FileDTO> fileDTOList = postDTO.getFileDTOList();
-        for(int i=0;i<fileDTOList.size(); i++) {
-            FileDTO fileDTO = fileDTOList.get(i);
-            fileDTO.setPostNumber(postNumber);
-            fileMapper.addFile(fileDTO);
+        if(postMapper.addPost(postDTO) == 1) {
+            int postNumber = postDTO.getPostNumber();
+            List<FileDTO> fileDTOList = postDTO.getFileDTOList();
+            for (int i = 0; i < fileDTOList.size(); i++) {
+                FileDTO fileDTO = fileDTOList.get(i);
+                fileDTO.setPostNumber(postNumber);
+                fileMapper.addFile(fileDTO);
+            }
         }
         return postDTO;
     }

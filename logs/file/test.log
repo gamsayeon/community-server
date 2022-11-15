@@ -1,0 +1,280 @@
+2022-11-10 14:57:43,452  INFO [org.hibernate.validator.internal.util.Version] HV000001: Hibernate Validator 6.2.3.Final
+2022-11-10 14:57:43,574  INFO [com.gamecommunityserver.GamecommunityserverApplication] Starting GamecommunityserverApplication using Java 11.0.12 on DESKTOP-I10KCBE with PID 2624 (C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server)
+2022-11-10 14:57:43,586 DEBUG [com.gamecommunityserver.GamecommunityserverApplication] Running with Spring Boot v2.7.0, Spring v5.3.20
+2022-11-10 14:57:43,588  INFO [com.gamecommunityserver.GamecommunityserverApplication] The following 1 profile is active: "prod"
+2022-11-10 14:57:45,290  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-11-10 14:57:45,298  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-11-10 14:57:45,357  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Finished Spring Data repository scanning in 22 ms. Found 0 Redis repository interfaces.
+2022-11-10 14:57:47,409  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat initialized with port(s): 8080 (http)
+2022-11-10 14:57:47,433  INFO [org.apache.coyote.http11.Http11NioProtocol] Initializing ProtocolHandler ["http-nio-8080"]
+2022-11-10 14:57:47,434  INFO [org.apache.catalina.core.StandardService] Starting service [Tomcat]
+2022-11-10 14:57:47,435  INFO [org.apache.catalina.core.StandardEngine] Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-11-10 14:57:47,751  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring embedded WebApplicationContext
+2022-11-10 14:57:47,751  INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext] Root WebApplicationContext: initialization completed in 4049 ms
+2022-11-10 14:57:50,041  INFO [org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping] Adding welcome page: class path resource [static/index.html]
+2022-11-10 14:57:50,821  INFO [org.apache.coyote.http11.Http11NioProtocol] Starting ProtocolHandler ["http-nio-8080"]
+2022-11-10 14:57:50,871  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-10 14:57:50,894  INFO [com.gamecommunityserver.GamecommunityserverApplication] Started GamecommunityserverApplication in 8.174 seconds (JVM running for 9.907)
+2022-11-10 14:57:55,580  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-10 14:57:55,585  INFO [org.springframework.web.servlet.DispatcherServlet] Initializing Servlet 'dispatcherServlet'
+2022-11-10 14:57:55,589  INFO [org.springframework.web.servlet.DispatcherServlet] Completed initialization in 4 ms
+2022-11-10 14:57:56,327  WARN [org.apache.catalina.util.SessionIdGeneratorBase] Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [280] milliseconds.
+2022-11-10 14:57:56,429  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Starting...
+2022-11-10 14:57:57,722  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Start completed.
+2022-11-10 14:57:57,751 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==>  Preparing: SELECT userNumber, id, admin FROM user WHERE id = ? and password = ? and userSecession = 0
+2022-11-10 14:57:57,876 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==> Parameters: test3(String), 9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08(String)
+2022-11-10 14:57:58,020 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==    Columns: userNumber, id, admin
+2022-11-10 14:57:58,021 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==        Row: 4, test3, 1
+2022-11-10 14:57:58,028 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==      Total: 1
+2022-11-10 14:58:00,037 DEBUG [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] ==>  Preparing: SELECT COUNT(categoryNumber) FROM category WHERE categoryName = ?
+2022-11-10 14:58:00,038 DEBUG [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] ==> Parameters: test1(String)
+2022-11-10 14:58:00,059 TRACE [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] <==    Columns: COUNT(categoryNumber)
+2022-11-10 14:58:00,059 TRACE [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] <==        Row: 1
+2022-11-10 14:58:00,061 DEBUG [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] <==      Total: 1
+2022-11-10 14:58:00,071 ERROR [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is com.gamecommunityserver.exception.DuplicateCategoryException: 있는 카테고리입니다.] with root cause
+com.gamecommunityserver.exception.DuplicateCategoryException: 있는 카테고리입니다.
+	at com.gamecommunityserver.controller.CategoryController.categoryAdd(CategoryController.java:26) ~[classes/:?]
+	at com.gamecommunityserver.controller.CategoryController$$FastClassBySpringCGLIB$$e062ef0b.invoke(<generated>) ~[classes/:?]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:102) ~[spring-aop-5.3.20.jar:5.3.20]
+	at com.gamecommunityserver.aop.LoginCheckAspect.LoginSessionCheck(LoginCheckAspect.java:47) ~[classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:175) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708) ~[spring-aop-5.3.20.jar:5.3.20]
+	at com.gamecommunityserver.controller.CategoryController$$EnhancerBySpringCGLIB$$f00e1853.categoryAdd(<generated>) ~[classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:920) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:684) ~[tomcat-embed-core-9.0.63.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.63.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at java.lang.Thread.run(Thread.java:829) ~[?:?]
+2022-11-10 15:02:03,973  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown initiated...
+2022-11-10 15:02:04,008  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown completed.
+2022-11-10 15:02:12,886  INFO [org.hibernate.validator.internal.util.Version] HV000001: Hibernate Validator 6.2.3.Final
+2022-11-10 15:02:12,990  INFO [com.gamecommunityserver.GamecommunityserverApplication] Starting GamecommunityserverApplication using Java 11.0.12 on DESKTOP-I10KCBE with PID 848 (C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server)
+2022-11-10 15:02:13,000 DEBUG [com.gamecommunityserver.GamecommunityserverApplication] Running with Spring Boot v2.7.0, Spring v5.3.20
+2022-11-10 15:02:13,003  INFO [com.gamecommunityserver.GamecommunityserverApplication] The following 1 profile is active: "prod"
+2022-11-10 15:02:14,560  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-11-10 15:02:14,566  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-11-10 15:02:14,614  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Finished Spring Data repository scanning in 25 ms. Found 0 Redis repository interfaces.
+2022-11-10 15:02:16,278  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat initialized with port(s): 8080 (http)
+2022-11-10 15:02:16,298  INFO [org.apache.coyote.http11.Http11NioProtocol] Initializing ProtocolHandler ["http-nio-8080"]
+2022-11-10 15:02:16,299  INFO [org.apache.catalina.core.StandardService] Starting service [Tomcat]
+2022-11-10 15:02:16,299  INFO [org.apache.catalina.core.StandardEngine] Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-11-10 15:02:16,548  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring embedded WebApplicationContext
+2022-11-10 15:02:16,550  INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext] Root WebApplicationContext: initialization completed in 3442 ms
+2022-11-10 15:02:18,448  INFO [org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping] Adding welcome page: class path resource [static/index.html]
+2022-11-10 15:02:19,148  INFO [org.apache.coyote.http11.Http11NioProtocol] Starting ProtocolHandler ["http-nio-8080"]
+2022-11-10 15:02:19,192  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-10 15:02:19,213  INFO [com.gamecommunityserver.GamecommunityserverApplication] Started GamecommunityserverApplication in 6.949 seconds (JVM running for 8.454)
+2022-11-10 15:02:51,314  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-10 15:02:51,314  INFO [org.springframework.web.servlet.DispatcherServlet] Initializing Servlet 'dispatcherServlet'
+2022-11-10 15:02:51,321  INFO [org.springframework.web.servlet.DispatcherServlet] Completed initialization in 7 ms
+2022-11-10 15:02:52,057  WARN [org.apache.catalina.util.SessionIdGeneratorBase] Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [240] milliseconds.
+2022-11-10 15:02:52,154  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Starting...
+2022-11-10 15:02:53,333  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Start completed.
+2022-11-10 15:02:53,367 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==>  Preparing: SELECT userNumber, id, admin FROM user WHERE id = ? and password = ? and userSecession = 0
+2022-11-10 15:02:53,489 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==> Parameters: test3(String), 9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08(String)
+2022-11-10 15:02:53,580 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==    Columns: userNumber, id, admin
+2022-11-10 15:02:53,582 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==        Row: 4, test3, 1
+2022-11-10 15:02:53,591 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==      Total: 1
+2022-11-10 15:02:54,837 DEBUG [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] ==>  Preparing: SELECT COUNT(categoryNumber) FROM category WHERE categoryName = ?
+2022-11-10 15:02:54,839 DEBUG [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] ==> Parameters: test1(String)
+2022-11-10 15:02:54,843 TRACE [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] <==    Columns: COUNT(categoryNumber)
+2022-11-10 15:02:54,844 TRACE [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] <==        Row: 1
+2022-11-10 15:02:54,845 DEBUG [com.gamecommunityserver.mapper.CategoryMapper.categoryDuplicateCheck] <==      Total: 1
+2022-11-10 15:02:54,853 ERROR [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is com.gamecommunityserver.exception.DuplicateCategoryException: 있는 카테고리입니다.] with root cause
+com.gamecommunityserver.exception.DuplicateCategoryException: 있는 카테고리입니다.
+	at com.gamecommunityserver.controller.CategoryController.categoryAdd(CategoryController.java:26) ~[classes/:?]
+	at com.gamecommunityserver.controller.CategoryController$$FastClassBySpringCGLIB$$e062ef0b.invoke(<generated>) ~[classes/:?]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:102) ~[spring-aop-5.3.20.jar:5.3.20]
+	at com.gamecommunityserver.aop.LoginCheckAspect.LoginSessionCheck(LoginCheckAspect.java:47) ~[classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:634) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:624) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:72) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:175) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763) ~[spring-aop-5.3.20.jar:5.3.20]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708) ~[spring-aop-5.3.20.jar:5.3.20]
+	at com.gamecommunityserver.controller.CategoryController$$EnhancerBySpringCGLIB$$cd501e24.categoryAdd(<generated>) ~[classes/:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:920) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:684) ~[tomcat-embed-core-9.0.63.jar:4.0.FR]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.20.jar:5.3.20]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764) ~[tomcat-embed-core-9.0.63.jar:4.0.FR]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.20.jar:5.3.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.63.jar:9.0.63]
+	at java.lang.Thread.run(Thread.java:829) ~[?:?]
+2022-11-10 15:22:46,043  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown initiated...
+2022-11-10 15:22:46,133  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown completed.
+2022-11-10 15:22:58,052  INFO [org.hibernate.validator.internal.util.Version] HV000001: Hibernate Validator 6.2.3.Final
+2022-11-10 15:22:58,167  INFO [com.gamecommunityserver.GamecommunityserverApplication] Starting GamecommunityserverApplication using Java 11.0.12 on DESKTOP-I10KCBE with PID 18984 (C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server)
+2022-11-10 15:22:58,176 DEBUG [com.gamecommunityserver.GamecommunityserverApplication] Running with Spring Boot v2.7.0, Spring v5.3.20
+2022-11-10 15:22:58,179  INFO [com.gamecommunityserver.GamecommunityserverApplication] The following 1 profile is active: "prod"
+2022-11-10 15:23:00,077  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-11-10 15:23:00,085  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-11-10 15:23:00,152  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Finished Spring Data repository scanning in 35 ms. Found 0 Redis repository interfaces.
+2022-11-10 15:23:03,556  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat initialized with port(s): 8080 (http)
+2022-11-10 15:23:03,583  INFO [org.apache.coyote.http11.Http11NioProtocol] Initializing ProtocolHandler ["http-nio-8080"]
+2022-11-10 15:23:03,584  INFO [org.apache.catalina.core.StandardService] Starting service [Tomcat]
+2022-11-10 15:23:03,585  INFO [org.apache.catalina.core.StandardEngine] Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-11-10 15:23:03,973  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring embedded WebApplicationContext
+2022-11-10 15:23:03,973  INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext] Root WebApplicationContext: initialization completed in 5672 ms
+2022-11-10 15:23:06,271  INFO [org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping] Adding welcome page: class path resource [static/index.html]
+2022-11-10 15:23:07,023  INFO [org.apache.coyote.http11.Http11NioProtocol] Starting ProtocolHandler ["http-nio-8080"]
+2022-11-10 15:23:07,091  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-10 15:23:07,111  INFO [com.gamecommunityserver.GamecommunityserverApplication] Started GamecommunityserverApplication in 10.091 seconds (JVM running for 14.019)
+2022-11-10 15:23:12,778  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-10 15:23:12,778  INFO [org.springframework.web.servlet.DispatcherServlet] Initializing Servlet 'dispatcherServlet'
+2022-11-10 15:23:12,780  INFO [org.springframework.web.servlet.DispatcherServlet] Completed initialization in 1 ms
+2022-11-10 15:23:13,375  WARN [org.apache.catalina.util.SessionIdGeneratorBase] Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [247] milliseconds.
+2022-11-10 15:23:13,400  WARN [com.gamecommunityserver.controller.UserController] test
+2022-11-10 15:23:13,464  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Starting...
+2022-11-10 15:23:14,591  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Start completed.
+2022-11-10 15:23:14,615 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==>  Preparing: SELECT userNumber, id, admin FROM user WHERE id = ? and password = ? and userSecession = 0
+2022-11-10 15:23:14,694 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==> Parameters: test3(String), 9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08(String)
+2022-11-10 15:23:14,804 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==    Columns: userNumber, id, admin
+2022-11-10 15:23:14,806 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==        Row: 4, test3, 1
+2022-11-10 15:23:14,812 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==      Total: 1
+2022-11-10 15:25:14,571  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown initiated...
+2022-11-10 15:25:14,591  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown completed.
+2022-11-10 15:27:21,950  INFO [org.hibernate.validator.internal.util.Version] HV000001: Hibernate Validator 6.2.3.Final
+2022-11-10 15:27:22,055  INFO [com.gamecommunityserver.GamecommunityserverApplication] Starting GamecommunityserverApplication using Java 11.0.12 on DESKTOP-I10KCBE with PID 14680 (C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server)
+2022-11-10 15:27:22,062 DEBUG [com.gamecommunityserver.GamecommunityserverApplication] Running with Spring Boot v2.7.0, Spring v5.3.20
+2022-11-10 15:27:22,064  INFO [com.gamecommunityserver.GamecommunityserverApplication] The following 1 profile is active: "prod"
+2022-11-10 15:27:23,888  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-11-10 15:27:23,896  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-11-10 15:27:24,017  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Finished Spring Data repository scanning in 79 ms. Found 0 Redis repository interfaces.
+2022-11-10 15:27:26,749  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat initialized with port(s): 8080 (http)
+2022-11-10 15:27:26,780  INFO [org.apache.coyote.http11.Http11NioProtocol] Initializing ProtocolHandler ["http-nio-8080"]
+2022-11-10 15:27:26,782  INFO [org.apache.catalina.core.StandardService] Starting service [Tomcat]
+2022-11-10 15:27:26,783  INFO [org.apache.catalina.core.StandardEngine] Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-11-10 15:27:27,110  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring embedded WebApplicationContext
+2022-11-10 15:27:27,110  INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext] Root WebApplicationContext: initialization completed in 4935 ms
+2022-11-10 15:27:29,376  INFO [org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping] Adding welcome page: class path resource [static/index.html]
+2022-11-10 15:27:30,520  INFO [org.apache.coyote.http11.Http11NioProtocol] Starting ProtocolHandler ["http-nio-8080"]
+2022-11-10 15:27:30,599  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-10 15:27:30,623  INFO [com.gamecommunityserver.GamecommunityserverApplication] Started GamecommunityserverApplication in 9.522 seconds (JVM running for 11.788)
+2022-11-10 15:27:32,075  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-10 15:27:32,075  INFO [org.springframework.web.servlet.DispatcherServlet] Initializing Servlet 'dispatcherServlet'
+2022-11-10 15:27:32,078  INFO [org.springframework.web.servlet.DispatcherServlet] Completed initialization in 2 ms
+2022-11-10 15:27:32,644  WARN [org.apache.catalina.util.SessionIdGeneratorBase] Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [232] milliseconds.
+2022-11-10 15:27:32,668  WARN [com.gamecommunityserver.controller.UserController] test
+2022-11-10 15:27:32,723  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Starting...
+2022-11-10 15:27:33,502  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Start completed.
+2022-11-10 15:27:33,538 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==>  Preparing: SELECT userNumber, id, admin FROM user WHERE id = ? and password = ? and userSecession = 0
+2022-11-10 15:27:33,602 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] ==> Parameters: test3(String), 9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08(String)
+2022-11-10 15:27:33,692 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==    Columns: userNumber, id, admin
+2022-11-10 15:27:33,693 TRACE [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==        Row: 4, test3, 1
+2022-11-10 15:27:33,698 DEBUG [com.gamecommunityserver.mapper.UserInfoMapper.passwordCheck] <==      Total: 1
+2022-11-10 15:28:00,640  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown initiated...
+2022-11-10 15:28:00,663  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Shutdown completed.

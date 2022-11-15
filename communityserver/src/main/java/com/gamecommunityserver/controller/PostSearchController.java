@@ -19,7 +19,7 @@ public class PostSearchController {
 
     @GetMapping
     public List<PostDTO> search(@RequestBody PostDTO postDTO) {
-        List<PostDTO> postDTOList = postSearchService.getSearchPost(postDTO);
+        List<PostDTO> postDTOList = postSearchService.resultSearchPost(postDTO);
         return postDTOList;
     }
 }

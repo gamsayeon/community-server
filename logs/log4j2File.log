@@ -1,0 +1,2 @@
+2022-11-15 22:04:57,574 [main] INFO  com.gamecommunityserver.GamecommunityserverApplication(logStarting:55) - Starting GamecommunityserverApplication using Java 11.0.12 on DESKTOP-I10KCBE with PID 1088 (C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server)
+2022-11-15 22:04:57,610 [main] INFO  com.gamecommunityserver.GamecommunityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
