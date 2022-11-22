@@ -1,0 +1,4 @@
+2022-11-15 22:12:01,340 [http-nio-8080-exec-9] DEBUG com.gamecommunityserver.controller.UserController(userLogin:64) - test
+2022-11-15 22:12:01,834 [http-nio-8080-exec-9] DEBUG com.gamecommunityserver.controller.UserController(userLogin:75) - login success
+2022-11-15 22:12:01,836 [http-nio-8080-exec-9] DEBUG com.gamecommunityserver.controller.UserController(userLogin:76) - 4
+2022-11-15 22:12:01,838 [http-nio-8080-exec-9] DEBUG com.gamecommunityserver.controller.UserController(userLogin:77) - test3

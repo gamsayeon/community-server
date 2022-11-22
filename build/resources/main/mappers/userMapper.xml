@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.communityserver.mapper.UserInfoMapper">
+
+    <insert id="register" parameterType="com.communityserver.dto.UserDTO">
+        INSERT INTO user (userNumber, id, password, name, admin, createTime, userSecession)
+        VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
+    </insert>
+
+    <select id="idCheck" resultType="int">
+        SELECT COUNT(id)
+        FROM user
+        WHERE id = #{id} and userSecession = 0
+    </select>
+
+    <select id="passwordCheck" resultType="com.communityserver.dto.UserDTO">
+        SELECT userNumber, id, admin
+        FROM user
+        WHERE id = #{id} and password = #{password} and userSecession = 0
+    </select>
+
+    <select id = "selectUser" resultType = "com.communityserver.dto.UserDTO">
+        SELECT userNumber, id, name, admin, createTime, userSecession
+        FROM user
+        WHERE userNumber = #{userNumber}
+    </select>
+
+    <select id="deleteUser">
+        UPDATE user
+        SET userSecession = 1
+        WHERE userNumber = #{userNumber}
+    </select>
+
+    <select id="adminUserCheck" resultType = "int">
+        SELECT count(userNumber)
+        FROM user
+        WHERE userNumber = #{userNumber}
+        and admin = 1
+    </select>
+
+</mapper>

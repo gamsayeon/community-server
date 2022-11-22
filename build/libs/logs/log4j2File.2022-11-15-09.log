@@ -1,0 +1,7 @@
+2022-11-15 21:35:32,681 [main] INFO  com.gamecommunityserver.GamecommunityserverApplication(logStarting:55) - Starting GamecommunityserverApplication using Java 17.0.5 on DESKTOP-I10KCBE with PID 15584 (C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\build\libs\gamecommunityserver-0.0.1-SNAPSHOT.jar started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\game-community-server\communityserver\build\libs)
+2022-11-15 21:35:32,689 [main] INFO  com.gamecommunityserver.GamecommunityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2022-11-15 21:35:38,614 [main] INFO  com.gamecommunityserver.GamecommunityserverApplication(logStarted:61) - Started GamecommunityserverApplication in 6.432 seconds (JVM running for 7.991)
+2022-11-15 21:36:28,552 [http-nio-8080-exec-5] DEBUG com.gamecommunityserver.controller.UserController(userLogin:64) - test
+2022-11-15 21:36:28,573 [http-nio-8080-exec-5] DEBUG com.gamecommunityserver.controller.UserController(userLogin:75) - login success
+2022-11-15 21:36:28,574 [http-nio-8080-exec-5] DEBUG com.gamecommunityserver.controller.UserController(userLogin:76) - 4
+2022-11-15 21:36:28,575 [http-nio-8080-exec-5] DEBUG com.gamecommunityserver.controller.UserController(userLogin:77) - test3
