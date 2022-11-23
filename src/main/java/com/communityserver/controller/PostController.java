@@ -3,8 +3,10 @@ package com.communityserver.controller;
 import com.communityserver.aop.LoginCheck;
 import com.communityserver.dto.CommentsDTO;
 import com.communityserver.dto.PostDTO;
+import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.PostAccessDeniedException;
 import com.communityserver.service.impl.PostServiceImpl;
+import com.communityserver.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,9 +17,11 @@ public class PostController {
 
     private final int AccessPermission = 1;
     private final PostServiceImpl postService;
+    private final UserServiceImpl userService;
 
-    public PostController(PostServiceImpl postService){
+    public PostController(PostServiceImpl postService,UserServiceImpl userService){
         this.postService = postService;
+        this.userService = userService;
     }
 
     @PostMapping("/add")
@@ -48,20 +52,19 @@ public class PostController {
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
     @PutMapping("/{postNumber}")
-    public void addPostComments(Integer loginUserNumber, @PathVariable int postNumber, @RequestBody CommentsDTO commentsDTO){
+    public PostDTO addPostComments(Integer loginUserNumber, @PathVariable int postNumber, @RequestBody CommentsDTO commentsDTO){
+        commentsDTO.setPostNumber(postNumber);
+        UserDTO userDTO = userService.selectUser(loginUserNumber);
+        commentsDTO.setUserId(userDTO.getId());
         postService.addComments(postNumber, commentsDTO);
-        PostDTO postMetaData = postService.selectPost(postNumber);
-        System.out.println(postMetaData.getCategoryNumber());
-        System.out.println(postMetaData.getPostName());
-        System.out.println(postMetaData.getUserNumber());
-        System.out.println(postMetaData.getContents());
+        return postService.selectPost(postNumber);
     }
 
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
     @DeleteMapping("/{postNumber}")
     public void deletePost(Integer userNumber, @PathVariable int postNumber){
-        //postService.deleteFile(postNumber);
+        postService.deleteFile(postNumber);
         postService.deletePost(postNumber, userNumber);
     }
 }

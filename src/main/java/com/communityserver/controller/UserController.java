@@ -62,7 +62,6 @@ public class UserController {
      */
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
-        logger.debug("test");
         if (UserDTO.hasNullLogin(userDTO))
             throw new NullPointerException("Login 정보를 입력해주세요");
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
