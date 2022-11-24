@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan(basePackages = "com.communityserver")
 public class MySQLConfig {
+
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
