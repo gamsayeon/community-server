@@ -5,7 +5,7 @@
 
 <mapper namespace="com.communityserver.mapper.PostSearchMapper">
 
-    <select id="getSearchPost" resultType="com.communityserver.dto.PostDTO">
+    <select id="resultSearchPost" resultType="com.communityserver.dto.PostDTO">
         SELECT postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views
         FROM post
         WHERE categoryNumber = #{categoryNumber}

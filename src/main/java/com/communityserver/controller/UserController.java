@@ -97,4 +97,11 @@ public class UserController {
             throw new MatchingLoginFailException("id를 다시 확인해주세요!");
         logger.debug("login delete success");
     }
+
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
+    @PutMapping("logout")
+    public void logout(Integer loginUserNumber, HttpSession session){
+        SessionUtils.clear(session);
+    }
 }
