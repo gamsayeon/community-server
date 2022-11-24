@@ -29,6 +29,7 @@ public class PostControllerTest {
     private final int testUserFailNumber = 9999;
     private final int testUserNumber = 1;
     private final int testAdminPost = 0;
+
     public PostDTO generateTestPost(){
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         PostDTO postDTO = new PostDTO();
