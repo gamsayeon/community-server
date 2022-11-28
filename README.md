@@ -30,6 +30,8 @@
 ![로그인](https://user-images.githubusercontent.com/75170367/204235305-936f5b49-21fe-4ac3-b9f0-575930854315.jpg)
 
 ## 로그아웃
+![로그아웃](https://user-images.githubusercontent.com/75170367/204237601-95382866-4126-40f8-97d9-2a7b39d1893d.jpg)
+
 ## 회원 탈퇴
 ![회원탈퇴](https://user-images.githubusercontent.com/75170367/204236233-d5d5ca4c-f51f-4ab1-b0d9-adc093171999.jpg)
 
