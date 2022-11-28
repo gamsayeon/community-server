@@ -22,20 +22,24 @@
 - 댓글 기능
 
 # ERD(Entity Relationship Diagram)
-![image](https://user-images.githubusercontent.com/75170367/204200258-d8dee1a5-0c2b-4ee4-96cd-bdc784794efd.png)
+<details><summary>ERD</summary>
+<img width="704" alt="ERD" src="https://user-images.githubusercontent.com/75170367/204240631-3f477b7a-0c12-4caa-b515-3c4f66bfb3a7.png">
+</details>
 
 # 시퀀스
+<details><summary>Sequence Diagram</summary>
+
 ## 회원가입
-![회원가입](https://user-images.githubusercontent.com/75170367/204234559-e1d44c2c-9d02-404e-9665-d846d8726264.jpg)
+![회원가입](https://user-images.githubusercontent.com/75170367/204241015-42fee152-2938-4e7c-8014-8f7664cd955a.jpg)
 
 ## 로그인
-![로그인](https://user-images.githubusercontent.com/75170367/204235305-936f5b49-21fe-4ac3-b9f0-575930854315.jpg)
+![로그인](https://user-images.githubusercontent.com/75170367/204241296-ab0a5f18-053f-41ca-aebe-4011c6830d72.jpg)
 
 ## 로그아웃
-![로그아웃](https://user-images.githubusercontent.com/75170367/204237601-95382866-4126-40f8-97d9-2a7b39d1893d.jpg)
+![로그아웃](https://user-images.githubusercontent.com/75170367/204241327-56cb2cb7-547a-4ef7-a56c-5f9c09c066aa.jpg)
 
-## 회원 탈퇴
-![회원탈퇴](https://user-images.githubusercontent.com/75170367/204236233-d5d5ca4c-f51f-4ab1-b0d9-adc093171999.jpg)
+## 회원탈퇴
+![회원탈퇴](https://user-images.githubusercontent.com/75170367/204241275-5d721efc-4e07-4ce9-b212-133ce3234f9e.jpg)
 
 ## 카테고리 추가
 ## 카테고리 삭제
@@ -46,3 +50,4 @@
 ## 공지 게시글 추가
 ## 게시글 검색
 ## 댓글 기능
+</details>
