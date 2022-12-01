@@ -1,13 +1,12 @@
 ---
 # community-server
-커뮤니티 서비스의 벡엔드 서버
-
+inven 과 같은 커뮤니티 서비스의 벡엔드 서버
+- 참고 : https://www.inven.co.kr/
 ---
 # 목적
 - 대용량 트레픽을 고려한 어플리케이션
 - 객체지향적으로 접근하여 유지보수할때 클린 코드구현을 목적
 - 단위테스트를 통한 검증가능한 코드
-- 참고 : https://lolchess.gg/board/tft/listhttps://lol.inven.co.kr/
 
 ---
 # 기획
