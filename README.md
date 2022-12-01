@@ -1,7 +1,7 @@
 # community-server
 inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 - 참고 : https://www.inven.co.kr/
-- 
+
 ---
 # 목적
 - 대용량 트레픽을 고려한 어플리케이션
