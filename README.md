@@ -9,6 +9,10 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 - 단위테스트를 통한 검증가능한 코드
 
 ---
+# 사용기술
+- JAVA8, Spring Boot, MyBatis, MySQL, Redis
+
+---
 # 기획
 - 커뮤니티 사이트를 구현함으로써 자유롭게 소통하는 및 정보 공유 사이트를 목표로 구현
 - ****https://ovenapp.io/view/Pv1HR7ajNN47W6qWgKHjIro334XPQvBj/****
@@ -28,15 +32,10 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
   - 작성 유정 아이디, 게시글 제목, 게시글 내용 등을 통해 검색
 - 댓글 기능
 
----
-# 사용기술
-- JAVA8, Spring Boot, MyBatis, MySQL, Redis
 
 ---
 # ERD(Entity Relationship Diagram)
-<details><summary>ERD</summary>
-<img width="704" alt="ERD" src="https://user-images.githubusercontent.com/75170367/204240631-3f477b7a-0c12-4caa-b515-3c4f66bfb3a7.png">
-</details>
+<img width="704" alt="ERD" src="https://user-images.githubusercontent.com/75170367/205051107-97f36259-f782-423d-a3cc-ca9ca6985b7b.png">
 
 ---
 # 시퀀스
