@@ -1,6 +1,6 @@
 # community-server
 inven 과 같은 커뮤니티 서비스의 벡엔드 서버
-- 참고 : https://www.inven.co.kr/
+- 참고 : https://lolchess.gg/board/tft/list
 
 ---
 # 목적
