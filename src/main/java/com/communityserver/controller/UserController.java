@@ -62,11 +62,15 @@ public class UserController {
      */
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
-        if (UserDTO.hasNullLogin(userDTO))
+        if (UserDTO.hasNullLogin(userDTO)) {
+            logger.warn("Login 정보를 입력해주세여");
             throw new NullPointerException("Login 정보를 입력해주세요");
+        }
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
-        if(userinfo == null)
+        if(userinfo == null) {
+            logger.warn("회원 정보가 없습니다.");
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
+        }
         if(userinfo.getAdmin() == 0)
             SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
         else
@@ -83,8 +87,10 @@ public class UserController {
         if(userNumber == loginUserNumber) {
             return userService.selectUser(userNumber);
         }
-        else
+        else {
+            logger.warn("회원정보가 없습니다.");
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
+        }
     }
 
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
@@ -93,8 +99,10 @@ public class UserController {
     public void deleteUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
         if(loginUserNumber == userNumber)
             userService.deleteUser(userNumber);
-        else
+        else {
+            logger.warn("id를 다시 확인해주세여!");
             throw new MatchingLoginFailException("id를 다시 확인해주세요!");
+        }
         logger.debug("login delete success");
     }
 
