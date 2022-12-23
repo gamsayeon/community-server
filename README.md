@@ -41,6 +41,9 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 # 시퀀스
 <details><summary>Sequence Diagram</summary>
 
+## 게시글 검색
+![검색API](https://user-images.githubusercontent.com/75170367/209310738-cfe2ea0d-358e-41b6-baab-7e125b44788a.png)
+
 ## 회원가입
 ![회원가입](https://user-images.githubusercontent.com/75170367/204241015-42fee152-2938-4e7c-8014-8f7664cd955a.jpg)
 
@@ -60,6 +63,5 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 ## 게시글 수정
 ## 게시글 조회
 ## 공지 게시글 추가
-## 게시글 검색
 ## 댓글 기능 -->
 </details>
