@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * TODO: RestController 역할
@@ -49,11 +50,10 @@ public class UserController {
     @PostMapping("/signup")
     public void signUp(@Valid @RequestBody UserDTO userDTO) {
         if (UserDTO.hasNullValueUserInfo(userDTO)) {
-            logger.warn("회원 정보를 확인해주세여");
             throw new DuplicateIdException("필수 회원정보를 모두 입력해야 합니다.");
         }
         userService.register(userDTO);
-        logger.info("success");
+        logger.debug("signup success");
     }
 
     /**
@@ -63,22 +63,26 @@ public class UserController {
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
         if (UserDTO.hasNullLogin(userDTO)) {
-            logger.warn("Login 정보를 입력해주세여");
             throw new NullPointerException("Login 정보를 입력해주세요");
         }
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
-        if(userinfo == null) {
-            logger.warn("회원 정보가 없습니다.");
+        if(userinfo.getId() == null) {
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
         }
-        if(userinfo.getAdmin() == 0)
+        if(userinfo.getAdmin() == 0) {
             SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
-        else
+            Date date = new Date();
+            logger.debug(date + "\tuser Login success" +
+                    "\tuserNumber : " + userinfo.getUserNumber() +
+                    "\tuserId : " + userinfo.getId());
+        }
+        else{
             SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
-
-        logger.debug("login success");
-        logger.debug(userinfo.getUserNumber());
-        logger.debug(userinfo.getId());
+            Date date = new Date();
+            logger.debug(date + "\tadmin Login success" +
+                    "\tuserNumber : " + userinfo.getUserNumber() +
+                    "\tuserId : " + userinfo.getId());
+        }
     }
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
@@ -88,7 +92,6 @@ public class UserController {
             return userService.selectUser(userNumber);
         }
         else {
-            logger.warn("회원정보가 없습니다.");
             throw new MatchingLoginFailException("회원 정보가 없습니다.");
         }
     }
@@ -100,7 +103,6 @@ public class UserController {
         if(loginUserNumber == userNumber)
             userService.deleteUser(userNumber);
         else {
-            logger.warn("id를 다시 확인해주세여!");
             throw new MatchingLoginFailException("id를 다시 확인해주세요!");
         }
         logger.debug("login delete success");
@@ -111,5 +113,6 @@ public class UserController {
     @PutMapping("logout")
     public void logout(Integer loginUserNumber, HttpSession session){
         SessionUtils.clear(session);
+        logger.debug("logout success");
     }
 }

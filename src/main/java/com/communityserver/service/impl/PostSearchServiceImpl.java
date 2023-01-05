@@ -21,6 +21,7 @@ public class PostSearchServiceImpl implements PostSearchService {
     @Override
     public List<PostDTO> resultSearchPost(PostDTO postDTO){
         List<PostDTO> postDTOList = postSearchMapper.resultSearchPost(postDTO);
+
         return postDTOList;
     }
 }
