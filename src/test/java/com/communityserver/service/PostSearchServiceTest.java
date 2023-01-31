@@ -42,6 +42,7 @@ public class PostSearchServiceTest {
         postDTO.setContents("testContents");
         return postDTO;
     }
+
     public PostDTO generateTestPost(){
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         PostDTO postDTO = new PostDTO();
@@ -64,6 +65,7 @@ public class PostSearchServiceTest {
         postDTO.setFileDTOList(fileDTOList);
         return postDTO;
     }
+
     @Test
     @DisplayName("게시글 검색 테스트")
     public void searchPostTest(){
@@ -76,9 +78,11 @@ public class PostSearchServiceTest {
         given(postSearchMapper.resultSearchPost(postSearchDTO)).willReturn(postDTOList);
 
         List<PostDTO> postDTOListResult = postSearchMapper.resultSearchPost(postSearchDTO);
-        // 검색 후 게시글 내용 확인
-        // 1) postName 확인
-        // 2) contents 확인
+        /***
+         * 검색 후 게시글 내용 확인
+         * 1) postName 확인
+         * 2) contents 확인
+         */
 
         for(int i=0; i< postDTOListResult.size(); i++){
             assertEquals(postDTOListResult.get(i).getPostName(), postDTO.getPostName());

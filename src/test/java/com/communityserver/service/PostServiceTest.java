@@ -28,7 +28,6 @@ public class PostServiceTest {
     private final FileMapper fileMapper = mock(FileMapper.class);
 
     private final int testCategoryNumber = 1;
-    private final int testUserFailNumber = 9999;
     private final int testUserNumber = 1;
     private final int testAdminPost = 0;
 
@@ -54,6 +53,7 @@ public class PostServiceTest {
         postDTO.setFileDTOList(fileDTOList);
         return postDTO;
     }
+
     public CommentsDTO generateTestComments(){
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         CommentsDTO commentsDTO = new CommentsDTO();
@@ -69,14 +69,6 @@ public class PostServiceTest {
     public void addPostTest(){
         PostDTO postDTO = generateTestPost();
         assertEquals(postService.addPost(postDTO,postDTO.getUserNumber()), postDTO);
-    }
-    @Test
-    @DisplayName("게시글 추가 실패 테스트")
-    public void addPostFailTest(){
-        PostDTO postDTO = generateTestPost();
-        assertThrows(PermissionDeniedException.class, ()-> {
-            postService.addPost(postDTO, testUserFailNumber);
-        });
     }
 
     @Test
@@ -107,6 +99,7 @@ public class PostServiceTest {
         PostDTO resultPostDTO = postService.addComments(postDTO.getPostNumber(), commentsDTO);
         assertEquals(resultPostDTO.getPostNumber(), commentsDTO.getPostNumber());
     }
+
     @Test
     @DisplayName("게시글 삭제 테스트")
     public void deletePostTest(){

@@ -40,14 +40,15 @@ public class CategoryServiceTest {
     @DisplayName("카테고리 중복 테스트")
     public void duplicateCategoryTest(){
         CategoryDTO categoryDTO = generateTestCategory();
-        categoryService.categoryDuplicateCheck(categoryDTO.getCategoryName());
+        given(categoryMapper.categoryDuplicateCheck(categoryDTO.getCategoryName())).willReturn(1);
+        assertEquals(categoryService.categoryDuplicateCheck(categoryDTO.getCategoryName()), 1);
     }
     @Test
     @DisplayName("카테고리 삭제 테스트")
     public void deleteCategoryTest(){
         CategoryDTO categoryDTO = generateTestCategory();
-        given(categoryMapper.categoryNumberCheck(testCategoryNumber)).willReturn(1);
         categoryService.deleteCategoryNumber(testCategoryNumber);
-
+        given(categoryMapper.categoryNumberCheck(testCategoryNumber)).willReturn(0);
+        assertEquals(categoryService.categoryNumberCheck(testCategoryNumber), true);
     }
 }
