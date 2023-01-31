@@ -1,6 +1,6 @@
 package com.communityserver.aop;
 
-import com.communityserver.exception.MatchingLoginFailException;
+import com.communityserver.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,8 +17,31 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
-    @ExceptionHandler(MatchingLoginFailException.class)
-    public ResponseEntity<Object> handleNotContent() {
-        return new ResponseEntity<>("유저정보가 DB에 없음", HttpStatus.ALREADY_REPORTED);
+    @ExceptionHandler(NullPointerException.class)
+    private ResponseEntity<Object> handleNotContent(String msg, int code) {
+        return new ResponseEntity<>(msg, HttpStatus.resolve(code));
     }
+
+    @ExceptionHandler(MatchingUserFailException.class)
+    private ResponseEntity<Object> handleDuplicateId() {
+        return new ResponseEntity<>("회원 정보가 없습니다.", HttpStatus.resolve(421));
+    }
+
+    @ExceptionHandler(DuplicateCategoryException.class)
+    private ResponseEntity<Object> handleDuplicateCategory() {
+        return new ResponseEntity<>("중복된 카테고리입니다.", HttpStatus.resolve(422));
+    }
+    @ExceptionHandler(NotMatchCategoryIdException.class)
+    private ResponseEntity<Object> handleNotCategory() {
+        return new ResponseEntity<>("정확한 카테고리를 입력해주세요", HttpStatus.resolve(423));
+    }
+    @ExceptionHandler(PostAccessDeniedException.class)
+    private ResponseEntity<Object> handleNotAccess() {
+        return new ResponseEntity<>("권한 부족", HttpStatus.resolve(424));
+    }
+    @ExceptionHandler(PostNullException.class)
+    private ResponseEntity<Object> postNullException() {
+        return new ResponseEntity<>("권한 부족", HttpStatus.resolve(425));
+    }
+
 }

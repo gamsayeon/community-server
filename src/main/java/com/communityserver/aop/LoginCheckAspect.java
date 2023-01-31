@@ -48,7 +48,7 @@ public class LoginCheckAspect {
 
 
         if(userNumber == 0)
-            throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인한 id값을 확인해주세요"){};
+            throw new HttpStatusCodeException(HttpStatus.resolve(425), "로그인한 id값을 확인해주세요"){};
         Object[] modifiedArgs = proceedingJoinPoint.getArgs();
         if(proceedingJoinPoint.getArgs()!=null)
             modifiedArgs[index] = userNumber;

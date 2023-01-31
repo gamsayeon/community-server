@@ -2,8 +2,7 @@ package com.communityserver.controller;
 
 import com.communityserver.aop.LoginCheck;
 import com.communityserver.dto.UserDTO;
-import com.communityserver.exception.DuplicateIdException;
-import com.communityserver.exception.MatchingLoginFailException;
+import com.communityserver.exception.MatchingUserFailException;
 import com.communityserver.service.impl.UserServiceImpl;
 import com.communityserver.utils.SessionUtils;
 import lombok.extern.log4j.Log4j2;
@@ -50,10 +49,11 @@ public class UserController {
     @PostMapping("/signup")
     public void signUp(@Valid @RequestBody UserDTO userDTO) {
         if (UserDTO.hasNullValueUserInfo(userDTO)) {
-            throw new DuplicateIdException("필수 회원정보를 모두 입력해야 합니다.");
+            throw new NullPointerException("회원 정보를 확인해수제요");
         }
-        userService.register(userDTO);
-        logger.debug("signup success");
+        int resultUserNumber = userService.register(userDTO);
+        if(resultUserNumber> 0)
+            logger.debug("signup success");
     }
 
     /**
@@ -63,11 +63,11 @@ public class UserController {
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
         if (UserDTO.hasNullLogin(userDTO)) {
-            throw new NullPointerException("Login 정보를 입력해주세요");
+            throw new NullPointerException("회원 정보를 확인해주세요");
         }
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
         if(userinfo.getId() == null) {
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
         }
         if(userinfo.getAdmin() == 0) {
             SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
@@ -84,6 +84,7 @@ public class UserController {
                     "\tuserId : " + userinfo.getId());
         }
     }
+
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
     @GetMapping("/{userNumber}")
@@ -92,7 +93,7 @@ public class UserController {
             return userService.selectUser(userNumber);
         }
         else {
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
         }
     }
 
@@ -103,7 +104,7 @@ public class UserController {
         if(loginUserNumber == userNumber)
             userService.deleteUser(userNumber);
         else {
-            throw new MatchingLoginFailException("id를 다시 확인해주세요!");
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
         }
         logger.debug("login delete success");
     }

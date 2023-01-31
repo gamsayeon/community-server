@@ -25,10 +25,12 @@ public class CategoryController {
     @PutMapping("/add")
     public void categoryAdd(Integer loginUserNumber, @Valid @RequestBody CategoryDTO categoryDTO){
         if(categoryService.categoryDuplicateCheck(categoryDTO.getCategoryName()) != 0) {
-            throw new DuplicateCategoryException("있는 카테고리입니다.");
+            throw new DuplicateCategoryException("중복된 카테고리입니다.");
         }
         if(categoryService.addCategoryName(categoryDTO))
             logger.debug("category add success");
+        else
+            logger.debug("category add fail");
     }
     @LoginCheck(types = LoginCheck.UserType.ADMIN)
     @DeleteMapping("/{categoryNumber}")
@@ -37,6 +39,9 @@ public class CategoryController {
             throw new NotMatchCategoryIdException("정확한 카테고리를 입력해주세요");
         }
         categoryService.deleteCategoryNumber(categoryNumber);
-        logger.debug("category delete success");
+        if(categoryService.categoryNumberCheck(categoryNumber))
+            logger.debug("category delete success");
+        else
+            logger.debug("category delete fail");
     }
 }

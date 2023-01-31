@@ -5,7 +5,9 @@ import com.communityserver.dto.CommentsDTO;
 import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.dto.UserDTO;
+import com.communityserver.exception.MatchingUserFailException;
 import com.communityserver.exception.PostAccessDeniedException;
+import com.communityserver.exception.PostNullException;
 import com.communityserver.service.impl.PostServiceImpl;
 import com.communityserver.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +51,12 @@ public class PostController {
     @GetMapping("/{postNumber}")
     public PostDTO selectPost(@PathVariable int postNumber){
         PostDTO postMetaData = postService.selectPost(postNumber);
+        if(postMetaData != null)
+            logger.debug("post Select Success");
+        else
+            throw new PostNullException("찾는 게시글이 없습니다.");
         postService.addViews(postNumber);
+        logger.debug("add Views Success");
         return postMetaData;
     }
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
@@ -58,6 +65,10 @@ public class PostController {
     public PostDTO addPostComments(Integer loginUserNumber, @PathVariable int postNumber, @RequestBody CommentsDTO commentsDTO){
         commentsDTO.setPostNumber(postNumber);
         UserDTO userDTO = userService.selectUser(loginUserNumber);
+        if(userDTO != null)
+            logger.debug("Success Select User from Comment Add");
+        else
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
         commentsDTO.setUserId(userDTO.getId());
         postService.addComments(postNumber, commentsDTO);
         return postService.selectPost(postNumber);

@@ -32,19 +32,19 @@
         <!-- FATAL > ERROR > WARN > INFO > DEBUG > TRACE -->
         <!-- 기본 레벨은 debug -->
         <Root level="debug" additivity="false" >
-            <AppenderRef ref="file" />
+            <AppenderRef ref="console" />
+            <AppenderRef ref="error_file" level="error" />
         </Root>
 
         <!-- 스프링 프레임워크에서 찍는건 level을 info로 설정 -->
         <logger name="org.springframework" level="info" additivity="false" >
-            <AppenderRef ref="console" />
             <AppenderRef ref="file" />
         </logger>
 
         <!-- rolling file에는 debug, console에는 info 분리하여 처리 가능하다. -->
         <logger name="com.communityserver" additivity="false" >
-            <AppenderRef ref="console" level="info" />
-            <AppenderRef ref="file" level="debug" />
+            <AppenderRef ref="console" level="debug" />
+            <AppenderRef ref="file" level="info" />
             <AppenderRef ref="error_file" level="error" />
         </logger>
 
