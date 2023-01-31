@@ -4,34 +4,39 @@ import com.communityserver.dto.UserDTO;
 import com.communityserver.mapper.UserInfoMapper;
 import com.communityserver.service.impl.UserServiceImpl;
 import com.communityserver.utils.sha256Encrypt;
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
-@AutoConfigureMockMvc
+// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class UserServiceTest {
-    /**
-     * TODO:@InjectMocks
-     */
-
     @Autowired
     private UserServiceImpl userService;
+
+    @Mock
+    private UserInfoMapper userMapper;
 
 
 //    public UserServiceTest(UserServiceImpl userService){
 //        this.userService = userService;
 //    }
-    private final UserInfoMapper userMapper = mock(UserInfoMapper.class);
+    // private final UserInfoMapper userMapper = mock(UserInfoMapper.class);
 //    @InjectMocks
 //    private UserInfoMapper userMapper;
     // private final UserInfoMapper userMapper;
@@ -64,19 +69,21 @@ public class UserServiceTest {
         assertNotEquals(resultTestUserNumber, 0);
     }
 
+    /**
+     * Insert - 1 (여러개인 경우 1)
+     * Update - 업데이트 된 행의 개수 (없으면 0)
+     * Delete - 삭제 된 행의 개수 (없으면 0)
+     */
     @Test
     @DisplayName("유저 회원가입 실패 테스트 (1. 아이디 중복)")
     public void signUpFailTest() {
-        // 1. 아이디 중복 (예외가 커스텀 예외중 중복 아이디 예외가 발생하는지)
-        // signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
-        int userNumber = 0;
-        given(userService.register(userDTO)).willReturn(userNumber);
-        userNumber = userService.register(userDTO);
-        userDTO.setUserNumber(userNumber);
-        userService.register(userDTO);
-//        int resultTestUserNumber = emptyUserDTO.getUserNumber();
-//        assertEquals(resultTestUserNumber, 0);
+        try {
+            userService.register(userDTO);
+        } catch (Exception e) {
+            fail("Should not have thrown any exception");
+        }
+        // given(userService.register(userDTO)).willReturn(userNumber);
     }
 
     @Test
