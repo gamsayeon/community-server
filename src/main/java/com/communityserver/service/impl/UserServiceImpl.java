@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int register(UserDTO userDTO){
-        int resultUserNumber = 0;
         if(idOverlapCheck(userDTO.getId())) {
             throw new DuplicateIdException("중복된 ID 입니다.");
         }

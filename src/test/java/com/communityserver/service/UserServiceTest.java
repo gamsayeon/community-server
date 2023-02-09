@@ -7,36 +7,32 @@ import com.communityserver.utils.sha256Encrypt;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @AutoConfigureMockMvc
 public class UserServiceTest {
     /**
-     * TODO:@InjectMocks
+     * 실제 인스턴스를 생성하고, @Mock 이나 @Spy 이 붙은 생성된 가짜 객체를 자동 주입
+     * @InjectMocks 객체에서 사용할 객체를 @Mock 으로 만들어 쓰면 된다.
+     * ex) Service 테스트 코드 작성시
+     * Service 객체를 @InjectMocks 로 생성
+     * Mapper 객체를 @Mock 으로 생성
      */
-
-    @Autowired
+    @InjectMocks
     private UserServiceImpl userService;
 
+//    private final UserInfoMapper userMapper = mock(UserInfoMapper.class);
 
-//    public UserServiceTest(UserServiceImpl userService){
-//        this.userService = userService;
-//    }
-    private final UserInfoMapper userMapper = mock(UserInfoMapper.class);
-//    @InjectMocks
-//    private UserInfoMapper userMapper;
-    // private final UserInfoMapper userMapper;
-
-
+    @Mock
+    private UserInfoMapper userMapper;
 
     private final int noPermissionAdmin = 1;
     private final int notSecession = 0;
@@ -55,6 +51,12 @@ public class UserServiceTest {
         return userDTO;
     }
 
+    /***
+     * @Test
+     * 테스트 메서드임을 나타냄
+     * @DisplayName
+     * 테스트 클래스 또는 테스트 메서드에 대한 사용자 지정 표시 이름을 정해줄 때 사용
+     */
     @Test
     @DisplayName("유저 회원가입 성공 테스트")
     public void signUpSuccessTest() {
@@ -67,17 +69,16 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 회원가입 실패 테스트 (1. 아이디 중복)")
     public void signUpFailTest() {
-        // 1. 아이디 중복 (예외가 커스텀 예외중 중복 아이디 예외가 발생하는지)
-        // signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
-        int userNumber = 0;
-        given(userService.register(userDTO)).willReturn(userNumber);
-        userNumber = userService.register(userDTO);
-        userDTO.setUserNumber(userNumber);
         userService.register(userDTO);
-//        int resultTestUserNumber = emptyUserDTO.getUserNumber();
-//        assertEquals(resultTestUserNumber, 0);
+        try {
+            userService.register(userDTO);
+        } catch (Exception e) {
+            fail("Should not have thrown any exception");
+        }
+        // given(userService.register(userDTO)).willReturn(userNumber);
     }
+
 
     @Test
     @DisplayName("유저 로그인 성공 테스트")

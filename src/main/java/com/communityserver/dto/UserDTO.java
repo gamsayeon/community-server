@@ -36,9 +36,6 @@ public class UserDTO {
         this.userSecession = userSecession;
     }
 
-    /**
-     * TODO: 유효성 검사
-      */
     public static boolean hasNullValueUserInfo(@Valid UserDTO userDTO){
         return userDTO.getId() == null || userDTO.getPassword() == null || userDTO.getName() == null;
     }

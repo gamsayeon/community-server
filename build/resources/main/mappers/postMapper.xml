@@ -17,7 +17,7 @@
         and postNumber = #{postNumber}
     </select>
 
-    <select id="updatePost">
+    <select id="updatePost" parameterType="com.communityserver.dto.PostDTO">
         UPDATE post
         SET postName = #{postName},
         contents = #{contents}
@@ -28,6 +28,7 @@
         UPDATE post
         SET views = views + 1
         WHERE postNumber = #{postNumber}
+
     </update>
 
     <select id="selectPost" resultType = "com.communityserver.dto.PostDTO">
@@ -38,11 +39,11 @@
 
     <select id = "addComments" resultType = "com.communityserver.dto.PostDTO">
         INSERT comments
-        VALUES (#{postNumber}, #{contents}, #{userId}, #{createTime})
+        VALUES (#{commentsNumber}, #{postNumber}, #{contents}, #{userId}, now())
     </select>
 
     <delete id = "deletePost">
-        DELETE FROM POST
+        DELETE FROM post
         WHERE postNumber = #{postNumber}
         and userNumber = #{userNumber}
     </delete>
