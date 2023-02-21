@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 // @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceTest {
@@ -45,14 +45,14 @@ public class UserServiceTest {
 
     private final int noPermissionAdmin = 1;
     private final int notSecession = 0;
-    private final int testUserNumber = 1;
+    private final int testUserNumber = 9999;
 
     public UserDTO generateTestUser() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         UserDTO userDTO = new UserDTO();
         userDTO.setUserNumber(testUserNumber);
         userDTO.setId("textUserId");
-        userDTO.setPassword(sha256Encrypt.encrypt("testUserPassword"));
+        userDTO.setPassword("testUserPassword");
         userDTO.setName("testUserName");
         userDTO.setAdmin(noPermissionAdmin);
         userDTO.setCreateTime(new Date());
@@ -60,6 +60,12 @@ public class UserServiceTest {
         return userDTO;
     }
 
+    /**
+     * Insert - 1 (여러개인 경우 1)
+     * Update - 업데이트 된 행의 개수 (없으면 0)
+     * Delete - 삭제 된 행의 개수 (없으면 0)
+     */
+    @Transactional
     @Test
     @DisplayName("유저 회원가입 성공 테스트")
     public void signUpSuccessTest() {
@@ -69,31 +75,30 @@ public class UserServiceTest {
         assertNotEquals(resultTestUserNumber, 0);
     }
 
-    /**
-     * Insert - 1 (여러개인 경우 1)
-     * Update - 업데이트 된 행의 개수 (없으면 0)
-     * Delete - 삭제 된 행의 개수 (없으면 0)
-     */
+    @Transactional
     @Test
     @DisplayName("유저 회원가입 실패 테스트 (1. 아이디 중복)")
     public void signUpFailTest() {
         final UserDTO userDTO = generateTestUser();
         try {
+//            userService.register(userDTO);
             userService.register(userDTO);
         } catch (Exception e) {
             fail("Should not have thrown any exception");
         }
-        // given(userService.register(userDTO)).willReturn(userNumber);
     }
 
+    @Transactional
     @Test
     @DisplayName("유저 로그인 성공 테스트")
     public void loginUserSuccessTest() {
         UserDTO userDTO = generateTestUser();
-        given(userMapper.passwordCheck("testUserId", sha256Encrypt.encrypt("testUserPassword"))).willReturn(userDTO);
-        assertEquals(userService.LoginCheckPassword("testUserId", "testUserPassword"), userDTO);
+        signUpSuccessTest();
+        assertEquals(userService.LoginCheckPassword("textUserId", "testUserPassword").getUserNumber()
+                , userDTO.getUserNumber());
     }
 
+    @Transactional
     @Test
     @DisplayName("유저 로그인 실패 테스트")
     public void loginUserFailTest() {
@@ -103,18 +108,21 @@ public class UserServiceTest {
                 , notExistUser.getUserNumber());
     }
 
+    @Transactional
     @Test
     @DisplayName("유저 정보 확인 성공 테스트")
     public void selectUserSuccessTest() {
         UserDTO userDTO = generateTestUser();
-        given(userMapper.selectUser(testUserNumber)).willReturn(userDTO);
-        assertEquals(userService.selectUser(testUserNumber), userDTO);
+        signUpSuccessTest();
+        assertEquals(userService.selectUser(testUserNumber).getUserNumber(), userDTO.getUserNumber());
     }
 
+    @Transactional
     @Test
     @DisplayName("회원 탈퇴 성공 테스트")
     public void deleteUserSuccessTest() {
         UserDTO userDTO = generateTestUser();
+        signUpSuccessTest();
         userService.deleteUser(userDTO.getUserNumber());
         assertEquals(userService.selectUser(userDTO.getUserNumber()), null);
     }

@@ -5,9 +5,15 @@
 
 <mapper namespace="com.communityserver.mapper.UserInfoMapper">
 
-    <insert id="register" parameterType="com.communityserver.dto.UserDTO">
+    <insert id="register" parameterType="com.communityserver.dto.UserDTO" useGeneratedKeys="true">
         INSERT INTO user (userNumber, id, password, name, admin, createTime, userSecession)
         VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
+        <selectKey keyProperty ="userNumber"
+                   resultType ="int" order = "AFTER">
+            SELECT userNumber
+            FROM user
+            WHERE id = #{id}
+        </selectKey>
     </insert>
 
     <select id="idCheck" resultType="int">
