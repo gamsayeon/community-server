@@ -7,7 +7,6 @@ import com.communityserver.mapper.FileMapper;
 import com.communityserver.mapper.PostMapper;
 import com.communityserver.service.impl.PostServiceImpl;
 import org.junit.jupiter.api.DisplayName;
-//import org.junit.Test;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
