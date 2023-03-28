@@ -7,7 +7,7 @@
 
     <select id="resultSearchPost" resultType="com.communityserver.dto.PostDTO">
         SELECT postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views
-        FROM post
+        FROM posts
         <where>
             <if test = 'categoryNumber != null'>
                 and categoryNumber = #{categoryNumber}

@@ -72,14 +72,14 @@ public class PostServiceTest {
     @Test
     @DisplayName("게시글 추가 성공 테스트")
     public void addPostTest(){
-        PostDTO postDTO = generateTestPost();
+        final PostDTO postDTO = generateTestPost();
         assertEquals(postService.addPost(postDTO,postDTO.getUserNumber()), postDTO);
     }
 
     @Test
     @DisplayName("게시글 정보 확인 테스트")
     public void selectPostTest(){
-        PostDTO postDTO = generateTestPost();
+        final PostDTO postDTO = generateTestPost();
         postService.addPost(postDTO,postDTO.getUserNumber());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd a HH:mm");
         assertEquals(formatter.format(postService.selectPost(999999).getCreateTime()),
@@ -89,7 +89,7 @@ public class PostServiceTest {
     @Test
     @DisplayName("게시글 수정 테스트")
     public void updatePostTest(){
-        PostDTO postDTO = generateTestPost();
+        final PostDTO postDTO = generateTestPost();
         addPostTest();
         postDTO.setPostName("updatePostNameTest");
         postDTO.setContents("updatePostContentsTest");
@@ -100,7 +100,7 @@ public class PostServiceTest {
     @Test
     @DisplayName("게시글 댓글 추가 테스트")
     public void addCommentsTest(){
-        PostDTO postDTO = generateTestPost();
+        final PostDTO postDTO = generateTestPost();
         postService.addPost(postDTO,postDTO.getUserNumber());
         CommentsDTO commentsDTO = generateTestComments();
         PostDTO resultPostDTO = postService.addComments(postDTO.getPostNumber(), commentsDTO);
@@ -110,7 +110,7 @@ public class PostServiceTest {
     @Test
     @DisplayName("게시글 삭제 테스트")
     public void deletePostTest(){
-        PostDTO postDTO = generateTestPost();
+        final PostDTO postDTO = generateTestPost();
         postService.addPost(postDTO,postDTO.getUserNumber());
         postService.deletePost(postDTO.getPostNumber(), postDTO.getUserNumber());
         assertEquals(postService.selectPost(postDTO.getPostNumber()), null);
