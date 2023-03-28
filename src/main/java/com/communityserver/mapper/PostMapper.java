@@ -15,7 +15,7 @@ public interface PostMapper {
     int checkHasPermission(PostDTO postDTO);
     void updatePost(PostDTO postDTO);
     PostDTO selectPost(int postNumber);
-    List<RankPostDTO> rankingPost();
+    List<RankPostDTO> selectRankPost();
     void deleteAllRankPost();
     void updateRank();
     void addViews(int postNumber);

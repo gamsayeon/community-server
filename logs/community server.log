@@ -2630,3 +2630,81 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'testcommunityserver.post' do
 2023-03-28 16:22:34,862 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
 2023-03-28 16:22:35,696 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8080 (http) with context path ''
 2023-03-28 16:22:35,724 [main] INFO  com.communityserver.communityserverApplication(logStarted:61) - Started communityserverApplication in 7.669 seconds (JVM running for 9.51)
+2023-03-28 20:13:32,828 [main] INFO  com.communityserver.communityserverApplication(logStarting:55) - Starting communityserverApplication using Java 17.0.4.1 on DESKTOP-I10KCBE with PID 23320 (C:\Users\gamsayeon\IdeaProjects2\community-server\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\community-server)
+2023-03-28 20:13:32,834 [main] INFO  com.communityserver.communityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2023-03-28 20:13:34,705 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(multipleStoresDetected:262) - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-28 20:13:34,721 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:132) - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-28 20:13:34,825 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:201) - Finished Spring Data repository scanning in 50 ms. Found 0 Redis repository interfaces.
+2023-03-28 20:13:36,858 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8080 (http)
+2023-03-28 20:13:37,078 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:292) - Root WebApplicationContext: initialization completed in 4142 ms
+2023-03-28 20:13:40,027 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
+2023-03-28 20:13:40,822 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-28 20:13:40,849 [main] INFO  com.communityserver.communityserverApplication(logStarted:61) - Started communityserverApplication in 8.918 seconds (JVM running for 14.703)
+2023-03-28 20:14:04,484 [main] INFO  com.communityserver.communityserverApplication(logStarting:55) - Starting communityserverApplication using Java 17.0.4.1 on DESKTOP-I10KCBE with PID 21116 (C:\Users\gamsayeon\IdeaProjects2\community-server\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\community-server)
+2023-03-28 20:14:04,507 [main] INFO  com.communityserver.communityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2023-03-28 20:14:07,055 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(multipleStoresDetected:262) - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-28 20:14:07,062 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:132) - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-28 20:14:07,196 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:201) - Finished Spring Data repository scanning in 74 ms. Found 0 Redis repository interfaces.
+2023-03-28 20:14:10,410 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8080 (http)
+2023-03-28 20:14:10,727 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:292) - Root WebApplicationContext: initialization completed in 6064 ms
+2023-03-28 20:14:13,309 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
+2023-03-28 20:14:14,445 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-28 20:14:14,478 [main] INFO  com.communityserver.communityserverApplication(logStarted:61) - Started communityserverApplication in 11.232 seconds (JVM running for 13.816)
+2023-03-28 20:15:29,241 [main] INFO  com.communityserver.communityserverApplication(logStarting:55) - Starting communityserverApplication using Java 17.0.4.1 on DESKTOP-I10KCBE with PID 7772 (C:\Users\gamsayeon\IdeaProjects2\community-server\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\community-server)
+2023-03-28 20:15:29,247 [main] INFO  com.communityserver.communityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2023-03-28 20:15:30,780 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(multipleStoresDetected:262) - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-28 20:15:30,786 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:132) - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-28 20:15:30,832 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:201) - Finished Spring Data repository scanning in 22 ms. Found 0 Redis repository interfaces.
+2023-03-28 20:15:32,818 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8080 (http)
+2023-03-28 20:15:33,138 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:292) - Root WebApplicationContext: initialization completed in 3823 ms
+2023-03-28 20:15:35,953 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
+2023-03-28 20:15:37,607 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-28 20:15:37,639 [main] INFO  com.communityserver.communityserverApplication(logStarted:61) - Started communityserverApplication in 9.061 seconds (JVM running for 10.414)
+2023-03-28 20:16:05,588 [main] INFO  com.communityserver.communityserverApplication(logStarting:55) - Starting communityserverApplication using Java 17.0.4.1 on DESKTOP-I10KCBE with PID 7292 (C:\Users\gamsayeon\IdeaProjects2\community-server\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\community-server)
+2023-03-28 20:16:05,596 [main] INFO  com.communityserver.communityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2023-03-28 20:16:08,689 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(multipleStoresDetected:262) - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-28 20:16:08,700 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:132) - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-28 20:16:08,839 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:201) - Finished Spring Data repository scanning in 62 ms. Found 0 Redis repository interfaces.
+2023-03-28 20:16:13,719 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8080 (http)
+2023-03-28 20:16:14,308 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:292) - Root WebApplicationContext: initialization completed in 8554 ms
+2023-03-28 20:16:18,812 [main] INFO  com.communityserver.communityserverApplication(logStarting:55) - Starting communityserverApplication using Java 17.0.4.1 on DESKTOP-I10KCBE with PID 15620 (C:\Users\gamsayeon\IdeaProjects2\community-server\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\community-server)
+2023-03-28 20:16:18,837 [main] INFO  com.communityserver.communityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2023-03-28 20:16:19,741 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
+2023-03-28 20:16:22,120 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-28 20:16:22,153 [main] INFO  com.communityserver.communityserverApplication(logStarted:61) - Started communityserverApplication in 17.214 seconds (JVM running for 18.665)
+2023-03-28 20:16:23,602 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(multipleStoresDetected:262) - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-28 20:16:23,617 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:132) - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-28 20:16:23,774 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:201) - Finished Spring Data repository scanning in 69 ms. Found 0 Redis repository interfaces.
+2023-03-28 20:16:27,222 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8080 (http)
+2023-03-28 20:16:27,579 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:292) - Root WebApplicationContext: initialization completed in 7816 ms
+2023-03-28 20:16:30,321 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
+2023-03-28 20:16:31,202 [main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext(refresh:591) - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8080 is already in use
+2023-03-28 20:16:31,400 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener(logMessage:136) - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-03-28 20:16:31,489 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter(report:40) - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2023-03-28 20:16:41,365 [main] INFO  com.communityserver.communityserverApplication(logStarting:55) - Starting communityserverApplication using Java 17.0.4.1 on DESKTOP-I10KCBE with PID 5284 (C:\Users\gamsayeon\IdeaProjects2\community-server\out\production\classes started by gamsayeon in C:\Users\gamsayeon\IdeaProjects2\community-server)
+2023-03-28 20:16:41,375 [main] INFO  com.communityserver.communityserverApplication(logStartupProfileInfo:640) - The following 1 profile is active: "prod"
+2023-03-28 20:16:43,223 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(multipleStoresDetected:262) - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-28 20:16:43,239 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:132) - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-28 20:16:43,320 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate(registerRepositoriesIn:201) - Finished Spring Data repository scanning in 44 ms. Found 0 Redis repository interfaces.
+2023-03-28 20:16:45,394 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(initialize:108) - Tomcat initialized with port(s): 8080 (http)
+2023-03-28 20:16:45,724 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext(prepareWebApplicationContext:292) - Root WebApplicationContext: initialization completed in 4145 ms
+2023-03-28 20:16:48,194 [main] INFO  org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping(<init>:53) - Adding welcome page: class path resource [static/index.html]
+2023-03-28 20:16:49,144 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer(start:220) - Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-28 20:16:49,181 [main] INFO  com.communityserver.communityserverApplication(logStarted:61) - Started communityserverApplication in 8.668 seconds (JVM running for 11.498)
+2023-03-28 20:17:18,423 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet(initServletBean:525) - Initializing Servlet 'dispatcherServlet'
+2023-03-28 20:17:18,427 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet(initServletBean:547) - Completed initialization in 4 ms

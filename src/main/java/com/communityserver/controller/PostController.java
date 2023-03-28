@@ -59,14 +59,15 @@ public class PostController {
         logger.debug("add Views Success");
         return postMetaData;
     }
-    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(fixedRate = 100000)
     public void updateRank(){
         postService.deleteAllRankPost();
         postService.updateRank();
     }
     @GetMapping("/rank")
     public List<RankPostDTO> rankingPost(){
-        List<RankPostDTO> rankingPostDTOList = postService.rankingPost();
+        List<RankPostDTO> rankingPostDTOList = postService.selectRankPost();
         if(rankingPostDTOList != null)
             logger.debug("post ranking Success");
         else

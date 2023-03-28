@@ -37,11 +37,9 @@
         WHERE postNumber = #{postNumber}
     </select>
 
-    <select id="rankingPost" resultType="com.communityserver.dto.RankPostDTO">
+    <select id="selectRankPost" resultType="com.communityserver.dto.RankPostDTO">
         SELECT rankId, postNumber, views, suggestionCount, createTime
         FROM rank_posts
-        ORDER BY suggestionCount DESC, views DESC, createTime asc
-        LIMIT 10
     </select>
 
     <delete id="deleteAllRankPost">
@@ -52,6 +50,8 @@
         INSERT INTO rank_posts (postNumber, views, suggestionCount, createTime)
         SELECT postNumber, views, suggestionCount, createTime
         FROM posts
+        ORDER BY suggestionCount DESC, views DESC, createTime desc
+        LIMIT 10
     </update>
 
     <select id = "addComments" resultType = "com.communityserver.dto.PostDTO">

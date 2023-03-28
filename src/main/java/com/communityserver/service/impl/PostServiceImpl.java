@@ -66,8 +66,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<RankPostDTO> rankingPost(){
-        return postMapper.rankingPost();
+    public List<RankPostDTO> selectRankPost(){
+        return postMapper.selectRankPost();
     }
     public void deleteAllRankPost(){
         postMapper.deleteAllRankPost();
