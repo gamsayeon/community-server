@@ -58,4 +58,5 @@ public class CategoryServiceTest {
         categoryService.deleteCategoryNumber(TEST_CATEGORY_NUMBER);
         assertEquals(categoryService.categoryNumberCheck(TEST_CATEGORY_NUMBER), true);
     }
+
 }
