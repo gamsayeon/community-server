@@ -19,8 +19,8 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
 
-    private final int AdminPost = 1;
-    private final int DeniedPermission = 0;
+    private final int ADMIN_POST = 1;
+    private final int DENIED_PERMISSION = 0;
     private final PostMapper postMapper;
     private final UserInfoMapper userMapper;
     private final FileMapper fileMapper;
@@ -33,11 +33,11 @@ public class PostServiceImpl implements PostService {
     @CacheEvict(value = "post", allEntries = true)
     @Override
     public PostDTO addPost(PostDTO postDTO, int userNumber){
-        if(postDTO.getAdminPost() == AdminPost && userMapper.adminUserCheck(userNumber) == DeniedPermission)
+        if(postDTO.getAdminPost() == ADMIN_POST && userMapper.adminUserCheck(userNumber) == DENIED_PERMISSION)
             throw new PermissionDeniedException("권한 부족");
         postDTO.setUserNumber(userNumber);
         postDTO.setCreateTime(new Date());
-        if(postMapper.addPost(postDTO) == 1) {
+        if(postMapper.addPost(postDTO) != 0) {
             int postNumber = postDTO.getPostNumber();
             List<FileDTO> fileDTOList = postDTO.getFileDTOList();
             for (int i = 0; i < fileDTOList.size(); i++) {
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
                 fileMapper.addFile(fileDTO);
             }
         }
-        return postDTO;
+        return postMapper.selectPost(postDTO.getPostNumber());
     }
     @Override
     public int checkHasPermission(PostDTO postDTO){
@@ -61,8 +61,7 @@ public class PostServiceImpl implements PostService {
     @Cacheable(value = "post", key = "#postNumber", unless="#result == null")
     @Override
     public PostDTO selectPost(int postNumber){
-        PostDTO postMetaData = postMapper.selectPost(postNumber);
-        return postMetaData;
+        return postMapper.selectPost(postNumber);
     }
 
     @Override
@@ -80,10 +79,10 @@ public class PostServiceImpl implements PostService {
         postMapper.addViews(postNumber);
     }
     @Override
-    public PostDTO addComments(int postNumber, CommentsDTO commentsDTO){
+    public CommentsDTO addComments(int postNumber, CommentsDTO commentsDTO){
         commentsDTO.setPostNumber(postNumber);
         postMapper.addComments(commentsDTO);
-        return postMapper.selectPost(postNumber);
+        return postMapper.selectComment(commentsDTO.getCommentsNumber());
     }
     @CacheEvict(value = "post", key = "#postNumber")
     @Override

@@ -25,4 +25,8 @@ public class RankPostDTO {
         this.suggestionCount = suggestionCount;
         this.createTime = createTime;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
