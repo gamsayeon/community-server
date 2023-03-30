@@ -36,27 +36,27 @@ public class PostSearchServiceTest {
     private PostMapper postMapper;
     @Mock
     private FileMapper fileMapper;
-    private final int TEST_CATEGORY_NUMBER = 1;
-    private final int TEST_USER_NUMBER = 1;
-    private final int TEST_ADMIN_POST = 0;
+    private final int testCategoryNumber = 1;
+    private final int testUserNumber = 1;
+    private final int testAdminPost = 0;
 
-    public PostDTO generateTestPostSearch() {
+    public PostDTO generateTestPostSearch(){
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         PostDTO postDTO = new PostDTO();
-        postDTO.setCategoryNumber(TEST_CATEGORY_NUMBER);
-        postDTO.setUserNumber(TEST_USER_NUMBER);
+        postDTO.setCategoryNumber(testCategoryNumber);
+        postDTO.setUserNumber(testUserNumber);
         postDTO.setPostName("testPostName");
         postDTO.setContents("testContents");
         return postDTO;
     }
 
-    public PostDTO generateTestPost() {
+    public PostDTO generateTestPost(){
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         PostDTO postDTO = new PostDTO();
-        postDTO.setCategoryNumber(TEST_CATEGORY_NUMBER);
-        postDTO.setUserNumber(TEST_USER_NUMBER);
+        postDTO.setCategoryNumber(testCategoryNumber);
+        postDTO.setUserNumber(testUserNumber);
         postDTO.setPostName("testPostName");
-        postDTO.setAdminPost(TEST_ADMIN_POST);
+        postDTO.setAdminPost(testAdminPost);
         postDTO.setContents("testContents");
         postDTO.setCreateTime(new Date());
         postDTO.setSuggestionCount(0);
@@ -75,16 +75,25 @@ public class PostSearchServiceTest {
 
     @Test
     @DisplayName("게시글 검색 테스트")
-    public void searchPostTest() {
-        final PostDTO postSearchDTO = generateTestPostSearch();
-        final PostDTO postDTO = generateTestPost();
-        List<PostDTO> postDTOList = new ArrayList<PostDTO>() {{
+    public void searchPostTest(){
+        PostDTO postSearchDTO = generateTestPostSearch();
+        PostDTO postDTO = generateTestPost();
+        List<PostDTO> postDTOList = new ArrayList<PostDTO>(){{
             add(postDTO);
         }};
+
+        given(postSearchMapper.resultSearchPost(postSearchDTO)).willReturn(postDTOList);
+
         List<PostDTO> postDTOListResult = postSearchMapper.resultSearchPost(postSearchDTO);
-        for (int i = 0; i < postDTOListResult.size(); i++) {
-            assertEquals(postDTOListResult.get(i).getPostName(), postDTOList.get(i).getPostName());
-            assertEquals(postDTOListResult.get(i).getContents(), postDTOList.get(i).getContents());
+        /***
+         * 검색 후 게시글 내용 확인
+         * 1) postName 확인
+         * 2) contents 확인
+         */
+
+        for(int i=0; i< postDTOListResult.size(); i++){
+            assertEquals(postDTOListResult.get(i).getPostName(), postDTO.getPostName());
+            assertEquals(postDTOListResult.get(i).getContents(), postDTO.getContents());
         }
     }
 }

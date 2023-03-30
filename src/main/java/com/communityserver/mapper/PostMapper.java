@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-    Integer addPost(PostDTO postDTO);
+    int addPost(PostDTO postDTO);
     int checkHasPermission(PostDTO postDTO);
     void updatePost(PostDTO postDTO);
     PostDTO selectPost(int postNumber);
@@ -19,8 +19,7 @@ public interface PostMapper {
     void deleteAllRankPost();
     void updateRank();
     void addViews(int postNumber);
-    Integer addComments(CommentsDTO commentsDTO);
-    CommentsDTO selectComment(Integer commentsNumber);
+    PostDTO addComments(CommentsDTO commentsDTO);
     void deletePost(@Param("postNumber")int postNumber, @Param("userNumber") int userNumber);
     void deleteComment(int postNumber);
 }

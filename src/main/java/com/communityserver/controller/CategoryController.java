@@ -23,16 +23,14 @@ public class CategoryController {
     }
     @LoginCheck(types = LoginCheck.UserType.ADMIN)
     @PutMapping("/add")
-    public CategoryDTO categoryAdd(Integer loginUserNumber, @Valid @RequestBody CategoryDTO categoryDTO){
+    public void categoryAdd(Integer loginUserNumber, @Valid @RequestBody CategoryDTO categoryDTO){
         if(categoryService.categoryDuplicateCheck(categoryDTO.getCategoryName()) != 0) {
             throw new DuplicateCategoryException("중복된 카테고리입니다.");
         }
-        CategoryDTO resultCategoryDTO = categoryService.addCategory(categoryDTO);
-        if(resultCategoryDTO != null)
+        if(categoryService.addCategoryName(categoryDTO))
             logger.debug("category add success");
         else
             logger.debug("category add fail");
-        return resultCategoryDTO;
     }
     @LoginCheck(types = LoginCheck.UserType.ADMIN)
     @DeleteMapping("/{categoryNumber}")

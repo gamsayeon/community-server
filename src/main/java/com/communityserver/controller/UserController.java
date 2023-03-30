@@ -47,14 +47,13 @@ public class UserController {
      *                로그인을 하기 위해서 중요하다고 생각된 3가지를 우선적으로 사용
      */
     @PostMapping("/signup")
-    public UserDTO signUp(@Valid @RequestBody UserDTO userDTO) {
+    public void signUp(@Valid @RequestBody UserDTO userDTO) {
         if (UserDTO.hasNullValueUserInfo(userDTO)) {
             throw new NullPointerException("회원 정보를 확인해수제요");
         }
-        UserDTO resultUserDTO = userService.register(userDTO);
-        if (resultUserDTO != null)
+        int resultUserNumber = userService.register(userDTO);
+        if(resultUserNumber> 0)
             logger.debug("signup success");
-        return resultUserDTO;
     }
 
     /**
