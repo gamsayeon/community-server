@@ -9,6 +9,6 @@ public interface PostService {
     int checkHasPermission(PostDTO postDTO);
     void updatePost(PostDTO postDTO, int postNumber);
     PostDTO selectPost(int postNumber);
-    PostDTO addComments(int postNumber, CommentsDTO commentsDTO);
+    CommentsDTO addComments(int postNumber, CommentsDTO commentsDTO);
     void deletePost(int postNumber, int userNumber);
 }

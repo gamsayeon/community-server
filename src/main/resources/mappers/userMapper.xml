@@ -5,44 +5,38 @@
 
 <mapper namespace="com.communityserver.mapper.UserInfoMapper">
 
-    <insert id="register" parameterType="com.communityserver.dto.UserDTO" useGeneratedKeys="true">
-        INSERT INTO user (userNumber, id, password, name, admin, createTime, userSecession)
+    <insert id="register" useGeneratedKeys="true" keyProperty="userNumber">
+        INSERT INTO users (userNumber, id, password, name, admin, createTime, userSecession)
         VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
-        <selectKey keyProperty ="userNumber"
-                   resultType ="int" order = "AFTER">
-            SELECT userNumber
-            FROM user
-            WHERE id = #{id}
-        </selectKey>
     </insert>
 
     <select id="idCheck" resultType="int">
         SELECT COUNT(id)
-        FROM user
+        FROM users
         WHERE id = #{id} and userSecession = 0
     </select>
 
     <select id="passwordCheck" resultType="com.communityserver.dto.UserDTO">
         SELECT userNumber, id, admin
-        FROM user
+        FROM users
         WHERE id = #{id} and password = #{password} and userSecession = 0
     </select>
 
     <select id = "selectUser" resultType = "com.communityserver.dto.UserDTO">
         SELECT userNumber, id, name, admin, createTime, userSecession
-        FROM user
+        FROM users
         WHERE userNumber = #{userNumber} and userSecession = 0
     </select>
 
-    <select id="deleteUser">
-        UPDATE user
+    <update id="deleteUser">
+        UPDATE users
         SET userSecession = 1
         WHERE userNumber = #{userNumber} and userSecession = 0
-    </select>
+    </update>
 
     <select id="adminUserCheck" resultType = "int">
         SELECT count(userNumber)
-        FROM user
+        FROM users
         WHERE userNumber = #{userNumber}
         and admin = 1
     </select>

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserInfoMapper {
-    int register(UserDTO userDTO);
+    void register(UserDTO userDTO);
     int idCheck(String id);
     UserDTO passwordCheck(@Param("id")String id, @Param("password")String password);
     UserDTO selectUser(int userNumber);

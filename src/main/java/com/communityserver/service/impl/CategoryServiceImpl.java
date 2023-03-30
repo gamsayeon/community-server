@@ -14,8 +14,9 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryMapper = categoryMapper;
     }
     @Override
-    public boolean addCategoryName(CategoryDTO categoryDTO){
-        return categoryMapper.register(categoryDTO) == 1;
+    public CategoryDTO addCategory(CategoryDTO categoryDTO){
+        categoryMapper.register(categoryDTO);
+        return categoryMapper.selectCategory(categoryDTO.getCategoryNumber());
     }
     @Override
     public int categoryDuplicateCheck(String categoryName){

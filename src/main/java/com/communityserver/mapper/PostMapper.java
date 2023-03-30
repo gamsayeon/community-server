@@ -9,12 +9,13 @@ import javax.servlet.http.HttpSession;
 
 @Mapper
 public interface PostMapper {
-    int addPost(PostDTO postDTO);
+    Integer addPost(PostDTO postDTO);
     int checkHasPermission(PostDTO postDTO);
     void updatePost(PostDTO postDTO);
     PostDTO selectPost(int postNumber);
     void addViews(int postNumber);
-    PostDTO addComments(CommentsDTO commentsDTO);
+    Integer addComments(CommentsDTO commentsDTO);
+    CommentsDTO selectComment(Integer commentsNumber);
     void deletePost(@Param("postNumber")int postNumber, @Param("userNumber") int userNumber);
     void deleteComment(int postNumber);
 }

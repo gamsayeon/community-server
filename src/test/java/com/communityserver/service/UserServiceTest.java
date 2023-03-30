@@ -24,43 +24,40 @@ public class UserServiceTest {
     @Mock
     private UserInfoMapper userMapper;
 
-    private final int noPermissionAdmin = 1;
-    private final int notSecession = 0;
-    private final int testUserNumber = 9999;
+    private final int NO_PERMISSION_ADMIN = 1;
+    private final int NOT_SECESSION = 0;
+    private final int TEST_USER_NUMBER = 9999;
 
     public UserDTO generateTestUser() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         UserDTO userDTO = new UserDTO();
-        userDTO.setUserNumber(testUserNumber);
+        userDTO.setUserNumber(TEST_USER_NUMBER);
         userDTO.setId("textUserId");
         userDTO.setPassword("testUserPassword");
         userDTO.setName("testUserName");
-        userDTO.setAdmin(noPermissionAdmin);
+        userDTO.setAdmin(NO_PERMISSION_ADMIN);
         userDTO.setCreateTime(new Date());
-        userDTO.setUserSecession(notSecession);
+        userDTO.setUserSecession(NOT_SECESSION);
         return userDTO;
     }
 
-    /**
-     * Insert - 1 (여러개인 경우 1)
-     * Update - 업데이트 된 행의 개수 (없으면 0)
-     * Delete - 삭제 된 행의 개수 (없으면 0)
-     */
     @Test
     @DisplayName("유저 회원가입 성공 테스트")
     public void signUpSuccessTest() {
         final UserDTO userDTO = generateTestUser();
-        userService.register(userDTO);
-        int resultTestUserNumber = userDTO.getUserNumber();
-        assertNotEquals(resultTestUserNumber, 0);
+        try {
+            userService.register(userDTO);
+        } catch (Exception e) {
+            fail("Should not have thrown any exception");
+        }
     }
 
     @Test
-    @DisplayName("유저 회원가입 실패 테스트 (1. 아이디 중복)")
+    @DisplayName("유저 중복 회원가입 실패 테스트 (1. 아이디 중복)")
     public void signUpFailTest() {
         final UserDTO userDTO = generateTestUser();
         try {
-//            userService.register(userDTO);
+            userService.register(userDTO);
             userService.register(userDTO);
         } catch (Exception e) {
             fail("Should not have thrown any exception");
@@ -70,17 +67,27 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 로그인 성공 테스트")
     public void loginUserSuccessTest() {
-        UserDTO userDTO = generateTestUser();
         signUpSuccessTest();
+        final UserDTO userDTO = generateTestUser();
         assertEquals(userService.LoginCheckPassword("textUserId", "testUserPassword").getUserNumber()
                 , userDTO.getUserNumber());
     }
 
     @Test
-    @DisplayName("유저 로그인 실패 테스트")
+    @DisplayName("유저 회원 등록 후 페스워드 오타로 인한 로그인 실패 테스트")
+    public void loginUserFailByIllegalPassWordTest() {
+        signUpSuccessTest();
+        final UserDTO userDTO = this.generateTestUser();
+        final UserDTO notExistUser = UserDTO.builder().build();
+        assertEquals(userService.LoginCheckPassword("testUserId", userDTO.getPassword()+"failPassword").getUserNumber()
+                , notExistUser.getUserNumber());
+    }
+
+    @Test
+    @DisplayName("유저 회원 등록 전 로그인 실패 테스트")
     public void loginUserFailTest() {
-        UserDTO userDTO = generateTestUser();
-        UserDTO notExistUser = UserDTO.builder().build();
+        final UserDTO userDTO = generateTestUser();
+        final UserDTO notExistUser = UserDTO.builder().build();
         assertEquals(userService.LoginCheckPassword("testUserId", userDTO.getPassword()+"failPassword").getUserNumber()
                 , notExistUser.getUserNumber());
     }
@@ -88,16 +95,16 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 정보 확인 성공 테스트")
     public void selectUserSuccessTest() {
-        UserDTO userDTO = generateTestUser();
         signUpSuccessTest();
-        assertEquals(userService.selectUser(testUserNumber).getUserNumber(), userDTO.getUserNumber());
+        final UserDTO userDTO = generateTestUser();
+        assertEquals(userService.selectUser(TEST_USER_NUMBER).getUserNumber(), userDTO.getUserNumber());
     }
 
     @Test
     @DisplayName("회원 탈퇴 성공 테스트")
     public void deleteUserSuccessTest() {
-        UserDTO userDTO = generateTestUser();
         signUpSuccessTest();
+        final UserDTO userDTO = generateTestUser();
         userService.deleteUser(userDTO.getUserNumber());
         assertEquals(userService.selectUser(userDTO.getUserNumber()), null);
     }

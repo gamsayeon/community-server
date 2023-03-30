@@ -5,20 +5,29 @@
 
 <mapper namespace="com.communityserver.mapper.CategoryMapper">
 
-    <insert id="register" parameterType="com.communityserver.dto.CategoryDTO">
+    <insert id="register" useGeneratedKeys="true" keyProperty="categoryNumber">
         INSERT INTO category (categoryNumber, categoryName)
         VALUES (#{categoryNumber}, #{categoryName})
     </insert>
+
+    <select id="selectCategory" resultType="com.communityserver.dto.CategoryDTO">
+        SELECT categoryNumber, categoryName
+        FROM category
+        WHERE categoryNumber = #{categoryNumber}
+    </select>
+
     <select id = "categoryDuplicateCheck" resultType = "int">
         SELECT COUNT(categoryNumber)
         FROM category
         WHERE categoryName = #{categoryName}
     </select>
+
     <select id="categoryNumberCheck" resultType="int">
         SELECT COUNT(categoryNumber)
         FROM category
         WHERE categoryNumber = #{categoryNumber}
     </select>
+
     <select id = "categoryDelete" resultType="int">
         DELETE FROM category
         WHERE categoryNumber = #{categoryNumber}
