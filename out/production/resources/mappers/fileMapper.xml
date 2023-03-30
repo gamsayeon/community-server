@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.communityserver.mapper.FileMapper">
+
+    <insert id="addFile" parameterType="com.communityserver.dto.FileDTO">
+        INSERT INTO files (fileNumber, postNumber, path, fileName, extension)
+        VALUES (#{fileNumber}, #{postNumber}, #{path}, #{fileName}, #{extension})
+    </insert>
+
+    <select id="deleteFile">
+        DELETE FROM files
+        WHERE postNumber = #{postNumber}
+    </select>
+</mapper>

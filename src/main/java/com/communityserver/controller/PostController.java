@@ -1,10 +1,7 @@
 package com.communityserver.controller;
 
 import com.communityserver.aop.LoginCheck;
-import com.communityserver.dto.CommentsDTO;
-import com.communityserver.dto.FileDTO;
-import com.communityserver.dto.PostDTO;
-import com.communityserver.dto.UserDTO;
+import com.communityserver.dto.*;
 import com.communityserver.exception.MatchingUserFailException;
 import com.communityserver.exception.PostAccessDeniedException;
 import com.communityserver.exception.PostNullException;
@@ -12,7 +9,10 @@ import com.communityserver.service.impl.PostServiceImpl;
 import com.communityserver.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -58,6 +58,21 @@ public class PostController {
         postService.addViews(postNumber);
         logger.debug("add Views Success");
         return postMetaData;
+    }
+//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(fixedRate = 100000)
+    public void updateRank(){
+        postService.deleteAllRankPost();
+        postService.updateRank();
+    }
+    @GetMapping("/rank")
+    public List<RankPostDTO> rankingPost(){
+        List<RankPostDTO> rankingPostDTOList = postService.selectRankPost();
+        if(rankingPostDTOList != null)
+            logger.debug("post ranking Success");
+        else
+            throw new PostNullException("해당하는 결과를 찾지 못했습니다. 다시 시도해주세요.");
+        return rankingPostDTOList;
     }
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})

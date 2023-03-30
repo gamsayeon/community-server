@@ -67,6 +67,10 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 로그인 성공 테스트")
     public void loginUserSuccessTest() {
+<<<<<<< HEAD
+=======
+        final UserDTO userDTO = generateTestUser();
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         assertEquals(userService.LoginCheckPassword("textUserId", "testUserPassword").getUserNumber()
@@ -95,6 +99,10 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 정보 확인 성공 테스트")
     public void selectUserSuccessTest() {
+<<<<<<< HEAD
+=======
+        final UserDTO userDTO = generateTestUser();
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         assertEquals(userService.selectUser(TEST_USER_NUMBER).getUserNumber(), userDTO.getUserNumber());
@@ -103,6 +111,10 @@ public class UserServiceTest {
     @Test
     @DisplayName("회원 탈퇴 성공 테스트")
     public void deleteUserSuccessTest() {
+<<<<<<< HEAD
+=======
+        final UserDTO userDTO = generateTestUser();
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         userService.deleteUser(userDTO.getUserNumber());

@@ -77,25 +77,41 @@ public class PostServiceTest {
     @DisplayName("게시글 추가 성공 테스트")
     public void addPostTest(){
         final PostDTO postDTO = generateTestPost();
+<<<<<<< HEAD
         assertEquals(postService.addPost(postDTO,postDTO.getUserNumber()).getPostNumber(), postDTO.getUserNumber());
         try {
 
         } catch (Exception e) {
             fail("Should not have thrown any exception");
         }
+=======
+        assertEquals(postService.addPost(postDTO,postDTO.getUserNumber()), postDTO);
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
     }
 
     @Test
     @DisplayName("게시글 정보 확인 테스트")
     public void selectPostTest(){
+<<<<<<< HEAD
         addPostTest();
         final PostDTO postDTO = generateTestPost();
         assertEquals(postService.selectPost(TEST_POST_NUMBER).getPostNumber(), postDTO.getPostNumber());
+=======
+        final PostDTO postDTO = generateTestPost();
+        postService.addPost(postDTO,postDTO.getUserNumber());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd a HH:mm");
+        assertEquals(formatter.format(postService.selectPost(999999).getCreateTime()),
+                formatter.format(postDTO.getCreateTime()));
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
     }
 
     @Test
     @DisplayName("게시글 수정 테스트")
     public void updatePostTest(){
+<<<<<<< HEAD
+=======
+        final PostDTO postDTO = generateTestPost();
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         addPostTest();
         final PostDTO postDTO = generateTestPost();
         postDTO.setPostName("updatePostNameTest");
@@ -107,8 +123,13 @@ public class PostServiceTest {
     @Test
     @DisplayName("게시글 댓글 추가 테스트")
     public void addCommentsTest(){
+<<<<<<< HEAD
         addPostTest();
         final PostDTO postDTO = generateTestPost();
+=======
+        final PostDTO postDTO = generateTestPost();
+        postService.addPost(postDTO,postDTO.getUserNumber());
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         CommentsDTO commentsDTO = generateTestComments();
         CommentsDTO commentsDTO2 = postService.addComments(postDTO.getPostNumber(), commentsDTO);
         assertEquals(commentsDTO2.getCommentsNumber(), commentsDTO.getCommentsNumber());
@@ -117,8 +138,13 @@ public class PostServiceTest {
     @Test
     @DisplayName("게시글 삭제 테스트")
     public void deletePostTest(){
+<<<<<<< HEAD
         addPostTest();
         final PostDTO postDTO = generateTestPost();
+=======
+        final PostDTO postDTO = generateTestPost();
+        postService.addPost(postDTO,postDTO.getUserNumber());
+>>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         postService.deletePost(postDTO.getPostNumber(), postDTO.getUserNumber());
         assertEquals(postService.selectPost(postDTO.getPostNumber()), null);
     }

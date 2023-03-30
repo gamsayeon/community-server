@@ -3,6 +3,7 @@ package com.communityserver.service.impl;
 import com.communityserver.dto.CommentsDTO;
 import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
+import com.communityserver.dto.RankPostDTO;
 import com.communityserver.exception.PermissionDeniedException;
 import com.communityserver.mapper.FileMapper;
 import com.communityserver.mapper.PostMapper;
@@ -63,6 +64,17 @@ public class PostServiceImpl implements PostService {
         return postMapper.selectPost(postNumber);
     }
 
+    @Override
+    public List<RankPostDTO> selectRankPost(){
+        return postMapper.selectRankPost();
+    }
+    public void deleteAllRankPost(){
+        postMapper.deleteAllRankPost();
+    }
+    public void updateRank(){
+        postMapper.updateRank();
+    }
+    @Override
     public void addViews(int postNumber){
         postMapper.addViews(postNumber);
     }
