@@ -1,7 +1,6 @@
 package com.communityserver.aop;
 
 import com.communityserver.utils.SessionUtils;
-import org.apache.ibatis.jdbc.Null;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -30,18 +29,18 @@ public class LoginCheckAspect {
             if( userNumber == 0) {
                 switch (loginCheck.types()[i].toString()) {
                     case "USER":
-//                        try {
+                        try {
                             userNumber = SessionUtils.getLoginUserNumber(session);
-//                        }catch(NullPointerException e){
-//                            userNumber = 0;
-//                        }
+                        }catch(NullPointerException e){
+                            userNumber = 0;
+                        }
                         break;
                     case "ADMIN":
-//                        try {
+                        try {
                             userNumber = SessionUtils.getAdminLoginUserNumber(session);
-//                        }catch(NullPointerException e){
-//                            userNumber = 0;
-//                        }
+                        }catch(NullPointerException e){
+                            userNumber = 0;
+                        }
                         break;
                 }
             }
@@ -49,7 +48,7 @@ public class LoginCheckAspect {
 
 
         if(userNumber == 0)
-            throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인한 id값을 확인해주세요"){};
+            throw new HttpStatusCodeException(HttpStatus.resolve(425), "로그인한 id값을 확인해주세요"){};
         Object[] modifiedArgs = proceedingJoinPoint.getArgs();
         if(proceedingJoinPoint.getArgs()!=null)
             modifiedArgs[index] = userNumber;

@@ -6,7 +6,12 @@
 <mapper namespace="com.communityserver.mapper.FileMapper">
 
     <insert id="addFile" parameterType="com.communityserver.dto.FileDTO">
-        INSERT INTO file (fileNumber, postNumber, path, fileName, extension)
+        INSERT INTO files (fileNumber, postNumber, path, fileName, extension)
         VALUES (#{fileNumber}, #{postNumber}, #{path}, #{fileName}, #{extension})
     </insert>
+
+    <select id="deleteFile">
+        DELETE FROM files
+        WHERE postNumber = #{postNumber}
+    </select>
 </mapper>

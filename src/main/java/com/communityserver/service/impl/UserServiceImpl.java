@@ -4,8 +4,12 @@ import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.DuplicateIdException;
 import com.communityserver.mapper.UserInfoMapper;
 import com.communityserver.service.UserService;
+import com.communityserver.utils.SessionUtils;
 import com.communityserver.utils.sha256Encrypt;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,16 +22,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO register(UserDTO userDTO){
-        if(idOverlapCheck(userDTO.getId()))
+        if(idOverlapCheck(userDTO.getId())) {
             throw new DuplicateIdException("중복된 ID 입니다.");
+        }
         else {
             userDTO.setPassword(sha256Encrypt.encrypt(userDTO.getPassword()));
             userDTO.setAdmin(0);
             userDTO.setUserSecession(0);
             userMapper.register(userDTO);
-            return userDTO;
+            return userMapper.selectUser(userDTO.getUserNumber());
         }
     }
+
     @Override
     public boolean idOverlapCheck(String id){
         return userMapper.idCheck(id) == 1;
@@ -40,7 +46,7 @@ public class UserServiceImpl implements UserService {
         if(result == null){
             return UserDTO.builder().build();
         }
-        return userMapper.passwordCheck(id, password);
+        return result;
     }
     @Override
     public UserDTO selectUser(int userNumber){
@@ -56,5 +62,20 @@ public class UserServiceImpl implements UserService {
     public int adminUserCheck(int userNumber){
         return userMapper.adminUserCheck(userNumber);
     }
+
+    @Override
+    public void insertSession(HttpSession session, UserDTO userDTO) {
+        if(userDTO.getAdmin() == 0)
+            SessionUtils.setAdminLoginUserNumber(session, userDTO.getUserNumber());
+        else
+            SessionUtils.setAdminLoginUserNumber(session, userDTO.getUserNumber());
+
+    }
+
+    @Override
+    public void clearSession(HttpSession session) {
+        SessionUtils.clear(session);
+    }
+
 
 }

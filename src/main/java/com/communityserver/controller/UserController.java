@@ -2,8 +2,7 @@ package com.communityserver.controller;
 
 import com.communityserver.aop.LoginCheck;
 import com.communityserver.dto.UserDTO;
-import com.communityserver.exception.DuplicateIdException;
-import com.communityserver.exception.MatchingLoginFailException;
+import com.communityserver.exception.MatchingUserFailException;
 import com.communityserver.service.impl.UserServiceImpl;
 import com.communityserver.utils.SessionUtils;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * TODO: RestController 역할
@@ -47,13 +47,14 @@ public class UserController {
      *                로그인을 하기 위해서 중요하다고 생각된 3가지를 우선적으로 사용
      */
     @PostMapping("/signup")
-    public void signUp(@Valid @RequestBody UserDTO userDTO) {
+    public UserDTO signUp(@Valid @RequestBody UserDTO userDTO) {
         if (UserDTO.hasNullValueUserInfo(userDTO)) {
-            logger.warn("회원 정보를 확인해주세여");
-            throw new DuplicateIdException("필수 회원정보를 모두 입력해야 합니다.");
+            throw new NullPointerException("회원 정보를 확인해수제요");
         }
-        userService.register(userDTO);
-        logger.info("success");
+        UserDTO resultUserDTO = userService.register(userDTO);
+        if (resultUserDTO != null)
+            logger.debug("signup success");
+        return resultUserDTO;
     }
 
     /**
@@ -62,21 +63,16 @@ public class UserController {
      */
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
-        logger.debug("test");
-        if (UserDTO.hasNullLogin(userDTO))
-            throw new NullPointerException("Login 정보를 입력해주세요");
+        if (UserDTO.hasNullLogin(userDTO)) {
+            throw new NullPointerException("회원 정보를 확인해주세요");
+        }
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
-        if(userinfo == null)
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
-        if(userinfo.getAdmin() == 0)
-            SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
-        else
-            SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
-
-        logger.debug("login success");
-        logger.debug(userinfo.getUserNumber());
-        logger.debug(userinfo.getId());
+        if(userinfo.getId() == null) {
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
+        }
+        userService.insertSession(session, userinfo);
     }
+
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
     @GetMapping("/{userNumber}")
@@ -84,8 +80,9 @@ public class UserController {
         if(userNumber == loginUserNumber) {
             return userService.selectUser(userNumber);
         }
-        else
-            throw new MatchingLoginFailException("회원 정보가 없습니다.");
+        else {
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
+        }
     }
 
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
@@ -94,8 +91,17 @@ public class UserController {
     public void deleteUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
         if(loginUserNumber == userNumber)
             userService.deleteUser(userNumber);
-        else
-            throw new MatchingLoginFailException("id를 다시 확인해주세요!");
+        else {
+            throw new MatchingUserFailException("회원 정보가 없습니다.");
+        }
         logger.debug("login delete success");
+    }
+
+    @LoginCheck(types = {LoginCheck.UserType.ADMIN,
+                        LoginCheck.UserType.USER})
+    @PutMapping("logout")
+    public void logout(Integer loginUserNumber, HttpSession session){
+        userService.clearSession(session);
+        logger.debug("logout success");
     }
 }

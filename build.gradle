@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'junit:junit:4.13.1'
+	testImplementation 'junit:junit'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -35,6 +35,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation ("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.1.1")
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 }
 
 tasks.named('test') {

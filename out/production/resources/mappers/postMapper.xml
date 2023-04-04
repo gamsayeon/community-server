@@ -6,26 +6,26 @@
 <mapper namespace="com.communityserver.mapper.PostMapper">
 
     <insert id="addPost" parameterType="com.communityserver.dto.PostDTO" useGeneratedKeys="true" keyProperty="postNumber">
-        INSERT INTO post (postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views)
-        VALUES (#{postNumber}, #{categoryNumber}, #{userNumber}, #{postName}, #{adminPost}, #{contents}, now(), #{suggestionCount}, #{views})
+        INSERT INTO posts (postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views)
+        VALUES (#{postNumber}, #{categoryNumber}, #{userNumber}, #{postName}, #{adminPost}, #{contents}, #{createTime}, #{suggestionCount}, #{views})
     </insert>
 
     <select id="checkHasPermission" resultType = "int">
         SELECT COUNT(postNumber)
-        FROM post
-        WHERE post.userNumber = #{userNumber}
+        FROM posts
+        WHERE userNumber = #{userNumber}
         and postNumber = #{postNumber}
     </select>
 
     <select id="updatePost" parameterType="com.communityserver.dto.PostDTO">
-        UPDATE post
+        UPDATE posts
         SET postName = #{postName},
         contents = #{contents}
         WHERE postNumber = #{postNumber}
     </select>
 
     <update id = "addViews" >
-        UPDATE post
+        UPDATE posts
         SET views = views + 1
         WHERE postNumber = #{postNumber}
 
@@ -33,18 +33,41 @@
 
     <select id="selectPost" resultType = "com.communityserver.dto.PostDTO">
         SELECT postNumber, categoryNumber, userNumber, postName, adminPost, contents, createTime, suggestionCount, views
-        FROM post
+        FROM posts
         WHERE postNumber = #{postNumber}
     </select>
+
+    <select id="selectRankPost" resultType="com.communityserver.dto.RankPostDTO">
+        SELECT rankId, postNumber, views, suggestionCount, createTime
+        FROM rank_posts
+    </select>
+
+    <delete id="deleteAllRankPost">
+        DELETE FROM rank_posts
+    </delete>
+
+    <update id="updateRank">
+        INSERT INTO rank_posts (postNumber, views, suggestionCount, createTime)
+        SELECT postNumber, views, suggestionCount, createTime
+        FROM posts
+        ORDER BY suggestionCount DESC, views DESC, createTime desc
+        LIMIT 10
+    </update>
 
     <select id = "addComments" resultType = "com.communityserver.dto.PostDTO">
         INSERT comments
-        VALUES (#{postNumber}, #{contents}, #{userId}, #{createTime})
+        VALUES (#{commentsNumber}, #{postNumber}, #{contents}, #{userId}, now())
     </select>
 
     <delete id = "deletePost">
-        DELETE FROM post
+        DELETE FROM posts
         WHERE postNumber = #{postNumber}
         and userNumber = #{userNumber}
     </delete>
+
+    <delete id = "deleteComment">
+        DELETE FROM comments
+        WHERE postNumber = #{postNumber}
+    </delete>
+
 </mapper>
