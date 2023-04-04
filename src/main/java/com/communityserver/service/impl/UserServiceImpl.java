@@ -4,9 +4,12 @@ import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.DuplicateIdException;
 import com.communityserver.mapper.UserInfoMapper;
 import com.communityserver.service.UserService;
+import com.communityserver.utils.SessionUtils;
 import com.communityserver.utils.sha256Encrypt;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,6 +61,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public int adminUserCheck(int userNumber){
         return userMapper.adminUserCheck(userNumber);
+    }
+
+    @Override
+    public void insertSession(HttpSession session, UserDTO userDTO) {
+        if(userDTO.getAdmin() == 0)
+            SessionUtils.setAdminLoginUserNumber(session, userDTO.getUserNumber());
+        else
+            SessionUtils.setAdminLoginUserNumber(session, userDTO.getUserNumber());
+
     }
 
 }
