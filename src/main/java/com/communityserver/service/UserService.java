@@ -13,4 +13,5 @@ public interface UserService {
     void deleteUser(int userNumber);
     int adminUserCheck(int userNumber);
     void insertSession(HttpSession session, UserDTO userDTO);
+    void clearSession(HttpSession session);
 }
