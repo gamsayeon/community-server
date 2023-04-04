@@ -70,20 +70,7 @@ public class UserController {
         if(userinfo.getId() == null) {
             throw new MatchingUserFailException("회원 정보가 없습니다.");
         }
-        if(userinfo.getAdmin() == 0) {
-            SessionUtils.setLoginUserNumber(session, userinfo.getUserNumber());
-            Date date = new Date();
-            logger.debug(date + "\tuser Login success" +
-                    "\tuserNumber : " + userinfo.getUserNumber() +
-                    "\tuserId : " + userinfo.getId());
-        }
-        else{
-            SessionUtils.setAdminLoginUserNumber(session, userinfo.getUserNumber());
-            Date date = new Date();
-            logger.debug(date + "\tadmin Login success" +
-                    "\tuserNumber : " + userinfo.getUserNumber() +
-                    "\tuserId : " + userinfo.getId());
-        }
+        userService.insertSession(session, userinfo);
     }
 
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
