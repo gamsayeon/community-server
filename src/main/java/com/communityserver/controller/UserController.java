@@ -101,7 +101,7 @@ public class UserController {
                         LoginCheck.UserType.USER})
     @PutMapping("logout")
     public void logout(Integer loginUserNumber, HttpSession session){
-        SessionUtils.clear(session);
+        userService.clearSession(session);
         logger.debug("logout success");
     }
 }
