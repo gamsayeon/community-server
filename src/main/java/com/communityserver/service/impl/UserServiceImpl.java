@@ -1,12 +1,16 @@
 package com.communityserver.service.impl;
 
+import com.communityserver.controller.PostSearchController;
 import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.DuplicateIdException;
+import com.communityserver.exception.PermissionDeniedException;
 import com.communityserver.mapper.UserInfoMapper;
 import com.communityserver.service.UserService;
 import com.communityserver.utils.SessionUtils;
 import com.communityserver.utils.sha256Encrypt;
 import org.apache.catalina.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -20,29 +24,31 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+
     @Override
     public UserDTO register(UserDTO userDTO){
-        if(idOverlapCheck(userDTO.getId())) {
+        if(idOverlapCheck(userDTO.getUserId())) {
             throw new DuplicateIdException("중복된 ID 입니다.");
         }
         else {
             userDTO.setPassword(sha256Encrypt.encrypt(userDTO.getPassword()));
-            userDTO.setAdmin(0);
-            userDTO.setUserSecession(0);
+            userDTO.setAdmin(false);
+            userDTO.setUserSecession(false);
             userMapper.register(userDTO);
             return userMapper.selectUser(userDTO.getUserNumber());
         }
     }
 
     @Override
-    public boolean idOverlapCheck(String id){
-        return userMapper.idCheck(id) == 1;
+    public boolean idOverlapCheck(String userId){
+        return userMapper.idCheck(userId) == 1;
     }
 
     @Override
-    public UserDTO LoginCheckPassword(String id, String password){
+    public UserDTO LoginCheckPassword(String userId, String password){
         password = sha256Encrypt.encrypt(password);
-        UserDTO result = userMapper.passwordCheck(id, password);
+        UserDTO result = userMapper.passwordCheck(userId, password);
         if(result == null){
             return UserDTO.builder().build();
         }
@@ -55,7 +61,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int userNumber){
-        userMapper.deleteUser(userNumber);
+        if (userMapper.deleteUser(userNumber) != 0) {
+            logger.info(userNumber + "의 유저를 삭제했습니다.");
+        }
+        else{
+            logger.warn("해당 유저를 찾지 못했습니다.");
+            throw new PermissionDeniedException("권한부족");
+        }
     }
 
     @Override
@@ -65,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void insertSession(HttpSession session, UserDTO userDTO) {
-        if(userDTO.getAdmin() == 0)
+        if(!userDTO.isAdmin())
             SessionUtils.setAdminLoginUserNumber(session, userDTO.getUserNumber());
         else
             SessionUtils.setAdminLoginUserNumber(session, userDTO.getUserNumber());

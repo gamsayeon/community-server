@@ -20,8 +20,8 @@ public class PostSearchServiceImpl implements PostSearchService {
     @Cacheable(value = "post", key = "#postDTO")
     @Override
     public List<PostDTO> resultSearchPost(PostDTO postDTO){
-        List<PostDTO> postDTOList = postSearchMapper.resultSearchPost(postDTO);
+        List<PostDTO> postDTOS = postSearchMapper.resultSearchPost(postDTO);
 
-        return postDTOList;
+        return postDTOS;
     }
 }

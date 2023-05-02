@@ -1,32 +1,28 @@
 package com.communityserver.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import java.util.Date;
 
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(title = "게시글 순위 DTO")
 public class RankPostDTO {
-    private int rankId;
+
+    @Schema(name = "post number", description = "post 번호")
     private int postNumber;
-    private int views;
+
+    @Schema(name = "view", description = "게시글 조회수")
+    private int view;
+
+    @Schema(name = "suggestion count", description = "게시글 추천수")
     private int suggestionCount;
+
+    @Schema(name = "crete time", description = "게시글 작성시간")
     private Date createTime;
 
-    public RankPostDTO(){}
-
-    public RankPostDTO(int rankId, int postNumber, int views, int suggestionCount, Date createTime){
-        this.rankId = rankId;
-        this.postNumber = postNumber;
-        this.views = views;
-        this.suggestionCount = suggestionCount;
-        this.createTime = createTime;
-    }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03

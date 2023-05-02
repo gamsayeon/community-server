@@ -23,25 +23,25 @@ public class GlobalControllerExceptionHandler {
     }
 
     @ExceptionHandler(MatchingUserFailException.class)
-    private ResponseEntity<Object> handleDuplicateId() {
-        return new ResponseEntity<>("회원 정보가 없습니다.", HttpStatus.resolve(421));
+    private ResponseEntity<Object> handleDuplicateId(MatchingUserFailException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.resolve(421));
     }
 
     @ExceptionHandler(DuplicateCategoryException.class)
-    private ResponseEntity<Object> handleDuplicateCategory() {
-        return new ResponseEntity<>("중복된 카테고리입니다.", HttpStatus.resolve(422));
+    private ResponseEntity<Object> handleDuplicateCategory(DuplicateCategoryException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.resolve(422));
     }
     @ExceptionHandler(NotMatchCategoryIdException.class)
-    private ResponseEntity<Object> handleNotCategory() {
-        return new ResponseEntity<>("정확한 카테고리를 입력해주세요", HttpStatus.resolve(423));
+    private ResponseEntity<Object> handleNotCategory(NotMatchCategoryIdException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.resolve(423));
     }
     @ExceptionHandler(PostAccessDeniedException.class)
-    private ResponseEntity<Object> handleNotAccess() {
-        return new ResponseEntity<>("권한 부족", HttpStatus.resolve(424));
+    private ResponseEntity<Object> handleNotAccess(PostAccessDeniedException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.resolve(424));
     }
     @ExceptionHandler(PostNullException.class)
-    private ResponseEntity<Object> postNullException() {
-        return new ResponseEntity<>("권한 부족", HttpStatus.resolve(425));
+    private ResponseEntity<Object> postNullException(PostNullException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.resolve(425));
     }
 
 }

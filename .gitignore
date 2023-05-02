@@ -38,3 +38,6 @@ target/
 /et HEAD CONTRIBUTING.md
 /market
 /logs/
+/.gradle/
+/build/
+/out/

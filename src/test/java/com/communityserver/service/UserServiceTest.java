@@ -23,21 +23,18 @@ public class UserServiceTest {
 
     @Mock
     private UserInfoMapper userMapper;
-
-    private final int NO_PERMISSION_ADMIN = 1;
-    private final int NOT_SECESSION = 0;
     private final int TEST_USER_NUMBER = 9999;
 
     public UserDTO generateTestUser() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         UserDTO userDTO = new UserDTO();
         userDTO.setUserNumber(TEST_USER_NUMBER);
-        userDTO.setId("textUserId");
+        userDTO.setUserId("textUserId");
         userDTO.setPassword("testUserPassword");
-        userDTO.setName("testUserName");
-        userDTO.setAdmin(NO_PERMISSION_ADMIN);
+        userDTO.setNickname("testUserName");
+        userDTO.setAdmin(false);
         userDTO.setCreateTime(new Date());
-        userDTO.setUserSecession(NOT_SECESSION);
+        userDTO.setUserSecession(false);
         return userDTO;
     }
 
@@ -67,10 +64,6 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 로그인 성공 테스트")
     public void loginUserSuccessTest() {
-<<<<<<< HEAD
-=======
-        final UserDTO userDTO = generateTestUser();
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         assertEquals(userService.LoginCheckPassword("textUserId", "testUserPassword").getUserNumber()
@@ -99,10 +92,6 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 정보 확인 성공 테스트")
     public void selectUserSuccessTest() {
-<<<<<<< HEAD
-=======
-        final UserDTO userDTO = generateTestUser();
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         assertEquals(userService.selectUser(TEST_USER_NUMBER).getUserNumber(), userDTO.getUserNumber());
@@ -111,10 +100,6 @@ public class UserServiceTest {
     @Test
     @DisplayName("회원 탈퇴 성공 테스트")
     public void deleteUserSuccessTest() {
-<<<<<<< HEAD
-=======
-        final UserDTO userDTO = generateTestUser();
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         userService.deleteUser(userDTO.getUserNumber());

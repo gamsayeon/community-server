@@ -1,8 +1,7 @@
 package com.communityserver.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,37 +10,41 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(title = "게시글 DTO")
 public class PostDTO  implements Serializable {
+    @Schema(name = "post number", description = "Post 번호(Auto increment)")
     private int postNumber;
+
+    @Schema(name = "category number", description = "작성할 위치의 카테고리 번호", example = "1")
     private int categoryNumber;
+
+    @Schema(name = "user_number", description = "작성한 유저 번호", example = "1")
     private int userNumber;
-    private int fileNumber;
+
+    @Schema(name = "post_name", description = "게시글 제목", example = "swagger 작성")
     private String postName;
-    private int adminPost;
-    private String contents;
+
+    @Schema(name = "admin_post", description = "공지글로 작성여부", example = "true")
+    private boolean adminPost;
+
+    @Schema(name = "content", description = "게시글 내용", example = "swagger 작성 중")
+    private String content;
+
+    @Schema(name = "create_time", description = "게시글 작성시간")
     private Date createTime;
+
+    @Schema(name = "suggestion_count", description = "게시글 추천수")
     private int suggestionCount;
-    private int views;
-    private List<FileDTO> fileDTOList;
 
-    public PostDTO(){}
+    @Schema(name = "view", description = "게시글 조회수")
+    private int view;
 
-    public PostDTO(int postNumber, int categoryNumber, int userNumber, int fileNumber, String postName,
-                   int adminPost, String contents, Date createTime, int suggestionCount, int views, List<FileDTO> fileDTOList){
-        this.postNumber = postNumber;
-        this.categoryNumber = categoryNumber;
-        this.userNumber = userNumber;
-        this.fileNumber = fileNumber;
-        this.postName = postName;
-        this.adminPost = adminPost;
-        this.contents = contents;
-        this.createTime = createTime;
-        this.suggestionCount = suggestionCount;
-        this.views = views;
-        this.fileDTOList = fileDTOList;
-    }
+    private List<FileDTO> fileDTOS;
+
     @Override
     public String toString() {
-        return "PostDTO" + getCategoryNumber() + getPostName() + getContents() + getCreateTime() + getSuggestionCount();
+        return "PostDTO" + getCategoryNumber() + getPostName() + getContent() + getCreateTime() + getSuggestionCount();
     }
 }

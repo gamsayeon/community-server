@@ -4,7 +4,9 @@ import com.communityserver.aop.LoginCheck;
 import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.MatchingUserFailException;
 import com.communityserver.service.impl.UserServiceImpl;
-import com.communityserver.utils.SessionUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Date;
 
 /**
  * TODO: RestController 역할
@@ -24,29 +25,19 @@ import java.util.Date;
 @RestController
 @RequestMapping("/users")
 @Log4j2
+@Tag(name = "유저 CRUD + logout API")
 public class UserController {
 
     private final UserServiceImpl userService;
 
     private final Logger logger = LogManager.getLogger(UserController.class);
-    /**
-     * TODO: 객체 생성자 패턴엔 3가지(생성자, 필드, 메서드) 택한이유
-     *
-     * @param userService
-     */
 
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
-    /**
-     * TODO : 유효성 검사
-     * DTO에 @NotNull ,@NotEmpty 등을 설정 하여 @Valid 로 @RequestBody 을 검증하여 유효성 검사를 해결
-     *
-     * @param userDTO 유저 정보(id, password, name 을 사용)
-     *                로그인을 하기 위해서 중요하다고 생각된 3가지를 우선적으로 사용
-     */
     @PostMapping("/signup")
+    @Operation(summary = "유저 회원가입", description = "유저의 정보를 추가합니다.")
     public UserDTO signUp(@Valid @RequestBody UserDTO userDTO) {
         if (UserDTO.hasNullValueUserInfo(userDTO)) {
             throw new NullPointerException("회원 정보를 확인해수제요");
@@ -57,17 +48,14 @@ public class UserController {
         return resultUserDTO;
     }
 
-    /**
-     * @param userDTO 유저 정보(id, password만 사용)
-     *                로그인시 꼭 필요한 두가지를 사용
-     */
     @PostMapping("/login")
+    @Operation(summary = "유저 로그인", description = "유저를 로그인 합니다.")
     public void userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
         if (UserDTO.hasNullLogin(userDTO)) {
             throw new NullPointerException("회원 정보를 확인해주세요");
         }
-        UserDTO userinfo = userService.LoginCheckPassword(userDTO.getId(), userDTO.getPassword());
-        if(userinfo.getId() == null) {
+        UserDTO userinfo = userService.LoginCheckPassword(userDTO.getUserId(), userDTO.getPassword());
+        if(userinfo.getUserId() == null) {
             throw new MatchingUserFailException("회원 정보가 없습니다.");
         }
         userService.insertSession(session, userinfo);
@@ -76,7 +64,8 @@ public class UserController {
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
     @GetMapping("/{userNumber}")
-    public UserDTO selectUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
+    @Operation(summary = "유저 조회", description = "로그인 후 자신의 정보를 조회합니다.")
+    public UserDTO selectUser(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
         if(userNumber == loginUserNumber) {
             return userService.selectUser(userNumber);
         }
@@ -87,20 +76,18 @@ public class UserController {
 
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
-    @DeleteMapping("/{userNumber}")
-    public void deleteUser(Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
-        if(loginUserNumber == userNumber)
-            userService.deleteUser(userNumber);
-        else {
-            throw new MatchingUserFailException("회원 정보가 없습니다.");
-        }
+    @DeleteMapping
+    @Operation(summary = "유저 삭제", description = "로그인한 유저의 정보를 삭제합니다.")
+    public void deleteUser(@Parameter(hidden = true) Integer loginUserNumber){
+        userService.deleteUser(loginUserNumber);
         logger.debug("login delete success");
     }
 
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
-    @PutMapping("logout")
-    public void logout(Integer loginUserNumber, HttpSession session){
+    @PutMapping("/logout")
+    @Operation(summary = "유저 로그아웃", description = "로그인한 유저를 로그아웃합니다.")
+    public void logout(@Parameter(hidden = true) Integer loginUserNumber, HttpSession session){
         userService.clearSession(session);
         logger.debug("logout success");
     }

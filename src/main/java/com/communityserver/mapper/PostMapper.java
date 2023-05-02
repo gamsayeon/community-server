@@ -1,12 +1,11 @@
 package com.communityserver.mapper;
 
-import com.communityserver.dto.CommentsDTO;
+import com.communityserver.dto.CommentDTO;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.dto.RankPostDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Mapper
@@ -18,9 +17,9 @@ public interface PostMapper {
     List<RankPostDTO> selectRankPost();
     void deleteAllRankPost();
     void updateRank();
-    void addViews(int postNumber);
-    Integer addComments(CommentsDTO commentsDTO);
-    CommentsDTO selectComment(Integer commentsNumber);
+    void addView(int postNumber);
+    Integer addComment(CommentDTO commentDTO);
+    CommentDTO selectComment(Integer commentNumber);
     void deletePost(@Param("postNumber")int postNumber, @Param("userNumber") int userNumber);
     void deleteComment(int postNumber);
 }

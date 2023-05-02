@@ -3,6 +3,8 @@ package com.communityserver.controller;
 import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.service.impl.PostServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/post")
+@Tag(name = "random post 10만개 Create API")
 public class TestController {
     private final PostServiceImpl postService;
     public TestController(PostServiceImpl postService){
@@ -23,7 +26,8 @@ public class TestController {
      * 성능테스트를 위한 10만개 랜덤 게시글 추가
      */
     @PostMapping("/add/random")
-    public PostDTO addRandomPost(Integer userNumber, @RequestBody PostDTO postDTO) {
+    @Operation(summary = "랜덤 게시글 추가", description = "성능테스트를 위한 랜덤한 게시글을 10만개를 추가합니다.")
+    public PostDTO addRandomPost(@RequestBody PostDTO postDTO) {
         List<FileDTO> fileDTOList = new ArrayList<>();
         for(int i=0; i<100000; i++){
             int leftLimit = 97; // letter 'a'
@@ -43,8 +47,8 @@ public class TestController {
                     .categoryNumber( (int)(Math.random() * 6 + 1))
                     .userNumber( userNumber2)
                     .postName(generatedString)
-                    .contents(generatedString2)
-                    .fileDTOList(fileDTOList)
+                    .content(generatedString2)
+                    .fileDTOS(fileDTOList)
                     .build(), userNumber2);
         }
          return null;

@@ -1,6 +1,6 @@
 package com.communityserver.service;
 
-import com.communityserver.dto.CommentsDTO;
+import com.communityserver.dto.CommentDTO;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.dto.RankPostDTO;
 
@@ -12,12 +12,8 @@ public interface PostService {
     int checkHasPermission(PostDTO postDTO);
     void updatePost(PostDTO postDTO, int postNumber);
     PostDTO selectPost(int postNumber);
-<<<<<<< HEAD
-    CommentsDTO addComments(int postNumber, CommentsDTO commentsDTO);
-=======
+    CommentDTO addComment(int postNumber, CommentDTO commentDTO);
     List<RankPostDTO> selectRankPost();
-    void addViews(int postNumber);
-    PostDTO addComments(int postNumber, CommentsDTO commentsDTO);
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
+    void addView(int postNumber);
     void deletePost(int postNumber, int userNumber);
 }

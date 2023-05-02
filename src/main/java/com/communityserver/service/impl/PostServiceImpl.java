@@ -1,6 +1,6 @@
 package com.communityserver.service.impl;
 
-import com.communityserver.dto.CommentsDTO;
+import com.communityserver.dto.CommentDTO;
 import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.dto.RankPostDTO;
@@ -33,13 +33,13 @@ public class PostServiceImpl implements PostService {
     @CacheEvict(value = "post", allEntries = true)
     @Override
     public PostDTO addPost(PostDTO postDTO, int userNumber){
-        if(postDTO.getAdminPost() == ADMIN_POST && userMapper.adminUserCheck(userNumber) == DENIED_PERMISSION)
+        if(postDTO.isAdminPost() && userMapper.adminUserCheck(userNumber) == DENIED_PERMISSION)
             throw new PermissionDeniedException("권한 부족");
         postDTO.setUserNumber(userNumber);
         postDTO.setCreateTime(new Date());
         if(postMapper.addPost(postDTO) != 0) {
             int postNumber = postDTO.getPostNumber();
-            List<FileDTO> fileDTOList = postDTO.getFileDTOList();
+            List<FileDTO> fileDTOList = postDTO.getFileDTOS();
             for (int i = 0; i < fileDTOList.size(); i++) {
                 FileDTO fileDTO = fileDTOList.get(i);
                 fileDTO.setPostNumber(postNumber);
@@ -75,14 +75,15 @@ public class PostServiceImpl implements PostService {
         postMapper.updateRank();
     }
     @Override
-    public void addViews(int postNumber){
-        postMapper.addViews(postNumber);
+    public void addView(int postNumber){
+        postMapper.addView(postNumber);
     }
+
     @Override
-    public CommentsDTO addComments(int postNumber, CommentsDTO commentsDTO){
-        commentsDTO.setPostNumber(postNumber);
-        postMapper.addComments(commentsDTO);
-        return postMapper.selectComment(commentsDTO.getCommentsNumber());
+    public CommentDTO addComment(int postNumber, CommentDTO commentDTO){
+        commentDTO.setPostNumber(postNumber);
+        postMapper.addComment(commentDTO);
+        return postMapper.selectComment(commentDTO.getCommentNumber());
     }
     @CacheEvict(value = "post", key = "#postNumber")
     @Override

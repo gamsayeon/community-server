@@ -7,10 +7,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserInfoMapper {
     void register(UserDTO userDTO);
-    int idCheck(String id);
-    UserDTO passwordCheck(@Param("id")String id, @Param("password")String password);
+    int idCheck(String userId);
+    UserDTO passwordCheck(@Param("userId")String userId, @Param("password")String password);
     UserDTO selectUser(int userNumber);
-    void deleteUser(int userNumber);
+    int deleteUser(int userNumber);
     int adminUserCheck(int userNumber);
-    void upgradeUser(String id);
 }

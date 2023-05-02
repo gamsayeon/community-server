@@ -5,55 +5,39 @@
 
 <mapper namespace="com.communityserver.mapper.UserInfoMapper">
 
-<<<<<<< HEAD
     <insert id="register" useGeneratedKeys="true" keyProperty="userNumber">
-        INSERT INTO users (userNumber, id, password, name, admin, createTime, userSecession)
-        VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
-=======
-    <insert id="register" parameterType="com.communityserver.dto.UserDTO" useGeneratedKeys="true">
-        INSERT INTO users (userNumber, id, password, name, admin, createTime, userSecession)
-        VALUES (#{userNumber}, #{id}, #{password}, #{name}, #{admin}, now(), #{userSecession})
-        <selectKey keyProperty ="userNumber"
-                   resultType ="int" order = "AFTER">
-            SELECT userNumber
-            FROM users
-            WHERE id = #{id}
-        </selectKey>
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
+        INSERT INTO users (user_number, user_id, password, nickname, admin, create_time, user_secession)
+        VALUES (#{userNumber}, #{userId}, #{password}, #{nickname}, #{admin}, now(), #{userSecession})
     </insert>
 
     <select id="idCheck" resultType="int">
-        SELECT COUNT(id)
+        SELECT COUNT(user_id)
         FROM users
-        WHERE id = #{id} and userSecession = 0
+        WHERE user_id = #{userId} and user_secession = 0
     </select>
 
     <select id="passwordCheck" resultType="com.communityserver.dto.UserDTO">
-        SELECT userNumber, id, admin
+        SELECT user_number, user_id, admin
         FROM users
-        WHERE id = #{id} and password = #{password} and userSecession = 0
+        WHERE user_id = #{userId} and password = #{password} and user_secession = 0
     </select>
 
     <select id = "selectUser" resultType = "com.communityserver.dto.UserDTO">
-        SELECT userNumber, id, name, admin, createTime, userSecession
+        SELECT user_number, user_id, nickname, admin, create_time, user_secession
         FROM users
-        WHERE userNumber = #{userNumber} and userSecession = 0
+        WHERE user_number = #{userNumber} and user_secession = 0
     </select>
 
-<<<<<<< HEAD
     <update id="deleteUser">
-=======
-    <select id="deleteUser">
->>>>>>> 818692ebe9eafc150bfe56e4c9baeba824afae03
         UPDATE users
-        SET userSecession = 1
-        WHERE userNumber = #{userNumber} and userSecession = 0
+        SET user_secession = 1
+        WHERE user_number = #{userNumber} and user_secession = 0
     </update>
 
     <select id="adminUserCheck" resultType = "int">
-        SELECT count(userNumber)
+        SELECT count(user_number)
         FROM users
-        WHERE userNumber = #{userNumber}
+        WHERE user_number = #{userNumber}
         and admin = 1
     </select>
 
