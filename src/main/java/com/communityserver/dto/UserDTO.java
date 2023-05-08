@@ -27,7 +27,6 @@ public class UserDTO {
     private String password;
 
     @Schema(name = "nickname", description = "유저 닉네임", example = "감사연")
-    @NotEmpty
     private String nickname;
 
     @Schema(name = "admin", description = "관리자 권한 여부")
@@ -38,16 +37,5 @@ public class UserDTO {
 
     @Schema(name = "user secession", description = "유저 탈퇴 여부")
     private boolean userSecession;
-
-    /**
-     * TODO: 유효성 검사
-      */
-    public static boolean hasNullValueUserInfo(@Valid UserDTO userDTO){
-        return userDTO.getUserId() == null || userDTO.getPassword() == null || userDTO.getNickname() == null;
-    }
-    public static boolean hasNullLogin(UserDTO userDTO){
-        return userDTO.getUserId() == null || userDTO.getPassword() == null;
-    }
-
 
 }

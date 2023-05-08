@@ -5,6 +5,8 @@ import com.communityserver.dto.PostDTO;
 import com.communityserver.service.impl.PostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +28,10 @@ public class TestController {
      * 성능테스트를 위한 10만개 랜덤 게시글 추가
      */
     @PostMapping("/add/random")
-    @Operation(summary = "랜덤 게시글 추가", description = "성능테스트를 위한 랜덤한 게시글을 10만개를 추가합니다.")
-    public PostDTO addRandomPost(@RequestBody PostDTO postDTO) {
-        List<FileDTO> fileDTOList = new ArrayList<>();
+    @Transactional
+    @Operation(summary = "랜덤 게시글 추가", description = "성능테스트를 위한 랜덤한 게시글을 10만개를 추가합니다. 하단의 PostDTO 참고")
+    public ResponseEntity<String> addRandomPost(@RequestBody PostDTO postDTO) {
+        List<FileDTO> fileDTOS = new ArrayList<>();
         for(int i=0; i<100000; i++){
             int leftLimit = 97; // letter 'a'
             int rightLimit = 122; // letter 'z'
@@ -48,9 +51,9 @@ public class TestController {
                     .userNumber( userNumber2)
                     .postName(generatedString)
                     .content(generatedString2)
-                    .fileDTOS(fileDTOList)
+                    .fileDTOS(fileDTOS)
                     .build(), userNumber2);
         }
-         return null;
+        return ResponseEntity.ok("test post 10만개를 추가하였습니다.");
     }
 }

@@ -4,12 +4,14 @@ import com.communityserver.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Optional;
+
 @Mapper
 public interface UserInfoMapper {
-    void register(UserDTO userDTO);
-    int idCheck(String userId);
-    UserDTO passwordCheck(@Param("userId")String userId, @Param("password")String password);
-    UserDTO selectUser(int userNumber);
+    Integer register(UserDTO userDTO);
+    boolean idCheck(String userId);
+    Optional<UserDTO> passwordCheck(@Param("userId")String userId, @Param("password")String password);
+    Optional<UserDTO> selectUser(int userNumber);
     int deleteUser(int userNumber);
-    int adminUserCheck(int userNumber);
+    boolean adminUserCheck(int userNumber);
 }

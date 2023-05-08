@@ -13,14 +13,14 @@
     <select id="checkHasPermission" resultType = "int">
         SELECT COUNT(post_number)
         FROM posts p
-        WHERE p.user_number = #{userNumber}
+        WHERE p.user_number = #{loginUserNumber}
         and post_number = #{postNumber}
     </select>
 
     <update id="updatePost">
         UPDATE posts
-        SET post_name = #{postName},
-        content = #{content}
+        SET post_name = #{postDTO.postName},
+        content = #{postDTO.content}
         WHERE post_number = #{postNumber}
     </update>
 
@@ -56,23 +56,19 @@
 
     <insert id = "addComment">
         INSERT comments
-        VALUES (#{commentNumber}, #{postNumber}, #{content}, #{userId}, now())
+        VALUES (#{commentDTO.commentNumber}, #{postNumber}, #{commentDTO.content}, #{loginUserNumber}, now())
     </insert>
 
     <select id="selectComment" resultType="com.communityserver.dto.CommentDTO">
         SELECT comment_number, post_number, content, user_id, create_time
         FROM comments
-        WHERE comment_number = #{commentNumber}
+        WHERE post_number = #{postNumber}
     </select>
 
     <delete id = "deletePost">
         DELETE FROM posts
         WHERE post_number = #{postNumber}
-        and user_number = #{userNumber}
+        and user_number = #{loginUserNumber}
     </delete>
 
-    <delete id = "deleteComment">
-        DELETE FROM comments
-        WHERE post_number = #{postNumber}
-    </delete>
 </mapper>

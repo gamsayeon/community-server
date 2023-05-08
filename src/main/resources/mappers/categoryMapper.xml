@@ -28,8 +28,8 @@
         WHERE category_number = #{categoryNumber}
     </select>
 
-    <select id = "categoryDelete" resultType="int">
+    <delete id = "categoryDelete">
         DELETE FROM category
         WHERE category_number = #{categoryNumber}
-    </select>
+    </delete>
 </mapper>

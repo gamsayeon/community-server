@@ -9,11 +9,13 @@ import java.util.List;
 
 public interface PostService {
     PostDTO addPost(PostDTO postDTO, int userNumber);
-    int checkHasPermission(PostDTO postDTO);
-    void updatePost(PostDTO postDTO, int postNumber);
+    void checkHasPermission(int loginUserNumber, int postNumber);
+    PostDTO updatePost(PostDTO postDTO, int postNumber);
     PostDTO selectPost(int postNumber);
-    CommentDTO addComment(int postNumber, CommentDTO commentDTO);
+    List<CommentDTO> addComment(CommentDTO commentDTO, int postNumber, int loginUserNumber);
     List<RankPostDTO> selectRankPost();
+    void deleteAllRankPost();
+    void updateRank();
     void addView(int postNumber);
-    void deletePost(int postNumber, int userNumber);
+    void deletePost(int postNumber, int loginUserNumber);
 }

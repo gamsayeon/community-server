@@ -1,7 +1,7 @@
 package com.communityserver.exception;
 
 public class PermissionDeniedException  extends RuntimeException{
-    public PermissionDeniedException(String message){
-        super(message);
+    public PermissionDeniedException(){
+        super("권한 부족");
     }
 }

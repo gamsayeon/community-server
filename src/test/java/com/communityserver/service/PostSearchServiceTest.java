@@ -31,13 +31,8 @@ public class PostSearchServiceTest {
     private PostServiceImpl postService;
     @Mock
     private PostSearchMapper postSearchMapper;
-    @Mock
-    private PostMapper postMapper;
-    @Mock
-    private FileMapper fileMapper;
     private final int TEST_CATEGORY_NUMBER = 1;
     private final int TEST_USER_NUMBER = 1;
-    private final int TEST_ADMIN_POST = 0;
 
     public PostDTO generateTestPostSearch() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
@@ -45,7 +40,7 @@ public class PostSearchServiceTest {
         postDTO.setCategoryNumber(TEST_CATEGORY_NUMBER);
         postDTO.setUserNumber(TEST_USER_NUMBER);
         postDTO.setPostName("testPostName");
-        postDTO.setContents("testContents");
+        postDTO.setContent("testContents");
         return postDTO;
     }
 
@@ -55,11 +50,11 @@ public class PostSearchServiceTest {
         postDTO.setCategoryNumber(TEST_CATEGORY_NUMBER);
         postDTO.setUserNumber(TEST_USER_NUMBER);
         postDTO.setPostName("testPostName");
-        postDTO.setAdminPost(TEST_ADMIN_POST);
-        postDTO.setContents("testContents");
+        postDTO.setAdminPost(false);
+        postDTO.setContent("testContents");
         postDTO.setCreateTime(new Date());
         postDTO.setSuggestionCount(0);
-        postDTO.setViews(0);
+        postDTO.setView(0);
 
         FileDTO fileDTO = new FileDTO();
         fileDTO.setPostNumber(postDTO.getPostNumber());
@@ -68,7 +63,7 @@ public class PostSearchServiceTest {
         fileDTO.setExtension("test");
         List<FileDTO> fileDTOList = new ArrayList<FileDTO>();
         fileDTOList.add(fileDTO);
-        postDTO.setFileDTOList(fileDTOList);
+        postDTO.setFileDTOS(fileDTOList);
         return postDTO;
     }
 
@@ -83,7 +78,7 @@ public class PostSearchServiceTest {
         List<PostDTO> postDTOListResult = postSearchMapper.resultSearchPost(postSearchDTO);
         for (int i = 0; i < postDTOListResult.size(); i++) {
             assertEquals(postDTOListResult.get(i).getPostName(), postDTOList.get(i).getPostName());
-            assertEquals(postDTOListResult.get(i).getContents(), postDTOList.get(i).getContents());
+            assertEquals(postDTOListResult.get(i).getContent(), postDTOList.get(i).getContent());
         }
     }
 }

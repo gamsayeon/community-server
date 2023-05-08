@@ -10,7 +10,7 @@
         VALUES (#{userNumber}, #{userId}, #{password}, #{nickname}, #{admin}, now(), #{userSecession})
     </insert>
 
-    <select id="idCheck" resultType="int">
+    <select id="idCheck" resultType="boolean">
         SELECT COUNT(user_id)
         FROM users
         WHERE user_id = #{userId} and user_secession = 0
@@ -23,7 +23,7 @@
     </select>
 
     <select id = "selectUser" resultType = "com.communityserver.dto.UserDTO">
-        SELECT user_number, user_id, nickname, admin, create_time, user_secession
+        SELECT user_number, user_id, nickname, admin, create_time
         FROM users
         WHERE user_number = #{userNumber} and user_secession = 0
     </select>
@@ -34,7 +34,7 @@
         WHERE user_number = #{userNumber} and user_secession = 0
     </update>
 
-    <select id="adminUserCheck" resultType = "int">
+    <select id="adminUserCheck" resultType = "boolean">
         SELECT count(user_number)
         FROM users
         WHERE user_number = #{userNumber}

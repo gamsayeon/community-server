@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(title = "첨부파일 DTO")
 public class FileDTO {
 
     @Schema(name = "file number", description = "file 번호(Auto increment)")
