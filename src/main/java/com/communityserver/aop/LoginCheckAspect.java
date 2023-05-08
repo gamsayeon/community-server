@@ -12,9 +12,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 
-/**
- * TODO :
- */
 @Aspect
 @Component
 public class LoginCheckAspect {
