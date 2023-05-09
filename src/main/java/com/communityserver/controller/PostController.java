@@ -8,6 +8,10 @@ import com.communityserver.service.impl.PostServiceImpl;
 import com.communityserver.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +40,11 @@ public class PostController {
     @PostMapping("/add")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
             LoginCheck.UserType.USER})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "505", description = "공지글 권한 오류", content = @Content),
+            @ApiResponse(responseCode = "501", description = "첨부파일 or 게시글 추가 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 추가 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
+    })
     @Operation(summary = "게시글 추가", description = "로그인 후 게시글을 추가합니다. 하단의 PostDTO 참고")
     public ResponseEntity<PostDTO> addPost(@Parameter(hidden = true) Integer userNumber, @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 추가합니다.");
@@ -46,6 +55,11 @@ public class PostController {
     @PatchMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
                         LoginCheck.UserType.USER})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "505", description = "게시글 수정 권한 오류", content = @Content),
+            @ApiResponse(responseCode = "506", description = "게시글 수정 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 수정 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
+    })
     @Operation(summary = "게시글 수정", description = "로그인 후 게시글을 수정합니다. 하단의 PostDTO 참고")
     @Parameter(name = "postNumber", description = "수정할 게시글 번호", example = "1")
     public ResponseEntity<PostDTO> updatePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @RequestBody PostDTO postDTO) {
@@ -56,6 +70,10 @@ public class PostController {
     }
 
     @GetMapping("/{postNumber}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "504", description = "게시글 조회 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 조회 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
+    })
     @Operation(summary = "게시글 조회", description = "조회하고자 하는 게시글을 조회합니다.")
     @Parameter(name = "postNumber", description = "조회할 게시글 번호", example = "1")
     public ResponseEntity<PostDTO> selectPost(@PathVariable("postNumber") int postNumber) {
@@ -66,9 +84,8 @@ public class PostController {
 
     //    @Scheduled(cron = "0 0 0 * * *")      live 환경에서의 스케줄(매일 자정)
     @Scheduled(fixedRate = 100000)
-    @Retryable(value = {Exception.class}, maxAttempts = 3,
+    @Retryable(value = {Exception.class}, maxAttempts = 10,
             backoff = @Backoff(delay = 1000, multiplier = 2))    //예외 발생시 최대 3번까지 재시도, 재시도간 딜레이 1초*multiplier*(시도횟수-1)
-    @Operation(summary = "게시글 랭킹 업데이트", description = "게시글을 매일 자정에 업데이트합니다.")
     public void updateRank() {
         logger.debug("게시글 랭킹을 업데이트합니다.");
         postService.deleteAllRankPost();
@@ -76,6 +93,10 @@ public class PostController {
     }
 
     @GetMapping("/rank")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "504", description = "게시글 랭킹 조회 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 랭킹 조회 성공", content = @Content(schema = @Schema(implementation = RankPostDTO.class)))
+    })
     @Operation(summary = "게시글 랭킹 조회", description = "게시글의 랭킹을 조회합니다.")
     public ResponseEntity<List<RankPostDTO>> rankingPost() {
         logger.debug("게시글 랭킹을 조회합니다.");
@@ -86,6 +107,11 @@ public class PostController {
     @PutMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
             LoginCheck.UserType.USER})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "501", description = "게시글 댓글 추가 오류", content = @Content),
+            @ApiResponse(responseCode = "504", description = "댓글을 추가할 게시글 찾기 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 수정 성공", content = @Content(schema = @Schema(implementation = CommentDTO.class)))
+    })
     @Operation(summary = "게시글 댓글 추가", description = "로그인 후 해당하는 게시글의 댓글을 추가합니다. 하단의 CommentDTO 참고")
     @Parameter(name = "postNumber", description = "댓글을 추가할 게시글 번호", example = "1")
     public ResponseEntity<List<CommentDTO>> addPostComment(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @RequestBody CommentDTO commentDTO) {
@@ -97,6 +123,10 @@ public class PostController {
     @DeleteMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
             LoginCheck.UserType.USER})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "502", description = "게시글 삭제 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 삭제 성공", content = @Content)
+    })
     @Operation(summary = "게시글 삭제", description = "로그인 후 작성한 게시글을 삭제합니다.")
     @Parameter(name = "postNumber", description = "삭제할 게시글 번호", example = "1")
     public ResponseEntity<String> deletePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber) {

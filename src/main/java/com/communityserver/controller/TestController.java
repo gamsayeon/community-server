@@ -4,6 +4,10 @@ import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.service.impl.PostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +33,11 @@ public class TestController {
      */
     @PostMapping("/add/random")
     @Transactional
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "505", description = "공지글 권한 오류", content = @Content),
+            @ApiResponse(responseCode = "501", description = "첨부파일 or 게시글 추가 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 추가 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
+    })
     @Operation(summary = "랜덤 게시글 추가", description = "성능테스트를 위한 랜덤한 게시글을 10만개를 추가합니다. 하단의 PostDTO 참고")
     public ResponseEntity<String> addRandomPost(@RequestBody PostDTO postDTO) {
         List<FileDTO> fileDTOS = new ArrayList<>();

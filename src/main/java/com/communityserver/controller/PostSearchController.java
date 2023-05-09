@@ -3,6 +3,10 @@ package com.communityserver.controller;
 import com.communityserver.dto.PostDTO;
 import com.communityserver.service.impl.PostSearchServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +34,10 @@ public class PostSearchController {
     private static final Logger logger = LogManager.getLogger(PostSearchController.class);
 
     @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "504", description = "게시글 검색 오류", content = @Content),
+            @ApiResponse(responseCode = "200", description = "게시글 검색 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
+    })
     @Operation(summary = "게시글 검색", description = "게시글을 검색어로 검색합니다. 하단의 PostDTO 참고")
     public ResponseEntity<List<PostDTO>> search(@RequestBody PostDTO postDTO) {
         logger.debug("게시글을 검색합니다.");
