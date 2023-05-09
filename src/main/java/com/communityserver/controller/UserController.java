@@ -1,7 +1,6 @@
 package com.communityserver.controller;
 
 import com.communityserver.aop.LoginCheck;
-import com.communityserver.dto.PostDTO;
 import com.communityserver.dto.UserDTO;
 import com.communityserver.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,10 +14,10 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 /**
  * TODO: RestController 역할
@@ -48,7 +47,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공", content = @Content(schema = @Schema(implementation = UserDTO.class)))
     })
     @Operation(summary = "유저 회원가입", description = "유저의 정보를 추가합니다. 하단의 UserDTO 참고")
-    public ResponseEntity<UserDTO> signUp(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> signUp(@Validated({UserDTO.Signup.class}) @RequestBody UserDTO userDTO) {
         logger.debug("회원을 가입합니다.");
         UserDTO resultUserDTO = userService.register(userDTO);
         return ResponseEntity.ok(resultUserDTO);
@@ -60,7 +59,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공", content = @Content)
     })
     @Operation(summary = "유저 로그인", description = "유저를 로그인 합니다. 하단의 UserDTO 참고")
-    public ResponseEntity<String> userLogin(@RequestBody UserDTO userDTO, HttpSession session) {
+    public ResponseEntity<String> userLogin(@Validated({UserDTO.Login.class}) @RequestBody UserDTO userDTO, HttpSession session) {
         logger.debug("유저를 로그인합니다.");
         UserDTO userinfo = userService.LoginCheckPassword(userDTO.getUserId(), userDTO.getPassword());
         userService.insertSession(session, userinfo);

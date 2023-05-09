@@ -39,7 +39,7 @@ public class TestController {
             @ApiResponse(responseCode = "200", description = "게시글 추가 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "랜덤 게시글 추가", description = "성능테스트를 위한 랜덤한 게시글을 10만개를 추가합니다. 하단의 PostDTO 참고")
-    public ResponseEntity<String> addRandomPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<String> addRandomPost() {
         List<FileDTO> fileDTOS = new ArrayList<>();
         for(int i=0; i<100000; i++){
             int leftLimit = 97; // letter 'a'

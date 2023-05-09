@@ -21,6 +21,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,7 +47,7 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "게시글 추가 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "게시글 추가", description = "로그인 후 게시글을 추가합니다. 하단의 PostDTO 참고")
-    public ResponseEntity<PostDTO> addPost(@Parameter(hidden = true) Integer userNumber, @RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> addPost(@Parameter(hidden = true) Integer userNumber, @Valid @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 추가합니다.");
         PostDTO resultPostDTO = postService.addPost(postDTO, userNumber);
         return ResponseEntity.ok(resultPostDTO);
@@ -62,7 +63,7 @@ public class PostController {
     })
     @Operation(summary = "게시글 수정", description = "로그인 후 게시글을 수정합니다. 하단의 PostDTO 참고")
     @Parameter(name = "postNumber", description = "수정할 게시글 번호", example = "1")
-    public ResponseEntity<PostDTO> updatePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> updatePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @Valid @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 수정합니다.");
         postService.checkHasPermission(loginUserNumber, postNumber);
         PostDTO resultPostDTO = postService.updatePost(postDTO, postNumber);
@@ -114,7 +115,7 @@ public class PostController {
     })
     @Operation(summary = "게시글 댓글 추가", description = "로그인 후 해당하는 게시글의 댓글을 추가합니다. 하단의 CommentDTO 참고")
     @Parameter(name = "postNumber", description = "댓글을 추가할 게시글 번호", example = "1")
-    public ResponseEntity<List<CommentDTO>> addPostComment(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<List<CommentDTO>> addPostComment(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @Valid @RequestBody CommentDTO commentDTO) {
         logger.debug("게시글 댓글을 추가합니다.");
         List<CommentDTO> commentDTOS = postService.addComment(commentDTO, postNumber, loginUserNumber);
         return ResponseEntity.ok(commentDTOS);
