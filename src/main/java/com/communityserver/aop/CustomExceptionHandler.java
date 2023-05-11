@@ -7,43 +7,45 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
     @ExceptionHandler(value = { AddFailedException.class })
-    public ResponseEntity<Object> handleAddFailedException(AddFailedException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());   // 400
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    public ResponseEntity<Object> handleAddFailedException(AddFailedException ex, HttpServletRequest request) {
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "ERR_1000", ex.getMessage(), request.getServletPath());
+        return new ResponseEntity<>(commonResponse, new HttpHeaders(), commonResponse.getStatus());
     }
 
     @ExceptionHandler(value = { DeletionFailedException.class })
-    public ResponseEntity<Object> handleDeletionFailedException(DeletionFailedException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());   // 400
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    public ResponseEntity<Object> handleDeletionFailedException(DeletionFailedException ex, HttpServletRequest request) {
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "ERR_1001", ex.getMessage(), request.getServletPath());
+        return new ResponseEntity<>(commonResponse, new HttpHeaders(), commonResponse.getStatus());
     }
 
     @ExceptionHandler(value = { DuplicateException.class })
-    public ResponseEntity<Object> handleDuplicateException(DuplicateException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());   // 409
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    public ResponseEntity<Object> handleDuplicateException(DuplicateException ex, HttpServletRequest request) {
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "ERR_1002", ex.getMessage(), request.getServletPath());
+        return new ResponseEntity<>(commonResponse, new HttpHeaders(), commonResponse.getStatus());
     }
 
     @ExceptionHandler(value = { NotMatchingException.class })
-    public ResponseEntity<Object> handleNotMatchingException(NotMatchingException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());   // 404
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    public ResponseEntity<Object> handleNotMatchingException(NotMatchingException ex, HttpServletRequest request) {
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "ERR_1003", ex.getMessage(), request.getServletPath());
+        return new ResponseEntity<>(commonResponse, new HttpHeaders(), commonResponse.getStatus());
     }
 
     @ExceptionHandler(value = { PermissionDeniedException.class })
-    public ResponseEntity<Object> handlePermissionDeniedException(PermissionDeniedException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());   // 401
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    public ResponseEntity<Object> handlePermissionDeniedException(PermissionDeniedException ex, HttpServletRequest request) {
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "ERR_1004", ex.getMessage(), request.getServletPath());
+        return new ResponseEntity<>(commonResponse, new HttpHeaders(), commonResponse.getStatus());
     }
 
     @ExceptionHandler(value = { UpdateFailedException.class })
-    public ResponseEntity<Object> handleUpdateFailedException(UpdateFailedException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());   // 400
-        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    public ResponseEntity<Object> handleUpdateFailedException(UpdateFailedException ex, HttpServletRequest request) {
+        CommonResponse commonResponse = new CommonResponse(HttpStatus.OK, "ERR_1005", ex.getMessage(), request.getServletPath());
+        return new ResponseEntity<>(commonResponse, new HttpHeaders(), commonResponse.getStatus());
     }
 
 }
