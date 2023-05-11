@@ -7,6 +7,7 @@ import com.communityserver.mapper.PostMapper;
 import com.communityserver.mapper.PostSearchMapper;
 import com.communityserver.service.impl.PostSearchServiceImpl;
 import com.communityserver.service.impl.PostServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,11 +37,11 @@ public class PostSearchServiceTest {
 
     public PostDTO generateTestPostSearch() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
-        PostDTO postDTO = new PostDTO();
+        PostDTO postDTO = PostDTO.builder().build();
         postDTO.setCategoryNumber(TEST_CATEGORY_NUMBER);
-        postDTO.setUserNumber(TEST_USER_NUMBER);
         postDTO.setPostName("testPostName");
         postDTO.setContent("testContents");
+        postDTO.setSuggestionCount(0);
         return postDTO;
     }
 
@@ -61,9 +62,10 @@ public class PostSearchServiceTest {
         fileDTO.setPath("D:/");
         fileDTO.setFileName("testFileName");
         fileDTO.setExtension("test");
-        List<FileDTO> fileDTOList = new ArrayList<FileDTO>();
-        fileDTOList.add(fileDTO);
-        postDTO.setFileDTOS(fileDTOList);
+        List<FileDTO> fileDTOS = new ArrayList<FileDTO>() {{
+            add(fileDTO);
+        }};
+        postDTO.setFileDTOS(fileDTOS);
         return postDTO;
     }
 
@@ -71,14 +73,15 @@ public class PostSearchServiceTest {
     @DisplayName("게시글 검색 테스트")
     public void searchPostTest() {
         final PostDTO postSearchDTO = generateTestPostSearch();
-        final PostDTO postDTO = generateTestPost();
-        List<PostDTO> postDTOList = new ArrayList<PostDTO>() {{
-            add(postDTO);
+        List<PostDTO> postDTOS = new ArrayList<PostDTO>() {{
+            add(postService.addPost(generateTestPost(), TEST_USER_NUMBER));
         }};
-        List<PostDTO> postDTOListResult = postSearchMapper.resultSearchPost(postSearchDTO);
-        for (int i = 0; i < postDTOListResult.size(); i++) {
-            assertEquals(postDTOListResult.get(i).getPostName(), postDTOList.get(i).getPostName());
-            assertEquals(postDTOListResult.get(i).getContent(), postDTOList.get(i).getContent());
-        }
+        Assertions.assertDoesNotThrow(() -> {
+            List<PostDTO> resultPostDTOS = postSearchService.resultSearchPost(postSearchDTO);
+            for (int i = 0; i < resultPostDTOS.size(); i++) {
+                assertEquals(resultPostDTOS.get(i).getPostName(), postDTOS.get(i).getPostName());
+                assertEquals(resultPostDTOS.get(i).getContent(), postDTOS.get(i).getContent());
+            }
+        });
     }
 }

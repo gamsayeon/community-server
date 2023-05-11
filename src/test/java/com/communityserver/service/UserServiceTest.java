@@ -1,8 +1,11 @@
 package com.communityserver.service;
 
 import com.communityserver.dto.UserDTO;
+import com.communityserver.exception.DuplicateException;
+import com.communityserver.exception.NotMatchingException;
 import com.communityserver.mapper.UserInfoMapper;
 import com.communityserver.service.impl.UserServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
@@ -42,29 +45,26 @@ public class UserServiceTest {
     @DisplayName("유저 회원가입 성공 테스트")
     public void signUpSuccessTest() {
         final UserDTO userDTO = generateTestUser();
-        try {
-            userService.register(userDTO);
-        } catch (Exception e) {
-            fail("Should not have thrown any exception");
-        }
+        Assertions.assertDoesNotThrow(() -> {
+            UserDTO resultUserDTO = userService.register(userDTO);
+            assertEquals(userDTO.getUserId(), resultUserDTO.getUserId());
+        });
     }
 
     @Test
     @DisplayName("유저 중복 회원가입 실패 테스트 (1. 아이디 중복)")
     public void signUpFailTest() {
         final UserDTO userDTO = generateTestUser();
-        try {
+        Assertions.assertThrows(DuplicateException.class, () -> {
             userService.register(userDTO);
             userService.register(userDTO);
-        } catch (Exception e) {
-            fail("Should not have thrown any exception");
-        }
+        });
     }
 
     @Test
     @DisplayName("유저 로그인 성공 테스트")
     public void loginUserSuccessTest() {
-        signUpSuccessTest();
+        this.signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
         assertEquals(userService.LoginCheckPassword("textUserId", "testUserPassword").getUserNumber()
                 , userDTO.getUserNumber());
@@ -73,37 +73,39 @@ public class UserServiceTest {
     @Test
     @DisplayName("유저 회원 등록 후 페스워드 오타로 인한 로그인 실패 테스트")
     public void loginUserFailByIllegalPassWordTest() {
-        signUpSuccessTest();
+        this.signUpSuccessTest();
         final UserDTO userDTO = this.generateTestUser();
-        final UserDTO notExistUser = UserDTO.builder().build();
-        assertEquals(userService.LoginCheckPassword("testUserId", userDTO.getPassword()+"failPassword").getUserNumber()
-                , notExistUser.getUserNumber());
+        Assertions.assertThrows(NotMatchingException.class, () -> {
+            userService.LoginCheckPassword(userDTO.getUserId(), "fail"+userDTO.getPassword());
+        });
     }
 
     @Test
     @DisplayName("유저 회원 등록 전 로그인 실패 테스트")
     public void loginUserFailTest() {
         final UserDTO userDTO = generateTestUser();
-        final UserDTO notExistUser = UserDTO.builder().build();
-        assertEquals(userService.LoginCheckPassword("testUserId", userDTO.getPassword()+"failPassword").getUserNumber()
-                , notExistUser.getUserNumber());
+        Assertions.assertThrows(NotMatchingException.class, () -> {
+            userService.LoginCheckPassword(userDTO.getUserId(), "fail"+userDTO.getPassword());
+        });
     }
 
     @Test
     @DisplayName("유저 정보 확인 성공 테스트")
     public void selectUserSuccessTest() {
-        signUpSuccessTest();
+        this.signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
-        assertEquals(userService.selectUser(TEST_USER_NUMBER).getUserNumber(), userDTO.getUserNumber());
+        assertEquals(userService.selectUser(TEST_USER_NUMBER).getUserId(), userDTO.getUserId());
     }
 
     @Test
     @DisplayName("회원 탈퇴 성공 테스트")
     public void deleteUserSuccessTest() {
-        signUpSuccessTest();
+        this.signUpSuccessTest();
         final UserDTO userDTO = generateTestUser();
-        userService.deleteUser(userDTO.getUserNumber());
-        assertEquals(userService.selectUser(userDTO.getUserNumber()), null);
+        Assertions.assertThrows(NotMatchingException.class, () -> {
+            userService.deleteUser(userDTO.getUserNumber());
+            userService.selectUser(userDTO.getUserNumber());
+        });
     }
 
 }

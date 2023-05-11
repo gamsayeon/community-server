@@ -3,9 +3,11 @@ package com.communityserver.service;
 import com.communityserver.dto.CommentDTO;
 import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
+import com.communityserver.exception.NotMatchingException;
 import com.communityserver.mapper.FileMapper;
 import com.communityserver.mapper.PostMapper;
 import com.communityserver.service.impl.PostServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -30,14 +32,10 @@ public class PostServiceTest {
     @Mock
     private FileMapper fileMapper;
 
-    private final int TEST_CATEGORY_NUMBER = 2;
-    private final int TEST_USER_NUMBER = 2;
-    private final int TEST_ADMIN_POST = 1;
-
     private final int TEST_POST_NUMBER = 1;
     private final int TEST_comment_NUMBER = 3;
 
-    public PostDTO generateTestPost(){
+    public PostDTO generateTestPost() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         PostDTO postDTO = new PostDTO();
         postDTO.setPostNumber(TEST_POST_NUMBER);
@@ -61,12 +59,12 @@ public class PostServiceTest {
         return postDTO;
     }
 
-    public CommentDTO generateTestcomment(){
+    public CommentDTO generateTestcomment() {
         MockitoAnnotations.initMocks(this); // mock all the field having @Mock annotation
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setCommentNumber(TEST_comment_NUMBER);
         commentDTO.setPostNumber(TEST_POST_NUMBER);
-        commentDTO.setContent("testcommentContents");
+        commentDTO.setContent("testCommentContents");
         commentDTO.setUserId("testUserId");
         commentDTO.setCreateTime(new Date());
         return commentDTO;
@@ -74,52 +72,60 @@ public class PostServiceTest {
 
     @Test
     @DisplayName("게시글 추가 성공 테스트")
-    public void addPostTest(){
+    public void addPostTest() {
         final PostDTO postDTO = generateTestPost();
-        assertEquals(postService.addPost(postDTO,postDTO.getUserNumber()).getPostNumber(), postDTO.getUserNumber());
-        try {
-
-        } catch (Exception e) {
-            fail("Should not have thrown any exception");
-        }
+        Assertions.assertDoesNotThrow(() -> {
+            PostDTO resultPostDTO = postService.addPost(postDTO, postDTO.getUserNumber());
+            assertEquals(postDTO.getPostName(), resultPostDTO.getPostName());
+        });
     }
 
     @Test
     @DisplayName("게시글 정보 확인 테스트")
-    public void selectPostTest(){
-        addPostTest();
+    public void selectPostTest() {
+        this.addPostTest();
         final PostDTO postDTO = generateTestPost();
-        assertEquals(postService.selectPost(TEST_POST_NUMBER).getPostNumber(), postDTO.getPostNumber());
+        Assertions.assertDoesNotThrow(() -> {
+            assertEquals(postService.selectPost(TEST_POST_NUMBER).getPostName(), postDTO.getPostName());
+        });
     }
 
     @Test
     @DisplayName("게시글 수정 테스트")
-    public void updatePostTest(){
-        addPostTest();
+    public void updatePostTest() {
+        this.addPostTest();
         final PostDTO postDTO = generateTestPost();
         postDTO.setPostName("updatePostNameTest");
         postDTO.setContent("updatePostContentsTest");
-        postService.updatePost(postDTO, postDTO.getPostNumber());
-        assertEquals(postService.selectPost(postDTO.getPostNumber()).getPostName(), postDTO.getPostName());
+        Assertions.assertDoesNotThrow(() -> {
+            PostDTO resultPostDTO = postService.updatePost(postDTO, postDTO.getPostNumber());
+            assertEquals(postDTO.getPostName(), resultPostDTO.getPostName());
+        });
     }
 
     @Test
     @DisplayName("게시글 댓글 추가 테스트")
-    public void addcommentTest(){
-//        addPostTest();
-//        final PostDTO postDTO = generateTestPost();
-//        CommentDTO commentDTO = generateTestcomment();
-//        CommentDTO commentDTO2 = postService.addComment(postDTO.getPostNumber(), commentDTO);
-//        assertEquals(commentDTO2.getCommentNumber(), commentDTO.getCommentNumber());
+    public void addCommentTest() {
+        this.addPostTest();
+        final PostDTO postDTO = generateTestPost();
+        CommentDTO commentDTO = generateTestcomment();
+        Assertions.assertDoesNotThrow(() -> {
+            List<CommentDTO> resultCommentDTOS = postService.addComment(commentDTO, postDTO.getPostNumber(), postDTO.getPostNumber());
+            for (CommentDTO resultCommentDTO : resultCommentDTOS){
+                assertEquals(postDTO.getPostNumber(), resultCommentDTO.getPostNumber());
+            }
+        });
     }
 
     @Test
     @DisplayName("게시글 삭제 테스트")
-    public void deletePostTest(){
-        addPostTest();
+    public void deletePostTest() {
+        this.addPostTest();
         final PostDTO postDTO = generateTestPost();
         postService.deletePost(postDTO.getPostNumber(), postDTO.getUserNumber());
-        assertEquals(postService.selectPost(postDTO.getPostNumber()), null);
+        Assertions.assertThrows(NotMatchingException.class, () -> {
+            postService.selectPost(postDTO.getPostNumber());
+        });
     }
 
 }

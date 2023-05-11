@@ -38,7 +38,7 @@ public class PostSearchController {
 
     @GetMapping
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "ERR_1003", description = "게시글 검색 오류", content = @Content),
+            @ApiResponse(responseCode = "504", description = "게시글 검색 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 검색 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "게시글 검색", description = "게시글을 검색어로 검색합니다. 하단의 PostDTO 참고")
