@@ -1,7 +1,9 @@
 package com.communityserver.service;
 
 import com.communityserver.dto.CategoryDTO;
+import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.DuplicateException;
+import com.communityserver.exception.NotMatchingException;
 import com.communityserver.mapper.CategoryMapper;
 import com.communityserver.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -37,22 +39,29 @@ public class CategoryServiceTest {
     @DisplayName("카테고리 등록 테스트")
     public void addCategoryTest() {
         final CategoryDTO categoryDTO = generateTestCategory();
-        Assertions.assertDoesNotThrow(() -> categoryService.addCategory(categoryDTO));
+        Assertions.assertDoesNotThrow(() -> {
+            CategoryDTO resultCategoryDTO = categoryService.addCategory(categoryDTO);
+            assertEquals(categoryDTO.getCategoryName(), resultCategoryDTO.getCategoryName());
+        });
     }
 
     @Test
     @DisplayName("카테고리 중복 테스트")
     public void duplicateCategoryTest() {
         final CategoryDTO categoryDTO = generateTestCategory();
-        this.addCategoryTest();
-        assertThrows(DuplicateException.class, () -> categoryService.addCategory(categoryDTO));
+        Assertions.assertThrows(DuplicateException.class, () -> {
+            categoryService.addCategory(categoryDTO);
+            categoryService.addCategory(categoryDTO);
+        });
     }
 
     @Test
     @DisplayName("카테고리 삭제 테스트")
     public void deleteCategoryTest() {
-        addCategoryTest();
-        Assertions.assertDoesNotThrow(() -> categoryService.deleteCategoryNumber(TEST_CATEGORY_NUMBER));
+        this.addCategoryTest();
+        Assertions.assertDoesNotThrow(() -> {
+            categoryService.deleteCategoryNumber(TEST_CATEGORY_NUMBER);
+        });
     }
 
 }

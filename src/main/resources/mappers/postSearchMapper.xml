@@ -13,14 +13,14 @@
                 and category_number = #{categoryNumber}
             </if>
             <if test = 'postName != null'>
-                and post_name LIKE CONCAT(#{postName},'%');
+                and post_name LIKE CONCAT(#{postName},'%')
             </if>
             <if test = 'content != null'>
-                and content LIKE CONCAT(#{content},'%');
+                and content LIKE CONCAT(#{content},'%')
             </if>
             <if test = 'createTime != null'>
                 and create_time
-                LIKE CONCAT(DATE_FORMAT(#{createTime},'%Y-%m-%d'), '%');
+                LIKE CONCAT(DATE_FORMAT(#{createTime},'%Y-%m-%d'), '%')
             </if>
             <if test = 'suggestionCount != 0'>
                 and suggestion_count >= #{suggestionCount}

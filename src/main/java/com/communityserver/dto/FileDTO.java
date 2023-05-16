@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -19,12 +21,15 @@ public class FileDTO {
     @Schema(name = "post number", description = "작성한 post 번호")
     private int postNumber;
 
+    @NotBlank
     @Schema(name = "path", description = "파일 경로")
     private String path;
 
+    @NotBlank
     @Schema(name = "file name", description = "파일의 이름")
     private String fileName;
 
+    @NotBlank
     @Schema(name = "extension", description = "파일 확장자")
     private String extension;
 

@@ -1,5 +1,6 @@
 package com.communityserver.controller;
 
+import com.communityserver.aop.CommonResponse;
 import com.communityserver.aop.LoginCheck;
 import com.communityserver.dto.CommentDTO;
 import com.communityserver.dto.PostDTO;
@@ -15,12 +16,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,45 +44,48 @@ public class PostController {
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
             LoginCheck.UserType.USER})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "505", description = "공지글 권한 오류", content = @Content),
-            @ApiResponse(responseCode = "501", description = "첨부파일 or 게시글 추가 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1004", description = "공지글 권한 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1000", description = "첨부파일 or 게시글 추가 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 추가 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "게시글 추가", description = "로그인 후 게시글을 추가합니다. 하단의 PostDTO 참고")
-    public ResponseEntity<PostDTO> addPost(@Parameter(hidden = true) Integer userNumber, @RequestBody PostDTO postDTO) {
+    public ResponseEntity<CommonResponse<PostDTO>> addPost(@Parameter(hidden = true) Integer userNumber, @Valid @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 추가합니다.");
         PostDTO resultPostDTO = postService.addPost(postDTO, userNumber);
-        return ResponseEntity.ok(resultPostDTO);
+        CommonResponse<PostDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글을 추가했습니다.", resultPostDTO);
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
-                        LoginCheck.UserType.USER})
+            LoginCheck.UserType.USER})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "505", description = "게시글 수정 권한 오류", content = @Content),
-            @ApiResponse(responseCode = "506", description = "게시글 수정 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1004", description = "게시글 수정 권한 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1005", description = "게시글 수정 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 수정 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "게시글 수정", description = "로그인 후 게시글을 수정합니다. 하단의 PostDTO 참고")
     @Parameter(name = "postNumber", description = "수정할 게시글 번호", example = "1")
-    public ResponseEntity<PostDTO> updatePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @RequestBody PostDTO postDTO) {
+    public ResponseEntity<CommonResponse<PostDTO>> updatePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @Valid @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 수정합니다.");
         postService.checkHasPermission(loginUserNumber, postNumber);
         PostDTO resultPostDTO = postService.updatePost(postDTO, postNumber);
-        return ResponseEntity.ok(resultPostDTO);
+        CommonResponse<PostDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글을 수정했습니다.", resultPostDTO);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{postNumber}")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "504", description = "게시글 조회 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1003", description = "게시글 조회 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 조회 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "게시글 조회", description = "조회하고자 하는 게시글을 조회합니다.")
     @Parameter(name = "postNumber", description = "조회할 게시글 번호", example = "1")
-    public ResponseEntity<PostDTO> selectPost(@PathVariable("postNumber") int postNumber) {
+    public ResponseEntity<CommonResponse<PostDTO>> selectPost(@PathVariable("postNumber") int postNumber) {
         logger.debug("게시글를 조회합니다.");
         PostDTO resultPostDTO = postService.selectPost(postNumber);
-        return ResponseEntity.ok(resultPostDTO);
+        CommonResponse<PostDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글을 조회했습니다.", resultPostDTO);
+        return ResponseEntity.ok(response);
     }
 
     //    @Scheduled(cron = "0 0 0 * * *")      live 환경에서의 스케줄(매일 자정)
@@ -94,44 +100,47 @@ public class PostController {
 
     @GetMapping("/rank")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "504", description = "게시글 랭킹 조회 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1003", description = "게시글 랭킹 조회 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 랭킹 조회 성공", content = @Content(schema = @Schema(implementation = RankPostDTO.class)))
     })
     @Operation(summary = "게시글 랭킹 조회", description = "게시글의 랭킹을 조회합니다.")
-    public ResponseEntity<List<RankPostDTO>> rankingPost() {
+    public ResponseEntity<CommonResponse<List<RankPostDTO>>> rankingPost() {
         logger.debug("게시글 랭킹을 조회합니다.");
         List<RankPostDTO> rankingPostDTOS = postService.selectRankPost();
-        return ResponseEntity.ok(rankingPostDTOS);
+        CommonResponse<List<RankPostDTO>> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글 랭킹을 조회했습니다.", rankingPostDTOS);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
             LoginCheck.UserType.USER})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "501", description = "게시글 댓글 추가 오류", content = @Content),
-            @ApiResponse(responseCode = "504", description = "댓글을 추가할 게시글 찾기 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1000", description = "게시글 댓글 추가 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1003", description = "댓글을 추가할 게시글 찾기 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 수정 성공", content = @Content(schema = @Schema(implementation = CommentDTO.class)))
     })
     @Operation(summary = "게시글 댓글 추가", description = "로그인 후 해당하는 게시글의 댓글을 추가합니다. 하단의 CommentDTO 참고")
     @Parameter(name = "postNumber", description = "댓글을 추가할 게시글 번호", example = "1")
-    public ResponseEntity<List<CommentDTO>> addPostComment(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<CommonResponse<List<CommentDTO>>> addPostComment(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber, @Valid @RequestBody CommentDTO commentDTO) {
         logger.debug("게시글 댓글을 추가합니다.");
         List<CommentDTO> commentDTOS = postService.addComment(commentDTO, postNumber, loginUserNumber);
-        return ResponseEntity.ok(commentDTOS);
+        CommonResponse<List<CommentDTO>> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글에 댓글을 추가했습니다.", commentDTOS);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{postNumber}")
     @LoginCheck(types = {LoginCheck.UserType.ADMIN,
             LoginCheck.UserType.USER})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "502", description = "게시글 삭제 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1001", description = "게시글 삭제 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 삭제 성공", content = @Content)
     })
     @Operation(summary = "게시글 삭제", description = "로그인 후 작성한 게시글을 삭제합니다.")
     @Parameter(name = "postNumber", description = "삭제할 게시글 번호", example = "1")
-    public ResponseEntity<String> deletePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber) {
+    public ResponseEntity<CommonResponse<String>> deletePost(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable int postNumber) {
         logger.debug("게시글을 삭제합니다.");
         postService.deletePost(postNumber, loginUserNumber);
-        return ResponseEntity.ok("게시글을 성공적으로 삭제했습니다.");
+        CommonResponse<String> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글을 성공적으로 삭제했습니다.", null);
+        return ResponseEntity.ok(response);
     }
 }

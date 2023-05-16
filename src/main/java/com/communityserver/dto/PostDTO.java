@@ -3,6 +3,7 @@ package com.communityserver.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -18,11 +19,12 @@ public class PostDTO  implements Serializable {
     private int postNumber;
 
     @Schema(name = "category number", description = "작성할 위치의 카테고리 번호", example = "1")
-    private int categoryNumber;
+    private Integer categoryNumber;
 
     @Schema(name = "user_number", description = "작성한 유저 번호", example = "1")
     private int userNumber;
 
+    @NotBlank
     @Schema(name = "post_name", description = "게시글 제목", example = "swagger 작성")
     private String postName;
 

@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -17,10 +16,9 @@ import javax.validation.constraints.NotNull;
 public class CategoryDTO {
 
     @Schema(name = "category number", description = "category 번호(Auto increment)")
-    private int categoryNumber;
+    private Integer categoryNumber;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     @Schema(name = "category name", description = "카테고리 이름", example = "IT")
     private String categoryName;
 

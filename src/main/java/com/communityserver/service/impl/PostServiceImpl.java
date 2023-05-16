@@ -63,7 +63,7 @@ public class PostServiceImpl implements PostService {
                     throw new AddFailedException();
                 }
             }
-            PostDTO resultPostDTO = this.selectPost(postDTO.getPostNumber());;
+            PostDTO resultPostDTO = this.selectPost(postDTO.getPostNumber());
             return resultPostDTO;
         }
         else{

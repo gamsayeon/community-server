@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Getter
@@ -21,6 +22,7 @@ public class CommentDTO {
     @Schema(name = "post number", description = "댓글 작성한 해당 post 번호")
     private int postNumber;
 
+    @NotBlank
     @Schema(name = "content", description = "댓글 내용")
     private String content;
 
