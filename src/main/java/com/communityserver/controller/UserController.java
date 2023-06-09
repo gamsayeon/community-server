@@ -52,7 +52,7 @@ public class UserController {
     public ResponseEntity<CommonResponse<UserDTO>> signUp(@Validated({UserDTO.Signup.class}) @RequestBody UserDTO userDTO) {
         logger.debug("회원을 가입합니다.");
         UserDTO resultUserDTO = userService.register(userDTO);
-        CommonResponse<UserDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "회원가입에 성공했습니다.", resultUserDTO);
+        CommonResponse<UserDTO> response = new CommonResponse<>("SUCCESS", "회원가입에 성공했습니다.", resultUserDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -66,7 +66,7 @@ public class UserController {
         logger.debug("유저를 로그인합니다.");
         UserDTO resultUserDTO = userService.LoginCheckPassword(userDTO.getUserId(), userDTO.getPassword());
         userService.insertSession(session, resultUserDTO);
-        CommonResponse<UserDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", userDTO.getUserId() + " 로그인 했습니다.", resultUserDTO);
+        CommonResponse<UserDTO> response = new CommonResponse<>("SUCCESS", userDTO.getUserId() + " 로그인 했습니다.", resultUserDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -82,7 +82,7 @@ public class UserController {
     public ResponseEntity<CommonResponse<UserDTO>> selectUser(@Parameter(hidden = true) Integer loginUserNumber, @PathVariable("userNumber") int userNumber){
         logger.debug("유저를 조회합니다.");
         UserDTO resultUserDTO = userService.selectUser(userNumber);
-        CommonResponse<UserDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "유저를 조회했습니다.", resultUserDTO);
+        CommonResponse<UserDTO> response = new CommonResponse<>("SUCCESS", "유저를 조회했습니다.", resultUserDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -97,7 +97,7 @@ public class UserController {
     public ResponseEntity<CommonResponse<String>> deleteUser(@Parameter(hidden = true) Integer loginUserNumber){
         logger.debug("유저를 조회합니다.");
         userService.deleteUser(loginUserNumber);
-        CommonResponse<String> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "유저를 성공적으로 삭제했습니다.", null);
+        CommonResponse<String> response = new CommonResponse<>("SUCCESS", "유저를 성공적으로 삭제했습니다.", null);
         return ResponseEntity.ok(response);
     }
 
@@ -111,7 +111,7 @@ public class UserController {
     public ResponseEntity<CommonResponse<String>> logout(@Parameter(hidden = true) Integer loginUserNumber, HttpSession session){
         logger.debug("유저를 로그아웃합니다.");
         userService.clearSession(session);
-        CommonResponse<String> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "유저를 성공적으로 로그아웃했습니다.", null);
+        CommonResponse<String> response = new CommonResponse<>("SUCCESS", "유저를 성공적으로 로그아웃했습니다.", null);
         return ResponseEntity.ok(response);
     }
 }

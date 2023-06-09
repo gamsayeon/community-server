@@ -37,23 +37,6 @@
         WHERE post_number = #{postNumber}
     </select>
 
-    <select id="selectRankPost" resultType="com.communityserver.dto.RankPostDTO">
-        SELECT post_number, view, suggestion_count, create_time
-        FROM rank_posts
-    </select>
-
-    <delete id="deleteAllRankPost">
-        DELETE FROM rank_posts
-    </delete>
-
-    <insert id="updateRank">
-        INSERT INTO rank_posts (post_number, view, suggestion_count, create_time)
-        SELECT post_number, view, suggestion_count, create_time
-        FROM posts
-        ORDER BY suggestion_count DESC, view DESC, create_time desc
-        LIMIT 10
-    </insert>
-
     <insert id = "addComment">
         INSERT comments
         VALUES (#{commentDTO.commentNumber}, #{postNumber}, #{commentDTO.content}, #{loginUserNumber}, now())

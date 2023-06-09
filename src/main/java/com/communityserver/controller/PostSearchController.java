@@ -45,7 +45,7 @@ public class PostSearchController {
     public ResponseEntity<CommonResponse<List<PostDTO>>> search(@Valid @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 검색합니다.");
         List<PostDTO> postDTOS = postSearchService.resultSearchPost(postDTO);
-        CommonResponse<List<PostDTO>> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "게시글을 검색했습니다.", postDTOS);
+        CommonResponse<List<PostDTO>> response = new CommonResponse<>("SUCCESS", "게시글을 검색했습니다.", postDTOS);
         return ResponseEntity.ok(response);
     }
 }

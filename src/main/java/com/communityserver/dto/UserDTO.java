@@ -24,7 +24,7 @@ public class UserDTO {
 
     @NotBlank(groups = { Login.class, Signup.class })
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{3,20}$")
-    @Schema(name = "password", description = "유저 비밀번호", example = "test_password")
+    @Schema(name = "password", description = "유저 비밀번호", example = "test_password00!")
     private String password;
 
     @NotBlank(groups = { Signup.class })

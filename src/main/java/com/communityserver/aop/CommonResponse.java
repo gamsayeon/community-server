@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class CommonResponse<T> {
 
-    private HttpStatus status;
     private String code;
     private String message;
     private T requestBody;

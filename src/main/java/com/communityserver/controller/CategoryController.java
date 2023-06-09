@@ -44,7 +44,7 @@ public class CategoryController {
     public ResponseEntity<CommonResponse<CategoryDTO>> categoryAdd(@Parameter(hidden = true) Integer loginUserNumber, @Valid @RequestBody CategoryDTO categoryDTO){
         logger.debug(categoryDTO.getCategoryName() + "을 추가합니다.");
         CategoryDTO resultCategoryDTO = categoryService.addCategory(categoryDTO);
-        CommonResponse<CategoryDTO> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", categoryDTO.getCategoryName() + "을 추가했습니다.", resultCategoryDTO);
+        CommonResponse<CategoryDTO> response = new CommonResponse<>("SUCCESS", categoryDTO.getCategoryName() + "을 추가했습니다.", resultCategoryDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -61,7 +61,7 @@ public class CategoryController {
         logger.debug(categoryNumber + "을 삭제합니다.");
         categoryService.categoryNumberCheck(categoryNumber);
         categoryService.deleteCategoryNumber(categoryNumber);
-        CommonResponse<String> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "성공적으로 삭제되었습니다.", null);
+        CommonResponse<String> response = new CommonResponse<>("SUCCESS", "성공적으로 삭제되었습니다.", null);
         return ResponseEntity.ok(response);
     }
 }

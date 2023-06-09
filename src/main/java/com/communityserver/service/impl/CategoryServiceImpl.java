@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO addCategory(CategoryDTO categoryDTO){
         if(categoryMapper.categoryDuplicateCheck(categoryDTO.getCategoryName()) != NOT_FOUND_CATEGORY) {
             logger.warn("중복된 카테고리입니다.");
-            throw new DuplicateException();
+            throw new DuplicateException("중복된 카테고리입니다.");
         }
         else if (categoryMapper.register(categoryDTO) != SUCCESS_ADD_CATEGORY) {
             logger.info("카테고리 "+ categoryDTO.getCategoryName() +"을 추가했습니다.");
@@ -41,12 +41,12 @@ public class CategoryServiceImpl implements CategoryService {
             }
             else{
                 logger.warn("카테고리 "+ categoryDTO.getCategoryNumber() +"을 조회하지 못했습니다.");
-                throw new NotMatchingException();
+                throw new NotMatchingException("카테고리 "+ categoryDTO.getCategoryNumber() +"을 조회하지 못했습니다.");
             }
         }
         else{
             logger.warn("카테고리 "+ categoryDTO.getCategoryName() +"을 추가하지 못했습니다");
-            throw new AddFailedException();
+            throw new AddFailedException("카테고리 "+ categoryDTO.getCategoryName() +"을 추가하지 못했습니다");
         }
     }
 
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void categoryNumberCheck(int categoryNumber){
         if(categoryMapper.categoryNumberCheck(categoryNumber) == NOT_FOUND_CATEGORY) {
             logger.warn("존재하지 않은 카테고리입니다.");
-            throw new NotMatchingException();
+            throw new NotMatchingException("존재하지 않은 카테고리입니다.");
         }
     }
 
@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         else{
             logger.warn("카테고리 " + categoryNumber + "을 삭제하지 못했습니다.");
-            throw new DeletionFailedException();
+            throw new DeletionFailedException("카테고리 " + categoryNumber + "을 삭제하지 못했습니다.");
         }
     }
 }

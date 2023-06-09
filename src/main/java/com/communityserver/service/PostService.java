@@ -13,9 +13,6 @@ public interface PostService {
     PostDTO updatePost(PostDTO postDTO, int postNumber);
     PostDTO selectPost(int postNumber);
     List<CommentDTO> addComment(CommentDTO commentDTO, int postNumber, int loginUserNumber);
-    List<RankPostDTO> selectRankPost();
-    void deleteAllRankPost();
-    void updateRank();
     void addView(int postNumber);
     void deletePost(int postNumber, int loginUserNumber);
 }

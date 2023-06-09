@@ -3,7 +3,6 @@ package com.communityserver.service.impl;
 import com.communityserver.dto.CommentDTO;
 import com.communityserver.dto.FileDTO;
 import com.communityserver.dto.PostDTO;
-import com.communityserver.dto.RankPostDTO;
 import com.communityserver.exception.*;
 import com.communityserver.mapper.FileMapper;
 import com.communityserver.mapper.PostMapper;
@@ -42,7 +41,7 @@ public class PostServiceImpl implements PostService {
     public PostDTO addPost(PostDTO postDTO, int userNumber){
         if(postDTO.isAdminPost() && userMapper.adminUserCheck(userNumber)) {
             logger.warn("권한 부족");
-            throw new PermissionDeniedException();
+            throw new PermissionDeniedException("권한 부족");
         }
 
         postDTO.setUserNumber(userNumber);
@@ -60,7 +59,7 @@ public class PostServiceImpl implements PostService {
                 }
                 else{
                     logger.warn(fileDTO.getFileName() + "을 추가하지 못했습니다.");
-                    throw new AddFailedException();
+                    throw new AddFailedException(fileDTO.getFileName() + "을 추가하지 못했습니다.");
                 }
             }
             PostDTO resultPostDTO = this.selectPost(postDTO.getPostNumber());
@@ -68,7 +67,7 @@ public class PostServiceImpl implements PostService {
         }
         else{
             logger.warn("게시글 "+ postDTO.getPostName() +"을 추가하지 못했습니다.");
-            throw new AddFailedException();
+            throw new AddFailedException("게시글 "+ postDTO.getPostName() +"을 추가하지 못했습니다.");
         }
     }
 
@@ -76,7 +75,7 @@ public class PostServiceImpl implements PostService {
     public void checkHasPermission(int loginUserNumber, int postNumber){
         if(postMapper.checkHasPermission(loginUserNumber, postNumber) == DENIED_PERMISSION) {
             logger.warn("게시글의 권한이 없습니다.");
-            throw new PermissionDeniedException();
+            throw new PermissionDeniedException("게시글의 권한이 없습니다.");
         }
     }
 
@@ -92,7 +91,7 @@ public class PostServiceImpl implements PostService {
         }
         else {
             logger.warn("게시글 "+ postNumber +"을 수정하지 못했습니다.");
-            throw new UpdateFailedException();
+            throw new UpdateFailedException("게시글 "+ postNumber +"을 수정하지 못했습니다.");
         }
     }
 
@@ -107,44 +106,7 @@ public class PostServiceImpl implements PostService {
         }
         else{
             logger.warn("게시글 "+ postNumber +"을 조회하지 못했습니다.");
-            throw new NotMatchingException();
-        }
-    }
-
-    @Override
-    public List<RankPostDTO> selectRankPost(){
-        List<RankPostDTO> rankingPostDTOS = postMapper.selectRankPost();
-        if (rankingPostDTOS.isEmpty()) {
-            logger.warn("게시글 랭킹을 조회하지 못했습니다.");
-            throw new NotMatchingException();
-        }
-        else{
-            logger.info("게시글 랭킹을 조회했습니다.");
-            return rankingPostDTOS;
-        }
-    }
-
-    @Override
-    @Transactional
-    public void deleteAllRankPost(){
-        if(postMapper.deleteAllRankPost() != FAIL_NUMBER) {
-            logger.info("게시글 랭킹을 삭제했습니다.");
-        }
-        else {
-            logger.warn("게시글 랭킹을 삭제하지 못했습니다.");
-            throw new DeletionFailedException();
-        }
-    }
-
-    @Override
-    @Transactional
-    public void updateRank(){
-        if(postMapper.updateRank() != FAIL_NUMBER) {
-            logger.info("게시글 랭킹을 업데이트했습니다.");
-        }
-        else {
-            logger.warn("게시글 랭킹을 업데이트하지 못했습니다.");
-            throw new UpdateFailedException();
+            throw new NotMatchingException("게시글 "+ postNumber +"을 조회하지 못했습니다.");
         }
     }
 
@@ -156,7 +118,7 @@ public class PostServiceImpl implements PostService {
         }
         else {
             logger.warn("게시글 "+ postNumber +"을 조회수을 증가하지 못했습니다.");
-            throw new UpdateFailedException();
+            throw new UpdateFailedException("게시글 "+ postNumber +"을 조회수을 증가하지 못했습니다.");
         }
     }
 
@@ -168,7 +130,7 @@ public class PostServiceImpl implements PostService {
             List<CommentDTO> commentDTOS = postMapper.selectComment(postNumber);
             if(commentDTOS.isEmpty()){
                 logger.warn("게시글 "+ postNumber + "의 댓글을 조회하지 못했습니다.");
-                throw new NotMatchingException();
+                throw new NotMatchingException("게시글 "+ postNumber + "의 댓글을 조회하지 못했습니다.");
             }
             else{
                 logger.info("게시글 "+ postNumber + "의 댓글을 조회했습니다.");
@@ -177,7 +139,7 @@ public class PostServiceImpl implements PostService {
         }
         else{
             logger.warn("사용자 "+loginUserNumber + "가 게시글 "+ postNumber +"에 댓글을 추가하지 못했습니다.");
-            throw new AddFailedException();
+            throw new AddFailedException("사용자 "+loginUserNumber + "가 게시글 "+ postNumber +"에 댓글을 추가하지 못했습니다.");
         }
     }
 
@@ -190,7 +152,7 @@ public class PostServiceImpl implements PostService {
         }
         else{
             logger.warn("게시글 " + postNumber + "을 삭제하지 못했습니다.");
-            throw new DeletionFailedException();
+            throw new DeletionFailedException("게시글 " + postNumber + "을 삭제하지 못했습니다.");
         }
     }
 }

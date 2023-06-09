@@ -27,7 +27,7 @@ public class PostSearchServiceImpl implements PostSearchService {
         List<PostDTO> postDTOS = postSearchMapper.resultSearchPost(postDTO);
         if(postDTOS.isEmpty()){
             logger.warn(postDTO.toString() + "에 대한 게시글을 검색하지 못했습니다.");
-            throw new NotMatchingException();
+            throw new NotMatchingException(postDTO.toString() + "에 대한 게시글을 검색하지 못했습니다.");
         }
         else{
             logger.info(postDTO.toString() + "에 대한 게시글을 검색했습니다.");

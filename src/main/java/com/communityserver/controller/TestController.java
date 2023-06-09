@@ -64,7 +64,7 @@ public class TestController {
                     .fileDTOS(fileDTOS)
                     .build(), userNumber2);
         }
-        CommonResponse<String> response = new CommonResponse<>(HttpStatus.OK, "SUCCESS", "test post 10만개를 추가하였습니다.", null);
+        CommonResponse<String> response = new CommonResponse<>("SUCCESS", "test post 10만개를 추가하였습니다.", null);
         return ResponseEntity.ok(response);
     }
 }

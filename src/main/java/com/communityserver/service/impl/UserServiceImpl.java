@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO register(UserDTO userDTO) {
         if (this.idOverlapCheck(userDTO.getUserId())) {
             logger.warn("중복된 ID 입니다.");
-            throw new DuplicateException();
+            throw new DuplicateException("중복된 ID 입니다.");
         }
         else {
             userDTO.setPassword(sha256Encrypt.encrypt(userDTO.getPassword()));
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
             }
             else {
                 logger.warn("유저 " + userDTO.getUserId() + "을 추가하지 못했습니다.");
-                throw new AddFailedException();
+                throw new AddFailedException("유저 " + userDTO.getUserId() + "을 추가하지 못했습니다.");
             }
         }
     }
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
             return resultUserDTO.get();
         } else {
             logger.warn("로그인에 실패 했습니다.");
-            throw new NotMatchingException();
+            throw new NotMatchingException("로그인에 실패 했습니다.");
         }
     }
 
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
             return optionalUserDTO.get();
         } else {
             logger.warn("유저 " + userNumber + "을 조회하지 못했습니다.");
-            throw new NotMatchingException();
+            throw new NotMatchingException("유저 " + userNumber + "을 조회하지 못했습니다.");
         }
     }
 
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
             logger.info(userNumber + "의 유저를 삭제했습니다.");
         } else {
             logger.warn("유저를 삭제하지 못했습니다.");
-            throw new DeletionFailedException();
+            throw new DeletionFailedException("유저를 삭제하지 못했습니다.");
         }
     }
 
@@ -111,6 +111,5 @@ public class UserServiceImpl implements UserService {
     public void clearSession(HttpSession session) {
         SessionUtils.clear(session);
     }
-
 
 }
