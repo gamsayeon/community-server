@@ -55,14 +55,14 @@ public class TestController {
                     .limit(targetStringLength)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
-            int userNumber2 = (int)(Math.random() * 2 +1 );
+            int userNumber = (int)(Math.random() * 2 +1 );
             postService.addPost(PostDTO.builder()
-                    .categoryNumber( (int)(Math.random() * 6 + 1))
-                    .userNumber( userNumber2)
+                    .categoryNumber( (int)(Math.random() * 3 + 1))
+                    .userNumber(userNumber)
                     .postName(generatedString)
                     .content(generatedString2)
                     .fileDTOS(fileDTOS)
-                    .build(), userNumber2);
+                    .build(), userNumber);
         }
         CommonResponse<String> response = new CommonResponse<>("SUCCESS", "test post 10만개를 추가하였습니다.", null);
         return ResponseEntity.ok(response);
