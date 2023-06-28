@@ -37,7 +37,7 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 
 ---
 # ERD(Entity Relationship Diagram)
-![img.png](img.png)
+![image](https://github.com/j-lab-edu/community-server/assets/75170367/6ee3e4bb-1447-49c6-aab6-46bfb5a05005)
 
 ---
 # 시퀀스
