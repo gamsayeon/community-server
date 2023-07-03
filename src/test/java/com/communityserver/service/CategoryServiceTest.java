@@ -1,9 +1,7 @@
 package com.communityserver.service;
 
 import com.communityserver.dto.CategoryDTO;
-import com.communityserver.dto.UserDTO;
 import com.communityserver.exception.DuplicateException;
-import com.communityserver.exception.NotMatchingException;
 import com.communityserver.mapper.CategoryMapper;
 import com.communityserver.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @SpringBootTest

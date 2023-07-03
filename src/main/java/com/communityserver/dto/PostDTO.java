@@ -45,8 +45,12 @@ public class PostDTO  implements Serializable {
 
     private List<FileDTO> fileDTOS;
 
+    @Schema(name = "sort", description = "정렬(소문자는 오름차순, 대문자는 내림차순 기준은 \n"
+            + "[post_number, category_number, create_time, suggestion_count, view])")
+    private String sort;
+
     @Override
     public String toString() {
-        return "PostDTO" + getCategoryNumber() + getPostName() + getContent() + getCreateTime() + getSuggestionCount();
+        return "PostDTO" + getCategoryNumber() + getPostName() + getContent() + getCreateTime() + getSuggestionCount() + getSort();
     }
 }

@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/search")
@@ -38,14 +40,25 @@ public class PostSearchController {
 
     @GetMapping
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "504", description = "게시글 검색 오류", content = @Content),
+            @ApiResponse(responseCode = "ERR_1003", description = "게시글 검색 오류", content = @Content),
             @ApiResponse(responseCode = "200", description = "게시글 검색 성공", content = @Content(schema = @Schema(implementation = PostDTO.class)))
     })
     @Operation(summary = "게시글 검색", description = "게시글을 검색어로 검색합니다. 하단의 PostDTO 참고")
     public ResponseEntity<CommonResponse<List<PostDTO>>> search(@Valid @RequestBody PostDTO postDTO) {
         logger.debug("게시글을 검색합니다.");
-        List<PostDTO> postDTOS = postSearchService.resultSearchPost(postDTO);
-        CommonResponse<List<PostDTO>> response = new CommonResponse<>("SUCCESS", "게시글을 검색했습니다.", postDTOS);
-        return ResponseEntity.ok(response);
+        CompletableFuture<List<PostDTO>> future = postSearchService.searchPost(postDTO);
+
+        CompletableFuture<CommonResponse<List<PostDTO>>> responseFuture = future.thenApply(result -> {
+            return new CommonResponse<>("SUCCESS", "게시글을 검색했습니다.", result);
+        });
+
+        try {
+            CommonResponse<List<PostDTO>> response = responseFuture.get();
+            return ResponseEntity.ok(response);
+        } catch (InterruptedException | ExecutionException e) {
+            CommonResponse<List<PostDTO>> errorResponse = new CommonResponse<>("ERROR"
+                    , "게시글 검색 중 오류가 발생했습니다.", null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 }

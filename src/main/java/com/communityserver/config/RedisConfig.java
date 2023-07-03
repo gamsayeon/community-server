@@ -1,9 +1,6 @@
 package com.communityserver.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.communityserver.dto.PostDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +10,13 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -48,39 +47,32 @@ public class RedisConfig {
         return new LettuceConnectionFactory(host, port);
     }
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, List<PostDTO>> redisTemplate() {
+        RedisTemplate<String, List<PostDTO>> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
 
-        //일반적인 key:value의 경우 시리얼라이저
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(List.class));
 
         return redisTemplate;
     }
 
-
-    @Bean public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
-        mapper.registerModules(new JavaTimeModule(), new Jdk8Module()); // LocalDateTime 매핑을 위해 모듈 활성화
-        return mapper;
-    }
-
     @Bean(name = "cacheManager")
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
-                .disableCachingNullValues()         //null 값 캐싱을 비활성화
-                .entryTtl(Duration.ofSeconds(defaultExpireSecond)) //캐시 항목에 적용하려면 ttl(Time to live)을 설정
-                .computePrefixWith(CacheKeyPrefix.simple()) //주어진 캐시이름이 함수입력으로 주어진 실제 Redis키의 접두사를 계산하려면 주어진것을 사용 ( :: )
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())); //캐시 키 역/직렬화에 사용되는것
+                .disableCachingNullValues()
+                .entryTtl(Duration.ofSeconds(defaultExpireSecond))
+                .computePrefixWith(CacheKeyPrefix.simple())
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(List.class)));
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
-        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(configuration)
-                .withInitialCacheConfigurations(cacheConfigurations).build();
+        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations)
+                .build();
     }
 
 }

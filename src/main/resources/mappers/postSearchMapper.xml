@@ -5,26 +5,61 @@
 
 <mapper namespace="com.communityserver.mapper.PostSearchMapper">
 
-    <select id="resultSearchPost" resultType="com.communityserver.dto.PostDTO">
+    <select id="searchPost" resultType="com.communityserver.dto.PostDTO">
         SELECT post_number, category_number, user_number, post_name, admin_post, content, create_time, suggestion_count, view
         FROM posts
         <where>
-            <if test = 'categoryNumber != null'>
+            <if test = "categoryNumber != null and categoryNumber != ''">
                 and category_number = #{categoryNumber}
             </if>
-            <if test = 'postName != null'>
+            <if test = "postName != null and postName != ''">
                 and post_name LIKE CONCAT(#{postName},'%')
             </if>
-            <if test = 'content != null'>
-                and content LIKE CONCAT(#{content},'%')
+            <if test = "content != null and content != ''">
+                and content LIKE CONCAT(#{content},"%")
             </if>
-            <if test = 'createTime != null'>
+            <if test = "createTime != null and createTime != ''">
                 and create_time
-                LIKE CONCAT(DATE_FORMAT(#{createTime},'%Y-%m-%d'), '%')
+                LIKE CONCAT(DATE_FORMAT(#{createTime},"%Y-%m-%d"), "%")
             </if>
-            <if test = 'suggestionCount != 0'>
+            <if test = "suggestionCount != 0 and suggestionCount != ''">
                 and suggestion_count >= #{suggestionCount}
             </if>
         </where>
+        <choose>
+            <when test="sort == 'pn'">
+                ORDER BY post_number ASC
+            </when>
+            <when test="sort == 'PN'">
+                ORDER BY post_number DESC
+            </when>
+            <when test="sort == 'cn'">
+                ORDER BY category_number ASC
+            </when>
+            <when test="sort == 'CN'">
+                ORDER BY category_number DESC
+            </when>
+            <when test="sort == 'ct'">
+                ORDER BY create_time ASC
+            </when>
+            <when test="sort == 'CT'">
+                ORDER BY create_time DESC
+            </when>
+            <when test="sort == 'sc'">
+                ORDER BY suggestion_count ASC
+            </when>
+            <when test="sort == 'SC'">
+                ORDER BY suggestion_count DESC
+            </when>
+            <when test="sort == 'v'">
+                ORDER BY view ASC
+            </when>
+            <when test="sort == 'V'">
+                ORDER BY view DESC
+            </when>
+            <otherwise>
+                ORDER BY create_time ASC
+            </otherwise>
+        </choose>
     </select>
 </mapper>

@@ -4,7 +4,8 @@ import com.communityserver.dto.CategoryDTO;
 import com.communityserver.dto.PostDTO;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface PostSearchService {
-    List<PostDTO> resultSearchPost(PostDTO postDTO);
+    CompletableFuture<List<PostDTO>> searchPost(PostDTO postDTO);
 }
