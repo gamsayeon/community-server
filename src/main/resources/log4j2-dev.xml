@@ -13,11 +13,15 @@
             </Policies>
             <DefaultRolloverStrategy max="30"/>
         </RollingFile>
+        <File name="ErrorFile" fileName="logs/error.log">
+            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n" />
+        </File>
     </Appenders>
     <Loggers>
-        <Root level="info">
+        <Root level="error">
             <AppenderRef ref="consoleAppender" />
             <AppenderRef ref="fileAppender" />
+            <AppenderRef ref="ErrorFile" />
         </Root>
     </Loggers>
 </Configuration>
