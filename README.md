@@ -5,6 +5,7 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 ---
 # 목적
 - 대용량 트래픽을 고려한 어플리케이션 (초당 1000 tps 이상의 API 사용)
+  [성능테스트_계획서.pdf](성능테스트_계획서.pdf)
 - 객체지향적으로 접근하여 유지보수할때 클린 코드구현을 통해 가독성을 높이는 목적
 - 단위테스트를 통한 검증가능한 코드
 
@@ -36,7 +37,7 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 
 ---
 # ERD(Entity Relationship Diagram)
-![img.png](img.png)
+![image](https://github.com/j-lab-edu/community-server/assets/75170367/6ee3e4bb-1447-49c6-aab6-46bfb5a05005)
 
 ---
 # 시퀀스
