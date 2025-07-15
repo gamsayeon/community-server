@@ -15,7 +15,7 @@ inven 과 같은 커뮤니티 서비스의 벡엔드 서버
 ---
 # 기획
 - 커뮤니티 사이트를 구현함으로써 자유롭게 소통하는 및 정보 공유 사이트를 목표로 구현
-- ~~****https://ovenapp.io/view/Pv1HR7ajNN47W6qWgKHjIro334XPQvBj(ovenapp 서비스 종료)****~~
+- ~~****https://ovenapp.io/view/Pv1HR7ajNN47W6qWgKHjIro334XPQvBj (ovenapp 서비스 종료)****~~
 
 ---
 # 프로그램 주요 기능
